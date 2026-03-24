@@ -19,6 +19,31 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.on_event("startup")
+def startup_event():
+    # Automatically ensure admin user is correctly hashed on startup
+    db = database.SessionLocal()
+    try:
+        admin_email = "admin@logic.church"
+        admin_user = db.query(models.User).filter(models.User.email == admin_email).first()
+        if admin_user:
+            # Update password to ensure it's hashed with the new bcrypt logic
+            admin_user.hashed_password = auth.get_password_hash("admin123")
+            admin_user.role = "admin"
+            db.commit()
+        else:
+            # Create if missing
+            new_admin = models.User(
+                name="Administrator",
+                email=admin_email,
+                hashed_password=auth.get_password_hash("admin123"),
+                role="admin"
+            )
+            db.add(new_admin)
+            db.commit()
+    finally:
+        db.close()
+
 # Ensure uploads directory exists
 UPLOAD_DIR = "uploads"
 if not os.path.exists(UPLOAD_DIR):
