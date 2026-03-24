@@ -103,21 +103,23 @@ export default function Navbar() {
                     }`}></span>
                   </button>
                   {isTrainingDropdownOpen && (
-                    <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
-                      {link.dropdown.map((item) => (
-                        <NavLink
-                          key={item.name}
-                          to={item.href}
-                          className={({ isActive }) =>
-                            `block px-4 py-3 text-sm transition-colors duration-200 ${
-                              isActive ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-700 hover:bg-gray-50'
-                            }`
-                          }
-                          onClick={() => handleLinkClick(item.name)}
-                        >
-                          {item.name}
-                        </NavLink>
-                      ))}
+                    <div className="absolute top-full left-0 pt-2 w-64">
+                      <div className="bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                        {link.dropdown.map((item) => (
+                          <NavLink
+                            key={item.name}
+                            to={item.href}
+                            className={({ isActive }) =>
+                              `block px-4 py-3 text-sm transition-colors duration-200 ${
+                                isActive ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-700 hover:bg-gray-50'
+                              }`
+                            }
+                            onClick={() => handleLinkClick(item.name)}
+                          >
+                            {item.name}
+                          </NavLink>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>

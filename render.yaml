@@ -1,0 +1,21 @@
+services:
+  # Python Backend Service
+  - type: web
+    name: logic-church-api
+    env: python
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn -k uvicorn.workers.UvicornWorker backend.main:app
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: logic-church-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.0
+
+# Optional: Render PostgreSQL Database
+databases:
+  - name: logic-church-db
+    plan: free

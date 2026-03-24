@@ -1,9 +1,10 @@
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-SECRET_KEY = "logic-church-super-secret-key-change-in-production"
+SECRET_KEY = os.getenv("SECRET_KEY", "logic-church-dev-secret-replace-me")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
 
