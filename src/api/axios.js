@@ -35,6 +35,8 @@ const api = axios.create({
   }
 });
 
+console.log('Axios Base URL:', getBaseUrl());
+
 api.interceptors.request.use(
   (config) => {
     // Standardize URL by removing leading slash to work with trailing-slash baseURL
@@ -47,6 +49,8 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    console.log(`API Request: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
   },
   (error) => {
