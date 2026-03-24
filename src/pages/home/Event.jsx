@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CalendarToday, AccessTime, LocationOn } from '@mui/icons-material';
 import 'animate.css';
 import EventCard from '../../components/EventCard';
-import api from '../../api/axios';
+import api, { getAssetUrl } from '../../api/axios';
 
 export default function EventsHome() {
   const [events, setEvents] = useState([]);
@@ -50,7 +50,7 @@ export default function EventsHome() {
               {events.map((event, index) => (
                 <EventCard
                   key={event.id || index}
-                  image={event.image_url ? (event.image_url.startsWith('http') ? event.image_url : `http://localhost:8000${event.image_url}`) : "/assets/default-event.jpg"}
+                  image={event.image_url ? getAssetUrl(event.image_url) : "/assets/default-event.jpg"}
                   title={event.title}
                   date={event.date}
                   time={event.time}

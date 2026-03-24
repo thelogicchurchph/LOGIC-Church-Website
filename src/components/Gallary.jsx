@@ -84,7 +84,7 @@ const galleryImages = [
 
 ]
 
-import api from '../api/axios'
+import api, { getAssetUrl } from '../api/axios'
 
 export default function Gallary() {
   const [swiper, setSwiper] = useState(null)
@@ -174,7 +174,7 @@ export default function Gallary() {
                <SwiperSlide key={index} className="rounded-2xl overflow-hidden shadow-2xl">
                <div className="w-full h-full relative">
                <img
-               src={image.image_url ? (image.image_url.startsWith('http') ? image.image_url : `http://localhost:8000${image.image_url}`) : image.src}
+               src={image.image_url ? getAssetUrl(image.image_url) : image.src}
              alt={image.alt || "Church gallery image"}
              className="w-full h-full object-cover object-center"
             />

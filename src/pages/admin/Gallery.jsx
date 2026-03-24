@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../api/axios';
+import api, { getAssetUrl } from '../../api/axios';
 import { toast } from 'sonner';
 import { Delete } from '@mui/icons-material';
 
@@ -155,7 +155,7 @@ const Gallery = () => {
                 className="bg-gray-800 aspect-square rounded-lg overflow-hidden group relative animate__animated animate__fadeIn"
               >
                 <img 
-                  src={img.image_url.startsWith('http') ? img.image_url : `http://localhost:8000${img.image_url}`} 
+                  src={getAssetUrl(img.image_url)} 
                   alt="Gallery" 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
