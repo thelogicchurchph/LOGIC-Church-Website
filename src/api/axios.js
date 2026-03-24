@@ -4,16 +4,26 @@ import { toast } from 'sonner';
 
 export const getBaseUrl = () => {
   // Use VITE_API_URL from environment variables (e.g. on Netlify)
-  const envUrl = import.meta.env.VITE_API_URL;
+  let url = import.meta.env.VITE_API_URL;
   const localhostUrl = "http://localhost:8000/logic/";
   
   // Check if window is defined (client-side) before accessing location
   const isLocalhost = typeof window !== 'undefined' && 
     (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
   
+  // Fallback to default if no env variable
+  if (!url) {
+    url = isLocalhost ? localhostUrl : "https://logic-church-api.onrender.com/logic/";
+  }
+
+  // SELF-HEALING: If the user forgot the "/logic" suffix in Netlify settings, add it!
+  if (!url.includes('/logic')) {
+    url = url.endsWith('/') ? `${url}logic/` : `${url}/logic/`;
+  }
+
   // Ensure trailing slash
-  let url = envUrl || (isLocalhost ? localhostUrl : "https://logic-church-api.onrender.com/logic/");
   if (!url.endsWith('/')) url += '/';
+  
   return url;
 };
 
@@ -35,10 +45,6 @@ const api = axios.create({
   }
 });
 
-console.log('Axios Base URL:', getBaseUrl());
-
-api.interceptors.request.use(
-  (config) => {
     // Standardize URL by removing leading slash to work with trailing-slash baseURL
     if (config.url && config.url.startsWith('/')) {
       config.url = config.url.substring(1);
@@ -50,7 +56,6 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
-    console.log(`API Request: ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`);
     return config;
   },
   (error) => {
