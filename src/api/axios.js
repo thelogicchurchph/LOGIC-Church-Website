@@ -45,6 +45,8 @@ const api = axios.create({
   }
 });
 
+api.interceptors.request.use(
+  (config) => {
     // Standardize URL by removing leading slash to work with trailing-slash baseURL
     if (config.url && config.url.startsWith('/')) {
       config.url = config.url.substring(1);
