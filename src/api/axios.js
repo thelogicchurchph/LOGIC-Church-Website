@@ -3,15 +3,16 @@ import { getCookie } from './cookies';
 import { toast } from 'sonner';
 
 export const backendUrl = () => {
-  let localhostUrl = "http://localhost:8000/logic";
-  let remoteUrl = "https://love-meet.onrender.com/logic";
+  // Use VITE_API_URL from environment variables (e.g. on Netlify)
+  const envUrl = import.meta.env.VITE_API_URL;
+  const localhostUrl = "http://localhost:8000/logic";
   
   // Check if window is defined (client-side) before accessing location
   const isLocalhost = typeof window !== 'undefined' && 
     (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
   
-  const _api = isLocalhost ? localhostUrl : remoteUrl;
-  return _api;
+  if (envUrl) return envUrl;
+  return isLocalhost ? localhostUrl : "https://logic-church-api.onrender.com/logic";
 };
 
 const api = axios.create({
