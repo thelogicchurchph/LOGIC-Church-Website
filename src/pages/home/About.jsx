@@ -209,7 +209,7 @@ export default function About() {
                 <p className="mt-1 text-red-600 font-semibold">Lead Pastor and Apostolic Head of The L.O.G.I.C Churches</p>
                 <div className="mt-4 space-y-4 text-gray-700 leading-relaxed">
                   <p>
-                    Apostle Flourish Peters, popularly known as P.Flo, is the Lead Pastor and Apostolic Head of all Love of God in Christ (L.O.G.I.C) Churches, with headquarters in Lekki, Lagos, and branches across various parts of Nigeria and the world. He is also the President of Flourish Peters Ministries.
+                    Apostle Flourish Peters, popularly known as P.Flo, is the Lead Pastor and Apostolic Head of all Love of God in Christ (L.O.G.I.C) Churches, with expressions establish across various parts of Nigeria and the world. He is also the President of Flourish Peters Ministries.
                   </p>
                   <p>
                     P.Flo is a force of nature: an erudite teacher, dynamic speaker, spiritual leader, compassionate pastor, counsellor, musician, dependable friend, author, and a true "make-it-happen" man.
@@ -239,7 +239,7 @@ export default function About() {
 
                         <div className="space-y-4">
                           <p>
-                            Apostle Flourish Peters, popularly known as <strong>P.Flo</strong>, is the Lead Pastor and Apostolic Head of all <strong>Love of God in Christ (L.O.G.I.C) Churches</strong>, with headquarters in Lekki, Lagos, and branches across various parts of Nigeria and the world. He is also the President of <strong>Flourish Peters Ministries</strong>.
+                            Apostle Flourish Peters, popularly known as <strong>P.Flo</strong>, is the Lead Pastor and Apostolic Head of all <strong>Love of God in Christ (L.O.G.I.C) Churches</strong>, with expressions established across various parts of Nigeria and the world. He is also the President of <strong>Flourish Peters Ministries</strong>.
                           </p>
                           <p>
                             P.Flo is a force of nature: an erudite teacher, dynamic speaker, spiritual leader, compassionate pastor, counsellor, musician, dependable friend, author, and a true "make-it-happen" man.
