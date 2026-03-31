@@ -12,7 +12,7 @@ export default function Preloader() {
       </div>
       {/* Animated typing text */}
       <div className="mt-8 overflow-hidden">
-        <h1 className="preloader-text text-2xl font-semibold tracking-wider text-white">The Logic Church</h1>
+        <h1 className="preloader-text text-2xl font-semibold tracking-wider text-white">The LOGIC Church</h1>
       </div>
     </div>
   );

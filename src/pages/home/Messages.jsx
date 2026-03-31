@@ -65,7 +65,7 @@ const Messages = () => {
           </div>
 
           <div className="bg-[#111] rounded-2xl overflow-hidden shadow-xl border border-white/5">
-            {/* Example Spotify Embed - Replace src with actual Logic Church playlist ID */}
+            {/* Example Spotify Embed - Replace src with actual LOGIC Church playlist ID */}
             <iframe 
               style={{borderRadius: '12px'}} 
               src="https://open.spotify.com/embed/show/1c4BT5dABHj8HlPg3hexZ3?utm_source=generator" 

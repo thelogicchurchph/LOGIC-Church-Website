@@ -260,17 +260,14 @@ export default function About() {
             {/* Row 2: Text Left, Image Right */}
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-7 order-2 md:order-1">
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Pastor Amaka Flourish Peters</h3>
-                <p className="mt-1 text-red-600 font-semibold">Associate Pastor at L.O.G.I.C Church Global</p>
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Pastor Paul Chisom Udo</h3>
+                <p className="mt-1 text-red-600 font-semibold">Lead Pastor of The L.O.G.I.C Church Port Harcout</p>
                 <div className="mt-4 space-y-4 text-gray-700 leading-relaxed">
                   <p>
-                    Pastor Amaka Flourish-Peters is a dynamic and visionary leader, serving as the Associate Pastor at the LOGIC Church Global and the Head of Women in Christ Ministries - The vibrant women’s ministry arm of the church. With a heart deeply rooted in the gospel of God’s grace, prayer, love and compassion, she is passionate about raising godly leaders through discipleship, empowering women, and advancing the kingdom of God with wisdom and grace.
+                    Pastor Paul Chisom Udo is a seasoned minister of the gospel and a dynamic leader with a passion for building lives through the word of God. As the Lead Pastor of The L.O.G.I.C Church Port Harcourt, he leads a vibrant community of believers with wisdom, grace, and an unwavering commitment to the message of God's love in Christ.
                   </p>
                   <p>
-                    With over a decade of senior managerial experience and executive consultancy across a plethora of African startups, Pastor Amaka brings a rare blend of spiritual insight and strategic acumen to Ministry. She holds a Bachelor’s degree in Finance from the University of Texas, Arlington, and a Master of Science from Georgetown University in Washington, DC.
-                  </p>
-                  <p>
-                    At the LOGIC Church, Pastor Amaka plays a vital role in shaping vision, driving growth, and influencing strategic direction. As the head of Women in Christ Ministries, she leads with compassion, fostering a strong community of faith, and global impact. Her expertise in strategic planning, financial stewardship, and organizational leadership has helped position the LOGIC Church for continued global influence.
+                    With a background in leadership and a heart for soul winning, Pastor Paul has been a pivotal part of the L.O.G.I.C Nation, contributing significantly to its growth and impact across various regions.
                   </p>
                 </div>
                 <button
@@ -281,34 +278,31 @@ export default function About() {
                         <div className="flex items-center gap-4 border-b border-gray-200 pb-4">
                           <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-red-600">
                             <img 
-                              src="/assets/DSC_9970.jpeg" 
-                              alt="Pastor Amaka Flourish-Peters" 
+                              src="/src/assets/pastor_paul.jpg" 
+                              alt="Pastor Paul Chisom Udo" 
                               className="h-full w-full object-cover"
                             />
                           </div>
                           <div>
-                            <h3 className="text-lg font-semibold text-gray-900">Pastor Amaka Flourish-Peters</h3>
-                            <p className="text-red-600">Associate Pastor at L.O.G.I.C Church Global</p>
+                            <h3 className="text-lg font-semibold text-gray-900">Pastor Paul Chisom Udo</h3>
+                            <p className="text-red-600">Lead Pastor of The L.O.G.I.C Church Port Harcout</p>
                           </div>
                         </div>
                         
                         <div className="space-y-4">
                           <p>
-                            Pastor Amaka Flourish-Peters is a dynamic and visionary leader, serving as the Associate Pastor at the LOGIC Church Global and the Head of Women in Christ Ministries - The vibrant women's ministry arm of the church. With a heart deeply rooted in the gospel of God's grace, prayer, love and compassion, she is passionate about raising godly leaders through discipleship, empowering women, and advancing the kingdom of God with wisdom and grace.
+                            Pastor Paul Chisom Udo is a seasoned minister of the gospel and a dynamic leader with a passion for building lives through the word of God. As the Lead Pastor of The L.O.G.I.C Church Port Harcourt, he leads a vibrant community of believers with wisdom, grace, and an unwavering commitment to the message of God's love in Christ.
                           </p>
                           <p>
-                            With over a decade of senior managerial experience and executive consultancy across a plethora of African startups, Pastor Amaka brings a rare blend of spiritual insight and strategic acumen to Ministry. She holds a Bachelor's degree in Finance from the University of Texas, Arlington, and a Master of Science from Georgetown University in Washington, DC.
+                            His ministry is characterized by a deep devotion to prayer, a profound understanding of the scriptures, and a genuine love for people. Under his leadership, the Port Harcourt branch has blossomed into a thriving hub of spiritual growth and community impact.
                           </p>
                           <p>
-                            At the LOGIC Church, Pastor Amaka plays a vital role in shaping vision, driving growth, and influencing strategic direction. As the head of Women in Christ Ministries, she leads with compassion, fostering a strong community of faith, and global impact. Her expertise in strategic planning, financial stewardship, and organizational leadership has helped position the LOGIC Church for continued global influence.
-                          </p>
-                          <p>
-                            Affectionately known as <strong>PMaks</strong>, Pastor Amaka is a passionate teacher of God's Word. Her life and ministry continue to inspire many to live and walk boldly in their God-given calling.
+                            A key figure in the L.O.G.I.C Nation, Pastor Paul continues to inspire many with his dedication to the vision of building a family where grace and faith are preached, and the love of God in Christ is felt.
                           </p>
                         </div>
                       </div>
                     );
-                    openModal('Pastor Amaka Flourish-Peters', modalContent);
+                    openModal('Pastor Paul Chisom Udo', modalContent);
                   }}
                   className="mt-3 inline-block text-red-600 font-semibold hover:text-red-700"
                 >
@@ -317,7 +311,7 @@ export default function About() {
               </div>
               <div className="md:col-span-5 order-1 md:order-2">
                 <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-                  <img src="/assets/DSC_9970.jpeg" alt="Pastor Amaka Flourish Peters" className="w-full h-full object-cover aspect-[4/3]" />
+                  <img src="/src/assets/pastor_paul.jpg" alt="Pastor Paul Chisom Udo" className="w-full h-full object-cover aspect-[4/3]" />
                 </div>
               </div>
             </div>

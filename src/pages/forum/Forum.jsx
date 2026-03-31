@@ -208,7 +208,7 @@ export default function Forum() {
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-black bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent leading-none">
-                  Logic Community
+                  LOGIC Community
                 </h1>
                 <p className="text-sm font-bold text-red-500 uppercase tracking-widest mt-1">Church Online</p>
               </div>
