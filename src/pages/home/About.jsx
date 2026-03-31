@@ -33,8 +33,8 @@ export default function About() {
           </div>
           {/* Heading */}
           <h1 className="mt-6 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight animate__animated animate__fadeInUp animate__delay-1s">
-            <span className="text-white">About The LOGIC</span>
-            <span className="block bg-gradient-to-r from-red-600 to-rose-400 bg-clip-text text-transparent">Church Port Harcourt</span>
+            <span className="text-white">About The LOGIC Church</span>
+            <span className="block bg-gradient-to-r from-red-600 to-rose-400 bg-clip-text text-transparent">Port Harcourt</span>
           </h1>
           <p className="mt-6 max-w-3xl text-lg sm:text-xl md:text-2xl text-gray-200">
             Explore our story, mission, and the community that makes us who we are
@@ -63,7 +63,7 @@ export default function About() {
                   The LOGIC Church (Love Of God In Christ Church) Port Harcourt is a vibrant community of believers passionate about revealing Jesus and teaching the Gospel of God’s grace with clarity and simplicity.
                 </p>
                 <p>
-                  Our culture is expressed in three simple but powerful words: <strong>Love. Life. Impact.</strong> Love is what we preach, Life is what we give, and Impact is what we make. We are dedicated to raising believers who understand their identity in Christ and live transformed lives.
+                  Our culture is expressed in three simple but powerful words: <strong>Love. Life. Impact.</strong> Love is what we preach. Life is what we give. Impact is what we make. Led by Pastor Paul Chisom Udo and assisted by Pastor Rema Udo, we are dedicated to raising believers who understand their identity in Christ.
                 </p>
               </div>
               <button
@@ -72,54 +72,68 @@ export default function About() {
                   openModal(
                     'Our Story',
                     (
-                       <div className="space-y-6">
-                        <div className="space-y-4">
-                          <h3 className="text-xl font-semibold text-gray-900">Love. Life. Impact.</h3>
-                          <p className="text-gray-700 leading-relaxed">
-                            The LOGIC Church Port Harcourt stands as a beacon of God's love in Christ Jesus. Our mission is to raise believers who understand their identity in Christ—those who are grounded in the finished work of Jesus and live transformed lives through the power of His love and grace.
-                          </p>
-                          <p className="text-gray-700 leading-relaxed">
-                            We are more than just a congregation; we are a family. Our culture is built on three pillars:
-                            <ul className="list-disc ml-6 mt-2 space-y-1">
-                              <li><strong>Love:</strong> The core of our message. We preach the unconditional love of God revealed in Christ.</li>
-                              <li><strong>Life:</strong> The result of our fellowship. We give the life of God through the word and community.</li>
-                              <li><strong>Impact:</strong> The evidence of our faith. We make a tangible difference in our world.</li>
-                            </ul>
-                          </p>
-                        </div>
-                        
-                        <div className="border-t border-gray-200 pt-6 mt-6">
-                          <h3 className="text-xl font-semibold text-gray-900">Vibrant Communities</h3>
-                          <p className="text-gray-700 leading-relaxed">
-                            Beyond our services, we nurture growth, fellowship, and purpose through vibrant communities tailored to every member of the family:
-                          </p>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                              <span className="font-bold text-red-600">Women In Christ</span> & <span className="font-bold text-red-600">Men In Christ</span>
+                        <div className="space-y-6">
+                          <div className="space-y-4">
+                            <h3 className="text-xl font-semibold text-gray-900">Love. Life. Impact.</h3>
+                            <p className="text-gray-700 leading-relaxed">
+                              The LOGIC Church (Love Of God In Christ Church) Port Harcourt is a vibrant community of believers passionate about revealing Jesus and teaching the Gospel of God’s grace with clarity and simplicity.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed text-lg italic border-l-4 border-red-600 pl-4">
+                              "Love is what we preach. Life is what we give. Impact is what we make."
+                            </p>
+                            <p className="text-gray-700 leading-relaxed">
+                              Our mission is to raise believers who understand their identity in Christ and live transformed lives through the power of His love and grace. The church is led by <strong>Pastor Paul Chisom Udo</strong> (Lead Pastor) and assisted by <strong>Pastor Rema Udo</strong>.
+                            </p>
+                          </div>
+
+                          <div className="border-t border-gray-200 pt-6">
+                            <h3 className="text-xl font-semibold text-gray-900">Vibrant Communities</h3>
+                            <p className="text-gray-700 leading-relaxed">
+                              Beyond our services, we nurture growth, fellowship, and purpose through vibrant communities including:
+                            </p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                                <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center gap-2">
+                                  <span className="h-2 w-2 rounded-full bg-red-600"></span>
+                                  <span>Women In Christ & Men In Christ</span>
+                                </div>
+                                <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center gap-2">
+                                  <span className="h-2 w-2 rounded-full bg-red-600"></span>
+                                  <span>Single and Complete (Singles)</span>
+                                </div>
+                                <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center gap-2">
+                                  <span className="h-2 w-2 rounded-full bg-red-600"></span>
+                                  <span>LOGIC KidZone & Teens Church</span>
+                                </div>
+                                <div className="bg-gray-50 p-3 rounded-lg border border-gray-100 flex items-center gap-2">
+                                  <span className="h-2 w-2 rounded-full bg-red-600"></span>
+                                  <span>Tech Hub & Creative Hub</span>
+                                </div>
                             </div>
-                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                              <span className="font-bold text-red-600">Single and Complete</span>
-                            </div>
-                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                              <span className="font-bold text-red-600">KidZone</span> & <span className="font-bold text-red-600">Teens Church</span>
-                            </div>
-                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
-                              <span className="font-bold text-red-600">Tech Hub</span> & <span className="font-bold text-red-600">Creative Hub</span>
+                            <p className="text-sm text-gray-500 mt-4 italic">
+                              Our Creative Hub includes actors, musicians, artists, poets, sports enthusiasts, and other creatives.
+                            </p>
+                          </div>
+
+                          <div className="bg-gray-900 p-6 rounded-xl text-white mt-6 shadow-xl">
+                            <h3 className="text-lg font-bold mb-3">Visit Us in Port Harcourt</h3>
+                            <div className="space-y-3 text-sm text-gray-300">
+                              <p className="flex items-start gap-2">
+                                <span className="text-red-500">📍</span>
+                                <span>The Marquee, Novotel Hotel, 3 Liberation Stadium Road, Rumuomasi, Port Harcourt</span>
+                              </p>
+                              <div className="flex flex-wrap gap-4 pt-2">
+                                <div className="bg-white/10 px-3 py-2 rounded">
+                                  <span className="block text-xs uppercase text-gray-400">Midweek Koinonia</span>
+                                  <span className="font-bold">Thursday, 6:00 PM</span>
+                                </div>
+                                <div className="bg-red-600/20 px-3 py-2 rounded">
+                                  <span className="block text-xs uppercase text-red-300">Experience Jesus</span>
+                                  <span className="font-bold">Sunday, 9:00 AM</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                        
-                        <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 mt-6">
-                          <h3 className="text-lg font-semibold text-gray-900 mb-2">Join Us</h3>
-                          <p className="text-gray-700 leading-relaxed">
-                            We meet at <strong>The Marquee, Novotel Hotel, 3 Liberation Stadium Road, Rumuomasi, Port Harcourt</strong>. Whether in person or online, we invite you to join us as we grow together in faith, love, and fellowship.
-                          </p>
-                          <div className="mt-3 flex gap-4 text-sm font-medium">
-                            <div className="px-3 py-1 bg-white rounded border border-gray-200">Thursdays: 6:00 PM</div>
-                            <div className="px-3 py-1 bg-white rounded border border-gray-200">Sundays: 9:00 AM</div>
-                          </div>
-                        </div>
-                      </div>
                     )
                   )
                 }
@@ -166,24 +180,28 @@ export default function About() {
       </section>
 
       {/* Stats Bar */}
-      <section className="relative">
-        <div className="bg-gradient-to-r from-red-600 to-rose-500">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
-              <div>
-                <div className="text-3xl sm:text-4xl font-extrabold">500+</div>
-                <div className="mt-1 text-sm sm:text-base text-white/90">Active Members</div>
+      <section className="relative px-4">
+        <div className="mx-auto max-w-5xl bg-neutral-900 border-y border-red-900/30 py-12 rounded-3xl overflow-hidden shadow-2xl">
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24 text-center text-white">
+              <div className="flex flex-col items-center">
+                <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-red-500 to-rose-400 bg-clip-text text-transparent">500+</div>
+                <div className="mt-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400">Active Members</div>
               </div>
-              <div>
-                <div className="text-3xl sm:text-4xl font-extrabold">1+</div>
-                <div className="mt-1 text-sm sm:text-base text-white/90">Years Serving</div>
+              <div className="h-px w-12 md:h-12 md:w-px bg-white/10 hidden sm:block"></div>
+              <div className="flex flex-col items-center">
+                <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-red-500 to-rose-400 bg-clip-text text-transparent">1+</div>
+                <div className="mt-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400">Years Serving</div>
               </div>
-              <div>
-                <div className="text-3xl sm:text-4xl font-extrabold">2,000+</div>
-                <div className="mt-1 text-sm sm:text-base text-white/90">Lives Touched</div>
+              <div className="h-px w-12 md:h-12 md:w-px bg-white/10 hidden sm:block"></div>
+              <div className="flex flex-col items-center">
+                <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-red-500 to-rose-400 bg-clip-text text-transparent">2,000+</div>
+                <div className="mt-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400">Lives Touched</div>
               </div>
             </div>
           </div>
+          {/* Subtle background glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-red-600/10 blur-[100px] pointer-events-none"></div>
         </div>
       </section>
 
