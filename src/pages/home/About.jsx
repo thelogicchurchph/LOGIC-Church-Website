@@ -278,7 +278,7 @@ export default function About() {
                         <div className="flex items-center gap-4 border-b border-gray-200 pb-4">
                           <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-red-600">
                             <img 
-                              src="/src/assets/pastor_paul.jpg" 
+                              src="/assets/pastor_paul.jpg" 
                               alt="Pastor Paul Chisom Udo" 
                               className="h-full w-full object-cover"
                             />
@@ -311,8 +311,64 @@ export default function About() {
               </div>
               <div className="md:col-span-5 order-1 md:order-2">
                 <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-                  <img src="/src/assets/pastor_paul.jpg" alt="Pastor Paul Chisom Udo" className="w-full h-full object-cover aspect-[4/3]" />
+                  <img src="/assets/pastor_paul.jpg" alt="Pastor Paul Chisom Udo" className="w-full h-full object-cover aspect-[4/3]" />
                 </div>
+              </div>
+            </div>
+
+            {/* Row 3: Image Left, Text Right (Pastor Rema Udo) */}
+            <div className="grid md:grid-cols-12 gap-8 items-center">
+              <div className="md:col-span-5">
+                <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
+                  <img src="/assets/pastor_rema.jpg" alt="Pastor Rema Udo" className="w-full h-full object-cover aspect-[4/3]" />
+                </div>
+              </div>
+              <div className="md:col-span-7">
+                <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Pastor Rema Udo</h3>
+                <p className="mt-1 text-red-600 font-semibold">Associate Pastor at L.O.G.I.C Church Port Harcourt</p>
+                <div className="mt-4 space-y-4 text-gray-700 leading-relaxed">
+                  <p>
+                    Pastor Rema Udo is a dedicated spiritual leader and Associate Pastor at The L.O.G.I.C Church Port Harcourt. She is known for her vibrant spirit, deep commitment to the word of God, and her passion for nurturing the spiritual growth of the congregation.
+                  </p>
+                  <p>
+                    Working closely with the leadership team, Pastor Rema plays a vital role in the administration and spiritual direction of the Port Harcourt expression, helping to foster a warm and welcoming environment for all members.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const modalContent = (
+                      <div className="space-y-6 text-gray-700 leading-relaxed">
+                        <div className="flex items-center gap-4 border-b border-gray-200 pb-4">
+                          <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-red-600">
+                            <img 
+                              src="/assets/pastor_rema.jpg" 
+                              alt="Pastor Rema Udo" 
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold text-gray-900">Pastor Rema Udo</h3>
+                            <p className="text-red-600">Associate Pastor at L.O.G.I.C Church Port Harcourt</p>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <p>
+                            Pastor Rema Udo is a dedicated spiritual leader and Associate Pastor at The L.O.G.I.C Church Port Harcourt. She is known for her vibrant spirit, deep commitment to the word of God, and her passion for nurturing the spiritual growth of the congregation.
+                          </p>
+                          <p>
+                            Together with her husband, Pastor Paul Chisom Udo, they serve as a dynamic team leading the Port Harcourt family. Her ministry is focused on empowerment, discipleship, and sharing the message of God's grace with wisdom and love.
+                          </p>
+                        </div>
+                      </div>
+                    );
+                    openModal('Pastor Rema Udo', modalContent);
+                  }}
+                  className="mt-3 inline-block text-red-600 font-semibold hover:text-red-700"
+                >
+                  Read More ·
+                </button>
               </div>
             </div>
           </div>
