@@ -82,7 +82,7 @@ export default function About() {
                             Our community is richly diverse, with people of different ages and backgrounds coming together to worship and hear the message of the gospel of God's grace. We welcome all individuals seeking God's love, and our doors are open to every soul desiring to welcome Jesus into their heart and live out their in-Christ realities.
                           </p>
                         </div>
-                        
+
                         <div className="border-t border-gray-200 pt-6 mt-6">
                           <h3 className="text-xl font-semibold text-gray-900">Our Humble Beginnings</h3>
                           <p className="text-gray-700 leading-relaxed">
@@ -92,7 +92,7 @@ export default function About() {
                             These gatherings were initially hosted in a small office space in Lekki Phase 1, Lagos. Within a matter of weeks, the prayer meetings began to blossom—growing rapidly in both attendance and spiritual impact. The growth was remarkable and unexpected.
                           </p>
                         </div>
-                        
+
                         <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
                           <h3 className="text-lg font-semibold text-gray-900 mb-2">Our Launch & Growth</h3>
                           <p className="text-gray-700 leading-relaxed">
@@ -147,19 +147,19 @@ export default function About() {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
               <div>
-                <div className="text-3xl sm:text-4xl font-extrabold">5,000+</div>
+                <div className="text-3xl sm:text-4xl font-extrabold">500+</div>
                 <div className="mt-1 text-sm sm:text-base text-white/90">Active Members</div>
               </div>
               <div>
-                <div className="text-3xl sm:text-4xl font-extrabold">5+</div>
+                <div className="text-3xl sm:text-4xl font-extrabold">1+</div>
                 <div className="mt-1 text-sm sm:text-base text-white/90">Years Serving</div>
               </div>
-              <div>
+              {/* <div>
                 <div className="text-3xl sm:text-4xl font-extrabold">10+</div>
                 <div className="mt-1 text-sm sm:text-base text-white/90">Branches</div>
-              </div>
+              </div> */}
               <div>
-                <div className="text-3xl sm:text-4xl font-extrabold">300,000+</div>
+                <div className="text-3xl sm:text-4xl font-extrabold">2,000+</div>
                 <div className="mt-1 text-sm sm:text-base text-white/90">Lives Touched</div>
               </div>
             </div>
@@ -205,9 +205,9 @@ export default function About() {
                       <div className="space-y-6 text-gray-700 leading-relaxed">
                         <div className="flex items-center gap-4 border-b border-gray-200 pb-4">
                           <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-red-600">
-                            <img 
-                              src="/assets/DSC_9940.jpeg" 
-                              alt="Apostle Flourish Peters" 
+                            <img
+                              src="/assets/DSC_9940.jpeg"
+                              alt="Apostle Flourish Peters"
                               className="h-full w-full object-cover"
                             />
                           </div>
@@ -216,7 +216,7 @@ export default function About() {
                             <p className="text-red-600">Lead Pastor and Apostolic Head of The L.O.G.I.C Churches</p>
                           </div>
                         </div>
-                        
+
                         <div className="space-y-4">
                           <p>
                             Apostle Flourish Peters, popularly known as <strong>P.Flo</strong>, is the Lead Pastor and Apostolic Head of all <strong>Love of God in Christ (L.O.G.I.C) Churches</strong>, with headquarters in Lekki, Lagos, and branches across various parts of Nigeria and the world. He is also the President of <strong>Flourish Peters Ministries</strong>.
@@ -277,9 +277,9 @@ export default function About() {
                       <div className="space-y-6 text-gray-700 leading-relaxed">
                         <div className="flex items-center gap-4 border-b border-gray-200 pb-4">
                           <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-red-600">
-                            <img 
-                              src="/assets/pastor_paul.jpg" 
-                              alt="Pastor Paul Chisom Udo" 
+                            <img
+                              src="/assets/pastor_paul.jpg"
+                              alt="Pastor Paul Chisom Udo"
                               className="h-full w-full object-cover object-top"
                             />
                           </div>
@@ -288,7 +288,7 @@ export default function About() {
                             <p className="text-red-600">Lead Pastor of The L.O.G.I.C Church Port Harcout</p>
                           </div>
                         </div>
-                        
+
                         <div className="space-y-4">
                           <p>
                             Pastor Paul Chisom Udo is a seasoned minister of the gospel and a dynamic leader with a passion for building lives through the word of God. As the Lead Pastor of The L.O.G.I.C Church Port Harcourt, he leads a vibrant community of believers with wisdom, grace, and an unwavering commitment to the message of God's love in Christ.
@@ -320,7 +320,7 @@ export default function About() {
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-5">
                 <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-                  <img src="/assets/pastor_rema.jpg" alt="Pastor Rema Udo" className="w-full h-full object-cover object-top aspect-[4/3]" />
+                  <img src="/assets/pastor_rema.jpg" alt="Pastor Rema Udo" className="w-full h-full object-cover aspect-[4/3]" />
                 </div>
               </div>
               <div className="md:col-span-7">
@@ -341,9 +341,9 @@ export default function About() {
                       <div className="space-y-6 text-gray-700 leading-relaxed">
                         <div className="flex items-center gap-4 border-b border-gray-200 pb-4">
                           <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-red-600">
-                            <img 
-                              src="/assets/pastor_rema.jpg" 
-                              alt="Pastor Rema Udo" 
+                            <img
+                              src="/assets/pastor_rema.jpg"
+                              alt="Pastor Rema Udo"
                               className="h-full w-full object-cover object-top"
                             />
                           </div>
@@ -352,7 +352,7 @@ export default function About() {
                             <p className="text-red-600">Associate Pastor at L.O.G.I.C Church Port Harcourt</p>
                           </div>
                         </div>
-                        
+
                         <div className="space-y-4">
                           <p>
                             Pastor Rema Udo is a dedicated spiritual leader and Associate Pastor at The L.O.G.I.C Church Port Harcourt. She is known for her vibrant spirit, deep commitment to the word of God, and her passion for nurturing the spiritual growth of the congregation.
@@ -377,33 +377,33 @@ export default function About() {
 
       {/* CTA */}
       <section>
-  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-    <div className="text-center max-w-3xl mx-auto">
-      <h3 className="text-2xl sm:text-3xl font-bold mb-4">Want to Learn More?</h3>
-      <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8">
-        We'd love to connect with you and answer any questions you might have about our church community.
-      </p>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center max-w-3xl mx-auto">
+            <h3 className="text-2xl sm:text-3xl font-bold mb-4">Want to Learn More?</h3>
+            <p className="text-gray-700 text-base sm:text-lg leading-relaxed mb-8">
+              We'd love to connect with you and answer any questions you might have about our church community.
+            </p>
 
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-        {/* Contact Us Button */}
-        <a
-          href="/contact"
-          className="inline-flex items-center justify-center rounded-md bg-red-800 px-6 py-3 text-white font-semibold text-sm sm:text-base hover:bg-red-900 transition-colors duration-200 shadow-sm"
-        >
-          Contact Us
-        </a>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+              {/* Contact Us Button */}
+              <a
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-md bg-red-800 px-6 py-3 text-white font-semibold text-sm sm:text-base hover:bg-red-900 transition-colors duration-200 shadow-sm"
+              >
+                Contact Us
+              </a>
 
-        {/* Visit This Sunday Button */}
-        <a
-          href="/events"
-          className="inline-flex items-center justify-center rounded-md border border-red-600 px-6 py-3 text-red-600 font-semibold text-sm sm:text-base hover:bg-red-50 transition-colors duration-200"
-        >
-          Visit This Sunday
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
+              {/* Visit This Sunday Button */}
+              <a
+                href="/events"
+                className="inline-flex items-center justify-center rounded-md border border-red-600 px-6 py-3 text-red-600 font-semibold text-sm sm:text-base hover:bg-red-50 transition-colors duration-200"
+              >
+                Visit This Sunday
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
