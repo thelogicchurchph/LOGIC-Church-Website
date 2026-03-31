@@ -72,35 +72,52 @@ export default function About() {
                   openModal(
                     'Our Story',
                     (
-                      <div className="space-y-6">
+                       <div className="space-y-6">
                         <div className="space-y-4">
-                          <h3 className="text-xl font-semibold text-gray-900">Our Foundation</h3>
+                          <h3 className="text-xl font-semibold text-gray-900">Love. Life. Impact.</h3>
                           <p className="text-gray-700 leading-relaxed">
-                            LOGIC is an acronym for <em className="italic font-medium">The Love of God in Christ</em>. The LOGIC Church stands as a beacon of God's love in Christ Jesus, here in Lagos, Nigeria, and to the world at large. We are a place of love, peace, and joy for all who join us.
+                            The LOGIC Church Port Harcourt stands as a beacon of God's love in Christ Jesus. Our mission is to raise believers who understand their identity in Christ—those who are grounded in the finished work of Jesus and live transformed lives through the power of His love and grace.
                           </p>
                           <p className="text-gray-700 leading-relaxed">
-                            Our community is richly diverse, with people of different ages and backgrounds coming together to worship and hear the message of the gospel of God's grace. We welcome all individuals seeking God's love, and our doors are open to every soul desiring to welcome Jesus into their heart and live out their in-Christ realities.
+                            We are more than just a congregation; we are a family. Our culture is built on three pillars:
+                            <ul className="list-disc ml-6 mt-2 space-y-1">
+                              <li><strong>Love:</strong> The core of our message. We preach the unconditional love of God revealed in Christ.</li>
+                              <li><strong>Life:</strong> The result of our fellowship. We give the life of God through the word and community.</li>
+                              <li><strong>Impact:</strong> The evidence of our faith. We make a tangible difference in our world.</li>
+                            </ul>
                           </p>
                         </div>
-
+                        
                         <div className="border-t border-gray-200 pt-6 mt-6">
-                          <h3 className="text-xl font-semibold text-gray-900">Our Humble Beginnings</h3>
+                          <h3 className="text-xl font-semibold text-gray-900">Vibrant Communities</h3>
                           <p className="text-gray-700 leading-relaxed">
-                            The early days of The LOGIC Church can be traced back to several vigils led by the set man of the ministry, Apostle Dr. Flourish Peters, held in a private home between 2017 and 2019. In 2019, a group of believers who had shared fellowship in the early days of their respective marriages urged Apostle Flourish Peters to begin leading them in weekly prayer meetings.
+                            Beyond our services, we nurture growth, fellowship, and purpose through vibrant communities tailored to every member of the family:
                           </p>
-                          <p className="text-gray-700 leading-relaxed">
-                            These gatherings were initially hosted in a small office space in Lekki Phase 1, Lagos. Within a matter of weeks, the prayer meetings began to blossom—growing rapidly in both attendance and spiritual impact. The growth was remarkable and unexpected.
-                          </p>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                              <span className="font-bold text-red-600">Women In Christ</span> & <span className="font-bold text-red-600">Men In Christ</span>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                              <span className="font-bold text-red-600">Single and Complete</span>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                              <span className="font-bold text-red-600">KidZone</span> & <span className="font-bold text-red-600">Teens Church</span>
+                            </div>
+                            <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                              <span className="font-bold text-red-600">Tech Hub</span> & <span className="font-bold text-red-600">Creative Hub</span>
+                            </div>
+                          </div>
                         </div>
-
-                        <div className="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                          <h3 className="text-lg font-semibold text-gray-900 mb-2">Our Launch & Growth</h3>
+                        
+                        <div className="bg-gray-50 p-4 rounded-lg border border-gray-100 mt-6">
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">Join Us</h3>
                           <p className="text-gray-700 leading-relaxed">
-                            Later in 2019, Apostle Flourish Peters responded to the promptings of the Holy Spirit and officially birthed The LOGIC Church. The church held its first service on December 31, 2019, at the Kairos Hub on Providence Street, Lekki Phase 1. This inaugural gathering, which also served as the crossover service into the New Year, drew an attendance of approximately 200 people. The first Sunday service followed on January 5, 2020.
+                            We meet at <strong>The Marquee, Novotel Hotel, 3 Liberation Stadium Road, Rumuomasi, Port Harcourt</strong>. Whether in person or online, we invite you to join us as we grow together in faith, love, and fellowship.
                           </p>
-                          <p className="text-gray-700 leading-relaxed mt-3">
-                            Since its inception, The LOGIC Church has witnessed extraordinary growth. What began as a small gathering has blossomed into a thriving and vibrant community, with multiple expressions established across major cities locally and internationally. This rapid expansion reflects not only the relevance and resonance of the gospel message but also the undeniable impact of Apostle Flourish Peters' leadership and vision. The church continues to grow in influence, touching lives and transforming communities through the power of God's love and grace.
-                          </p>
+                          <div className="mt-3 flex gap-4 text-sm font-medium">
+                            <div className="px-3 py-1 bg-white rounded border border-gray-200">Thursdays: 6:00 PM</div>
+                            <div className="px-3 py-1 bg-white rounded border border-gray-200">Sundays: 9:00 AM</div>
+                          </div>
                         </div>
                       </div>
                     )
@@ -123,19 +140,26 @@ export default function About() {
       {/* Mission & Vision */}
       <section className="bg-gray-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center">Mission & Vision</h2>
-          <div className="mt-8 grid md:grid-cols-2 gap-6">
-            <div className="rounded-2xl border border-gray-200 p-6 bg-white shadow-md">
-              <h3 className="text-lg font-semibold text-red-600">Our Mission</h3>
-              <p className="mt-2 text-gray-700">
-                To build a family where grace and faith are preached, and the love of God in Christ is felt — a home for everyone.
+          <h2 className="text-2xl sm:text-3xl font-bold text-center border-b-2 border-red-600 inline-block mx-auto pb-2 mb-8">Mission & Culture</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="rounded-2xl border border-gray-200 p-8 bg-white shadow-md hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-bold text-red-600 mb-4">Our Mission</h3>
+              <p className="text-gray-700 leading-relaxed">
+                To raise believers who understand their identity in Christ and live transformed lives through the power of His love and grace.
               </p>
             </div>
-            <div className="rounded-2xl border border-gray-200 p-6 bg-white shadow-md">
-              <h3 className="text-lg font-semibold text-red-600">Our Vision</h3>
-              <p className="mt-2 text-gray-700">
-                To preach the gospel of God's Grace to our generation through the help of the Spirit, empowering and impacting lives to flourish in every area of life.
-              </p>
+            <div className="rounded-2xl border border-gray-200 p-8 bg-white shadow-md hover:shadow-lg transition-shadow">
+              <h3 className="text-xl font-bold text-red-600 mb-4">Our Culture</h3>
+              <div className="space-y-4">
+                <p className="text-gray-700 leading-relaxed">
+                  Our culture is expressed in three words: <strong>Love. Life. Impact.</strong>
+                </p>
+                <div className="grid grid-cols-3 gap-2 text-center text-xs font-bold uppercase tracking-widest text-red-600">
+                  <div className="p-2 border border-red-100 rounded bg-red-50">Love</div>
+                  <div className="p-2 border border-red-100 rounded bg-red-50">Life</div>
+                  <div className="p-2 border border-red-100 rounded bg-red-50">Impact</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
