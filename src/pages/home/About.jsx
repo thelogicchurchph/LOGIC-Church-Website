@@ -34,7 +34,7 @@ export default function About() {
           {/* Heading */}
           <h1 className="mt-6 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight animate__animated animate__fadeInUp animate__delay-1s">
             <span className="text-white">About The LOGIC</span>
-            <span className="block bg-gradient-to-r from-red-600 to-rose-400 bg-clip-text text-transparent">Church</span>
+            <span className="block bg-gradient-to-r from-red-600 to-rose-400 bg-clip-text text-transparent">Church Port Harcourt</span>
           </h1>
           <p className="mt-6 max-w-3xl text-lg sm:text-xl md:text-2xl text-gray-200">
             Explore our story, mission, and the community that makes us who we are
@@ -60,10 +60,10 @@ export default function About() {
               <h2 className="text-2xl sm:text-3xl font-bold">Our Story</h2>
               <div className="mt-4 space-y-4 text-gray-700 leading-relaxed">
                 <p>
-                  LOGIC is an acronym for <em className="italic font-medium">The Love of God in Christ</em>. The LOGIC Church stands as a beacon of God's love in Christ Jesus, here in Lagos, Nigeria, and to the world at large. We are a place of love, peace, and joy for all who join us.
+                  The LOGIC Church (Love Of God In Christ Church) Port Harcourt is a vibrant community of believers passionate about revealing Jesus and teaching the Gospel of God’s grace with clarity and simplicity.
                 </p>
                 <p>
-                  Our community is richly diverse, with people of different ages and backgrounds coming together to worship and hear the message of the gospel of God's grace. We welcome all individuals seeking God's love, and our doors are open to every soul desiring to welcome Jesus into their heart and live out their in-Christ realities.
+                  Our culture is expressed in three simple but powerful words: <strong>Love. Life. Impact.</strong> Love is what we preach, Life is what we give, and Impact is what we make. We are dedicated to raising believers who understand their identity in Christ and live transformed lives.
                 </p>
               </div>
               <button
@@ -143,9 +143,9 @@ export default function About() {
 
       {/* Stats Bar */}
       <section className="relative">
-        <div className="bg-gradient-to-r from-red-700 via-red-600 to-rose-600">
+        <div className="bg-gradient-to-r from-red-600 to-rose-500">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center text-white">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center text-white">
               <div>
                 <div className="text-3xl sm:text-4xl font-extrabold">500+</div>
                 <div className="mt-1 text-sm sm:text-base text-white/90">Active Members</div>
@@ -154,10 +154,6 @@ export default function About() {
                 <div className="text-3xl sm:text-4xl font-extrabold">1+</div>
                 <div className="mt-1 text-sm sm:text-base text-white/90">Years Serving</div>
               </div>
-              {/* <div>
-                <div className="text-3xl sm:text-4xl font-extrabold">10+</div>
-                <div className="mt-1 text-sm sm:text-base text-white/90">Branches</div>
-              </div> */}
               <div>
                 <div className="text-3xl sm:text-4xl font-extrabold">2,000+</div>
                 <div className="mt-1 text-sm sm:text-base text-white/90">Lives Touched</div>
