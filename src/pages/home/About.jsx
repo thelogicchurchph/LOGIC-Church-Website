@@ -181,7 +181,7 @@ export default function About() {
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-5">
                 <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-                  <img src="/assets/DSC_9940.jpeg" alt="Apostle Flourish Peters" className="w-full h-full object-cover aspect-[4/3]" />
+                  <img src="/assets/DSC_9940.jpeg" alt="Apostle Flourish Peters" className="w-full h-full object-cover object-top aspect-[4/3]" />
                 </div>
               </div>
               <div className="md:col-span-7">
@@ -280,7 +280,7 @@ export default function About() {
                             <img 
                               src="/assets/pastor_paul.jpg" 
                               alt="Pastor Paul Chisom Udo" 
-                              className="h-full w-full object-cover"
+                              className="h-full w-full object-cover object-top"
                             />
                           </div>
                           <div>
@@ -311,7 +311,7 @@ export default function About() {
               </div>
               <div className="md:col-span-5 order-1 md:order-2">
                 <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-                  <img src="/assets/pastor_paul.jpg" alt="Pastor Paul Chisom Udo" className="w-full h-full object-cover aspect-[4/3]" />
+                  <img src="/assets/pastor_paul.jpg" alt="Pastor Paul Chisom Udo" className="w-full h-full object-cover object-top aspect-[4/3]" />
                 </div>
               </div>
             </div>
@@ -320,7 +320,7 @@ export default function About() {
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-5">
                 <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-                  <img src="/assets/pastor_rema.jpg" alt="Pastor Rema Udo" className="w-full h-full object-cover aspect-[4/3]" />
+                  <img src="/assets/pastor_rema.jpg" alt="Pastor Rema Udo" className="w-full h-full object-cover object-top aspect-[4/3]" />
                 </div>
               </div>
               <div className="md:col-span-7">
@@ -344,7 +344,7 @@ export default function About() {
                             <img 
                               src="/assets/pastor_rema.jpg" 
                               alt="Pastor Rema Udo" 
-                              className="h-full w-full object-cover"
+                              className="h-full w-full object-cover object-top"
                             />
                           </div>
                           <div>
