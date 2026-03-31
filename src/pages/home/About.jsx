@@ -344,7 +344,7 @@ export default function About() {
                             <img
                               src="/assets/pastor_rema.jpg"
                               alt="Pastor Rema Udo"
-                              className="h-full w-full object-cover object-top"
+                              className="h-full w-full object-cover"
                             />
                           </div>
                           <div>
