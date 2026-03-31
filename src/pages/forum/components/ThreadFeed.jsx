@@ -2,14 +2,15 @@ import React from 'react';
 import { AccountCircle, Schedule, ArrowBack, Favorite } from '@mui/icons-material';
 
 const CATEGORY_COLORS = {
-  'General': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  'Prayer Wall': 'bg-red-500/20 text-red-400 border-red-500/30',
-  'Testimonies': 'bg-green-500/20 text-green-400 border-green-500/30',
-  'Bible Study': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  'Announcements': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  'General': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
+  'Questions': 'bg-teal-500/10 text-teal-400 border-teal-500/20',
+  'Prayer Wall': 'bg-red-500/10 text-red-400 border-red-500/20',
+  'Testimonies': 'bg-green-500/10 text-green-400 border-green-500/20',
+  'Bible Study': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+  'Announcements': 'bg-purple-500/10 text-purple-400 border-purple-500/20',
 };
 
-export default function ThreadFeed({ questions, onSelectQuestion, formatTimestamp }) {
+export default function ThreadFeed({ questions, onSelectQuestion, formatTimestamp, onToggleAmen, loadingAmenId }) {
   if (questions.length === 0) {
     return (
       <div className="py-20 text-center bg-white/5 rounded-[2rem] border border-dashed border-white/10">
@@ -36,11 +37,11 @@ export default function ThreadFeed({ questions, onSelectQuestion, formatTimestam
           <div 
             key={question.id}
             onClick={() => onSelectQuestion(question)}
-            className="group backdrop-blur-lg bg-white/5 border border-white/10 rounded-[2rem] p-6 sm:p-8 hover:bg-white/10 transition-all duration-500 cursor-pointer relative overflow-hidden ring-1 ring-white/5 hover:ring-red-500/30"
+            className="group bg-[#0f0f0f] border border-white/5 rounded-2xl p-4 sm:p-5 hover:bg-white/5 transition-all duration-300 cursor-pointer relative ring-1 ring-white/5 hover:ring-white/10"
           >
-            <div className="flex items-start gap-4 sm:gap-6">
-              <div className="hidden sm:flex flex-col items-center justify-center gap-1 w-16 flex-shrink-0">
-                 <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-gray-800 to-gray-900 border border-white/10 flex flex-col items-center justify-center shadow-inner group-hover:from-red-900/40 group-hover:to-red-800/20 transition-all">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <div className="hidden sm:flex flex-col items-center justify-center gap-1 w-12 flex-shrink-0">
+                 <div className="h-10 w-10 rounded-xl bg-[#1a1a1a] border border-white/5 flex flex-col items-center justify-center group-hover:bg-[#222] transition-colors">
                     <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 leading-none">
                      {question.comments?.length || 0}
                     </span>
@@ -53,21 +54,17 @@ export default function ThreadFeed({ questions, onSelectQuestion, formatTimestam
                   <span className={`text-xs font-bold px-3 py-1 rounded-full border ${catColor}`}>
                     {question.category || 'General'}
                   </span>
-                  {question.category === 'Prayer Wall' && (
-                    <div className="flex items-center gap-1 text-xs text-red-400/80 bg-red-500/10 px-2 py-1 rounded-lg ring-1 ring-red-500/20">
-                      <Favorite className="text-[12px]" />
-                      <span className="font-bold">{question.amens || 0} Amens</span>
-                    </div>
-                  )}
-                  {question.category !== 'Prayer Wall' && question.amens > 0 && (
-                    <div className="flex items-center gap-1 text-xs text-red-400/80 bg-red-500/10 px-2 py-1 rounded-lg">
-                      <Favorite className="text-[10px]" />
-                      <span className="font-bold">{question.amens}</span>
-                    </div>
-                  )}
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); onToggleAmen(question); }}
+                    disabled={loadingAmenId === question.id}
+                    className={`flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg transition-colors hover:scale-105 active:scale-95 disabled:opacity-50 ${question.category === 'Prayer Wall' ? 'bg-red-500/10 text-red-500 font-bold border border-red-500/20' : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'}`}
+                  >
+                    <Favorite className={`text-[12px] ${loadingAmenId === question.id ? 'animate-ping' : (question.amens > 0 ? 'text-red-500' : '')}`} />
+                    <span>{question.amens || 0} {question.category === 'Prayer Wall' ? 'Amens' : ''}</span>
+                  </button>
                 </div>
 
-                <h3 className="text-xl font-bold text-white leading-snug group-hover:text-red-400 transition-colors mb-2">
+                <h3 className="text-lg font-bold text-gray-100 group-hover:text-red-400 transition-colors mb-2">
                   {question.title}
                 </h3>
                 

@@ -28,6 +28,7 @@ export default function Forum() {
   
   const [showNewQuestionForm, setShowNewQuestionForm] = useState(false);
   const [loading, setLoading] = useState({ page: false, submitQuestion: false, submitAnswer: false, amen: false });
+  const [loadingAmenId, setLoadingAmenId] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -124,6 +125,10 @@ export default function Forum() {
       
       setNewAnswer('');
       setReplyTo(null);
+      // Wait a tick then scroll to bottom to see reply
+      setTimeout(() => {
+        document.getElementById('reply-form')?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }, 100);
       toast.success('Response posted!');
     } catch (err) {
       toast.error('Failed to post response');
@@ -132,25 +137,29 @@ export default function Forum() {
     }
   };
 
-  const handleToggleAmen = async () => {
-    if (!selectedQuestion) return;
+  const handleToggleAmen = async (targetQuestion = selectedQuestion) => {
+    if (!targetQuestion) return;
+    setLoadingAmenId(targetQuestion.id);
     setLoading(prev => ({ ...prev, amen: true }));
     try {
-      const response = await api.post(`/questions/${selectedQuestion.id}/amen`);
+      const response = await api.post(`/questions/${targetQuestion.id}/amen`);
       
       // Update local state without full refetch
-      setSelectedQuestion(prev => ({ ...prev, amens: response.amens }));
+      if (selectedQuestion?.id === targetQuestion.id) {
+        setSelectedQuestion(prev => ({ ...prev, amens: response.amens }));
+      }
       setQuestions(prevList => prevList.map(q => 
-        q.id === selectedQuestion.id ? { ...q, amens: response.amens } : q
+        q.id === targetQuestion.id ? { ...q, amens: response.amens } : q
       ));
       
       if(response.message.includes('added')) {
-        toast.success(selectedQuestion.category === 'Prayer Wall' ? "Amen! added" : "Liked!");
+        toast.success(targetQuestion.category === 'Prayer Wall' ? "Amen! added" : "Liked!");
       }
     } catch(err) {
       toast.error("Failed to update reaction.");
     } finally {
       setLoading(prev => ({ ...prev, amen: false }));
+      setLoadingAmenId(null);
     }
   };
 
@@ -237,24 +246,41 @@ export default function Forum() {
           />
         ) : (
           <div className="animate__animated animate__fadeIn">
-            <div className="flex flex-col md:flex-row gap-4 mb-10">
+            <div className="flex flex-col md:flex-row gap-4 mb-8">
                <div className="relative flex-1 group">
-                 <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-red-500 transition-colors" />
+                 <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 transition-colors" />
                  <input 
                    type="text"
                    placeholder="Search discussions, prayers, or study topics..."
                    value={searchTerm}
                    onChange={(e) => setSearchTerm(e.target.value)}
-                   className="w-full bg-white/5 border border-white/10 rounded-[1.5rem] pl-14 pr-6 py-5 focus:outline-none focus:ring-2 focus:ring-red-600 focus:bg-white/10 transition-all font-bold text-white placeholder:font-normal placeholder:text-gray-500 ring-1 ring-white/5"
+                   className="w-full bg-[#0f0f0f] border border-white/5 rounded-2xl pl-12 pr-5 py-4 focus:outline-none focus:ring-1 focus:ring-red-500 transition-all text-white placeholder:text-gray-500"
                  />
                </div>
                <button
                  onClick={() => setShowNewQuestionForm(true)}
-                 className="flex items-center justify-center gap-3 bg-gradient-red text-white px-8 py-5 rounded-[1.5rem] font-black shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+                 className="flex items-center justify-center gap-2 bg-red-600 text-white px-6 py-4 md:py-0 rounded-2xl font-bold hover:bg-red-500 transition-all"
                >
                  <Add className="text-[20px]" />
-                 <span className="whitespace-nowrap uppercase tracking-widest text-xs">New Post</span>
+                 <span>New Post</span>
                </button>
+            </div>
+
+            {/* Mobile Categories Overflow */}
+            <div className="lg:hidden flex overflow-x-auto gap-2 pb-4 mb-4 hide-scrollbar">
+              {['All', 'General', 'Questions', 'Prayer Wall', 'Testimonies', 'Bible Study', 'Youth', 'Announcements'].map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setCurrentCategory(cat)}
+                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                    currentCategory === cat 
+                      ? 'bg-red-600 text-white' 
+                      : 'bg-[#0f0f0f] text-gray-400 hover:text-white border border-white/5'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -270,6 +296,8 @@ export default function Forum() {
                   questions={filteredQuestions} 
                   onSelectQuestion={handleViewQuestion} 
                   formatTimestamp={formatTimestamp} 
+                  onToggleAmen={handleToggleAmen}
+                  loadingAmenId={loadingAmenId}
                 />
               </div>
             </div>

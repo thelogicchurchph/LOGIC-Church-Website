@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CATEGORIES = ['General', 'Prayer Wall', 'Testimonies', 'Bible Study', 'Youth', 'Announcements'];
+const CATEGORIES = ['General', 'Questions', 'Prayer Wall', 'Testimonies', 'Bible Study', 'Youth', 'Announcements'];
 
 export default function CreateThreadModal({ 
   onClose, 
@@ -50,7 +50,7 @@ export default function CreateThreadModal({
 
             <div>
               <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">
-                Subject
+                Title
               </label>
               <input
                 type="text"
@@ -63,7 +63,7 @@ export default function CreateThreadModal({
             </div>
             <div>
               <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 ml-1">
-                Context (Optional)
+                Details (Optional)
               </label>
               <textarea
                 value={body}
@@ -91,7 +91,7 @@ export default function CreateThreadModal({
               >
                 {loading ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-                ) : 'Publish'}
+                ) : 'Post'}
               </button>
             </div>
          </form>
