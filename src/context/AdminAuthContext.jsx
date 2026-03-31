@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return true;
     } catch (err) {
-      const errorMsg = err.response?.data?.error || 'Login failed. Please try again.';
+      const errorMsg = err.response?.data?.detail || err.response?.data?.error || 'Login failed. Please try again.';
       setError(errorMsg);
       toast.error(errorMsg);
       setLoading(false);
