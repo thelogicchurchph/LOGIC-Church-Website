@@ -1,8 +1,13 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime, Table
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.sql import func
 import datetime
 from database import Base
+
+question_amens = Table('question_amens', Base.metadata,
+    Column('user_id', Integer, ForeignKey('users.id')),
+    Column('question_id', Integer, ForeignKey('questions.id'))
+)
 
 class User(Base):
     __tablename__ = "users"
@@ -21,10 +26,12 @@ class Question(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
     body = Column(Text, nullable=True)
+    category = Column(String, default="General", index=True)
     author_id = Column(Integer, ForeignKey("users.id"))
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     author = relationship("User", back_populates="questions")
     comments = relationship("Comment", back_populates="question")
+    amened_by = relationship("User", secondary=question_amens, backref="amened_questions")
 
 class Comment(Base):
     __tablename__ = "comments"

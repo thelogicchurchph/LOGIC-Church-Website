@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
+from sqlalchemy import text
 from fastapi.security import OAuth2PasswordBearer
 import models, schemas, auth, database
 import os, shutil
@@ -24,6 +25,13 @@ def startup_event():
     # Automatically ensure admin user is correctly hashed on startup
     db = database.SessionLocal()
     try:
+        # DB Migration Hack: Add category column if missing
+        try:
+            db.execute(text("ALTER TABLE questions ADD COLUMN category VARCHAR DEFAULT 'General'"))
+            db.commit()
+        except Exception:
+            db.rollback()
+
         admin_email = "admin@logic.church"
         admin_user = db.query(models.User).filter(models.User.email == admin_email).first()
         if admin_user:
@@ -149,10 +157,13 @@ def fmt_comment(c):
     }
 
 def fmt_question(q, full=False):
+    amens_count = len(q.amened_by) if hasattr(q, "amened_by") and q.amened_by else 0
     data = {
         "id": q.id,
         "title": q.title,
         "body": q.body,
+        "category": getattr(q, 'category', 'General') or 'General',
+        "amens": amens_count,
         "createdAt": q.created_at.isoformat() if q.created_at else None,
         "author": fmt_user(q.author),
         "comments": [fmt_comment(c) for c in (q.comments or [])] if full else [{"id": c.id} for c in (q.comments or [])],
@@ -166,7 +177,7 @@ def get_questions(db: Session = Depends(database.get_db), current_user: models.U
 
 @app.post("/logic/questions")
 def create_question(payload: schemas.QuestionCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
-    q = models.Question(title=payload.title, body=payload.body, author_id=current_user.id)
+    q = models.Question(title=payload.title, body=payload.body, category=payload.category, author_id=current_user.id)
     db.add(q)
     db.commit()
     db.refresh(q)
@@ -178,6 +189,22 @@ def get_question(question_id: int, db: Session = Depends(database.get_db), curre
     if not q:
         raise HTTPException(status_code=404, detail="Question not found")
     return {"question": fmt_question(q, full=True)}
+
+@app.post("/logic/questions/{question_id}/amen")
+def toggle_amen(question_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    q = db.query(models.Question).filter(models.Question.id == question_id).first()
+    if not q:
+        raise HTTPException(status_code=404, detail="Question not found")
+    
+    if current_user in q.amened_by:
+        q.amened_by.remove(current_user)
+        action = "removed"
+    else:
+        q.amened_by.append(current_user)
+        action = "added"
+        
+    db.commit()
+    return {"message": f"Amen {action}", "amens": len(q.amened_by)}
 
 @app.post("/logic/questions/{question_id}/comment")
 def add_comment(question_id: int, payload: schemas.CommentCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):

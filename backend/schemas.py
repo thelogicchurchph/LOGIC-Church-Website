@@ -28,6 +28,7 @@ class Token(BaseModel):
 class QuestionCreate(BaseModel):
     title: str
     body: Optional[str] = ""
+    category: Optional[str] = "General"
 
 class CommentCreate(BaseModel):
     body: str
