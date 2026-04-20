@@ -58,9 +58,9 @@ if not os.path.exists(UPLOAD_DIR):
     os.makedirs(UPLOAD_DIR)
 
 # Mount static files for uploads
-app.mount("/logic/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="logic/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(database.get_db)):
     credentials_exception = HTTPException(
@@ -82,7 +82,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 
 # ── Auth ────────────────────────────────────────────────────────────────────
 
-@app.post("/logic/auth/register", response_model=schemas.UserResponse)
+@app.post("/auth/register", response_model=schemas.UserResponse)
 def register(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
     db_user = db.query(models.User).filter(models.User.email == user.email).first()
     if db_user:
@@ -99,7 +99,7 @@ def register(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
     db.refresh(db_user)
     return db_user
 
-@app.post("/logic/auth/login")
+@app.post("/auth/login")
 def login(request: schemas.UserLogin, db: Session = Depends(database.get_db)):
     user = db.query(models.User).filter(models.User.email == request.email).first()
     if not user or not auth.verify_password(request.password, user.hashed_password):
@@ -115,16 +115,16 @@ def login(request: schemas.UserLogin, db: Session = Depends(database.get_db)):
         "admin": fmt_user(user)
     }
 
-@app.get("/logic/user/profile")
+@app.get("/user/profile")
 def get_user_profile(current_user: models.User = Depends(get_current_user)):
     return {"user": fmt_user(current_user)}
 
-@app.get("/logic/users", response_model=list[schemas.UserResponse])
+@app.get("/users", response_model=list[schemas.UserResponse])
 def get_users(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     # Simple check for admin role if needed, or just return all users for now
     return db.query(models.User).all()
 
-@app.get("/logic/admin/stats")
+@app.get("/admin/stats")
 def get_admin_stats(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     user_count = db.query(models.User).count()
     event_count = db.query(models.Event).count()
@@ -170,12 +170,12 @@ def fmt_question(q, full=False):
     }
     return data
 
-@app.get("/logic/questions")
+@app.get("/questions")
 def get_questions(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     questions = db.query(models.Question).order_by(models.Question.created_at.desc()).all()
     return [fmt_question(q) for q in questions]
 
-@app.post("/logic/questions")
+@app.post("/questions")
 def create_question(payload: schemas.QuestionCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     q = models.Question(title=payload.title, body=payload.body, category=payload.category, author_id=current_user.id)
     db.add(q)
@@ -183,14 +183,14 @@ def create_question(payload: schemas.QuestionCreate, db: Session = Depends(datab
     db.refresh(q)
     return {"question": fmt_question(q)}
 
-@app.get("/logic/questions/{question_id}")
+@app.get("/questions/{question_id}")
 def get_question(question_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     q = db.query(models.Question).filter(models.Question.id == question_id).first()
     if not q:
         raise HTTPException(status_code=404, detail="Question not found")
     return {"question": fmt_question(q, full=True)}
 
-@app.post("/logic/questions/{question_id}/amen")
+@app.post("/questions/{question_id}/amen")
 def toggle_amen(question_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     q = db.query(models.Question).filter(models.Question.id == question_id).first()
     if not q:
@@ -206,7 +206,7 @@ def toggle_amen(question_id: int, db: Session = Depends(database.get_db), curren
     db.commit()
     return {"message": f"Amen {action}", "amens": len(q.amened_by)}
 
-@app.post("/logic/questions/{question_id}/comment")
+@app.post("/questions/{question_id}/comment")
 def add_comment(question_id: int, payload: schemas.CommentCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     q = db.query(models.Question).filter(models.Question.id == question_id).first()
     if not q:
@@ -224,7 +224,7 @@ def add_comment(question_id: int, payload: schemas.CommentCreate, db: Session = 
         }
     }
 
-@app.delete("/logic/questions/{question_id}")
+@app.delete("/questions/{question_id}")
 def delete_question(question_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     q = db.query(models.Question).filter(models.Question.id == question_id).first()
     if not q:
@@ -235,11 +235,11 @@ def delete_question(question_id: int, db: Session = Depends(database.get_db), cu
 
 # ── Events ──────────────────────────────────────────────────────────────────
 
-@app.get("/logic/events", response_model=list[schemas.EventResponse])
+@app.get("/events", response_model=list[schemas.EventResponse])
 def get_events(db: Session = Depends(database.get_db)):
     return db.query(models.Event).order_by(models.Event.created_at.desc()).all()
 
-@app.post("/logic/events", response_model=schemas.EventResponse)
+@app.post("/events", response_model=schemas.EventResponse)
 def create_event(event: schemas.EventCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     db_event = models.Event(**event.model_dump())
     db.add(db_event)
@@ -247,7 +247,7 @@ def create_event(event: schemas.EventCreate, db: Session = Depends(database.get_
     db.refresh(db_event)
     return db_event
 
-@app.delete("/logic/events/{event_id}")
+@app.delete("/events/{event_id}")
 def delete_event(event_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     db_event = db.query(models.Event).filter(models.Event.id == event_id).first()
     if not db_event:
@@ -258,11 +258,11 @@ def delete_event(event_id: int, db: Session = Depends(database.get_db), current_
 
 # ── Gallery ────────────────────────────────────────────────────────────────
 
-@app.get("/logic/gallery", response_model=list[schemas.GalleryImageResponse])
+@app.get("/gallery", response_model=list[schemas.GalleryImageResponse])
 def get_gallery(db: Session = Depends(database.get_db)):
     return db.query(models.GalleryImage).order_by(models.GalleryImage.created_at.desc()).all()
 
-@app.post("/logic/gallery/upload")
+@app.post("/gallery/upload")
 def upload_gallery_image(payload: schemas.GalleryImageCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     db_img = models.GalleryImage(image_url=payload.image_url)
     db.add(db_img)
@@ -270,7 +270,7 @@ def upload_gallery_image(payload: schemas.GalleryImageCreate, db: Session = Depe
     db.refresh(db_img)
     return db_img
 
-@app.delete("/logic/gallery/{image_id}")
+@app.delete("/gallery/{image_id}")
 def delete_gallery_image(image_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     db_img = db.query(models.GalleryImage).filter(models.GalleryImage.id == image_id).first()
     if not db_img:
@@ -281,7 +281,7 @@ def delete_gallery_image(image_id: int, db: Session = Depends(database.get_db), 
 
 # ── General Upload ──────────────────────────────────────────────────────────
 
-@app.post("/logic/upload")
+@app.post("/upload")
 async def upload_file(file: UploadFile = File(...), current_user: models.User = Depends(get_current_user)):
     file_path = os.path.join(UPLOAD_DIR, file.filename)
     
@@ -296,4 +296,4 @@ async def upload_file(file: UploadFile = File(...), current_user: models.User = 
         shutil.copyfileobj(file.file, buffer)
         
     # Return the full path relative to the backend root
-    return {"url": f"/logic/uploads/{os.path.basename(file_path)}"}
+    return {"url": f"/uploads/{os.path.basename(file_path)}"}

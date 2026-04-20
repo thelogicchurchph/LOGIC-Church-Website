@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getCookie } from './cookies';
 import { toast } from 'sonner';
@@ -5,7 +6,7 @@ import { toast } from 'sonner';
 export const getBaseUrl = () => {
   // Use VITE_API_URL from environment variables (e.g. on Netlify)
   let url = import.meta.env.VITE_API_URL;
-  const localhostUrl = "http://localhost:8000/logic/";
+  const localhostUrl = "http://localhost:8000/";
   
   // Check if window is defined (client-side) before accessing location
   const isLocalhost = typeof window !== 'undefined' && 
@@ -13,12 +14,7 @@ export const getBaseUrl = () => {
   
   // Fallback to default if no env variable
   if (!url) {
-    url = isLocalhost ? localhostUrl : "https://logic-church-api.onrender.com/logic/";
-  }
-
-  // SELF-HEALING: If the user forgot the "/logic" suffix in Netlify settings, add it!
-  if (!url.includes('/logic')) {
-    url = url.endsWith('/') ? `${url}logic/` : `${url}/logic/`;
+    url = isLocalhost ? localhostUrl : "https://logic-church-api.onrender.com/";
   }
 
   // Ensure trailing slash
@@ -31,10 +27,13 @@ export const getBaseUrl = () => {
 export const getAssetUrl = (path) => {
   if (!path) return "";
   if (path.startsWith('http')) return path;
-  const base = getBaseUrl().replace(/\/logic\/?$/, ''); // Remove /logic for static uploads mapping if needed, or keep it if backend mounts there
-  // Based on backend: app.mount("/logic/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
-  // So /logic/uploads/file.jpg is correct.
-  return `${base.endsWith('/') ? base.slice(0, -1) : base}${path.startsWith('/') ? '' : '/'}${path}`;
+  
+  const base = getBaseUrl();
+  // Backend now mounts at /uploads
+  // Path from backend is /uploads/file.jpg
+  // So we just need the domain part of getBaseUrl
+  const domain = base.endsWith('/') ? base.slice(0, -1) : base;
+  return `${domain}${path.startsWith('/') ? '' : '/'}${path}`;
 };
 
 const api = axios.create({
@@ -72,13 +71,10 @@ api.interceptors.response.use(
   (error) => {
     if (error.response) {
       console.error('API Error:', error.response.data);
-      // toast.error(error.response.data?.error);
     } else if (error.request) {
       console.error('Network Error:', error.request);
-      // toast.error("Network Error");
     } else {
       console.error('Error:', error.message);
-      // toast.error(error.message);
     }
     return Promise.reject(error);
   }
