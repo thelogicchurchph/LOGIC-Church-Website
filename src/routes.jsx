@@ -9,6 +9,7 @@ const EventsHome = lazy(() => import('./pages/home/Event'))
 const About = lazy(() => import('./pages/home/About'))
 const Give = lazy(() => import('./pages/home/Give'))
 const Messages = lazy(() => import('./pages/home/Messages'))
+const TalkToPPC = lazy(() => import('./pages/home/TalkToPPC'))
 const TrainingsIndex = lazy(() => import('./pages/trainings/Index'))
 const LFC = lazy(() => import('./pages/trainings/LFC'))
 const LDC = lazy(() => import('./pages/trainings/LDC'))
@@ -48,6 +49,20 @@ export const routes = [
     path: '/give',
     element: <Give />,
     name: 'Give',
+    showInNav: true,
+    showInFooter: true,
+  },
+  {
+    path: '/talk-2-ppc',
+    element: <TalkToPPC />,
+    name: 'Talk 2 PPC',
+    showInNav: true,
+    showInFooter: true,
+  },
+  {
+    path: '/talk-2-ppc',
+    element: <TalkToPPC />,
+    name: 'Talk 2 PPC',
     showInNav: true,
     showInFooter: true,
   },

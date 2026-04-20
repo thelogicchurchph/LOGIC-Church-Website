@@ -18,6 +18,7 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
     { name: 'Event', href: '/events' },
     { name: 'Sermons', href: '/messages' },
+    { name: 'Talk 2 PPC', href: '/talk-2-ppc' },
     { name: 'Give', href: '/give' },
     { 
       name: 'Training', 

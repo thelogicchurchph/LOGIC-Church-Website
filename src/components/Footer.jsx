@@ -26,6 +26,8 @@ export default function Footer() {
   const quickLinks = [
     { name: 'About Us', href: '/about' },
     { name: 'Events', href: '/events' },
+    { name: 'Talk 2 PPC', href: '/talk-2-ppc' },
+    { name: 'Contact Us', href: '/contact' },
     { name: 'Forum', href: '/forum' }
   ]
 
