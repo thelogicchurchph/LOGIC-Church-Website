@@ -219,7 +219,7 @@ export default function About() {
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-5">
                 <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm">
-                  <img src="/assets/DSC_9940.jpeg" alt="Apostle Flourish Peters" className="w-full h-full object-cover object-top aspect-[4/3]" />
+                  <img src="/assets/oCLMlBmR_400x400.jpg" alt="Apostle Flourish Peters" className="w-full h-full object-cover object-top aspect-[4/3]" />
                 </div>
               </div>
               <div className="md:col-span-7">
@@ -244,7 +244,7 @@ export default function About() {
                         <div className="flex items-center gap-4 border-b border-gray-200 pb-4">
                           <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-red-600">
                             <img
-                              src="/assets/DSC_9940.jpeg"
+                              src="/assets/oCLMlBmR_400x400.jpg"
                               alt="Apostle Flourish Peters"
                               className="h-full w-full object-cover"
                             />

@@ -36,7 +36,7 @@ export default function TalkToPPC() {
       <section className="relative overflow-hidden min-h-[60vh] md:min-h-[80vh]">
         <div className="absolute inset-0">
           <img
-            src="/assets/DSC_7829.jpeg"
+            src="/images/DSC_1869.jpg"
             alt="Pastor Paul Chisom"
             className="h-full w-full object-cover object-top"
           />

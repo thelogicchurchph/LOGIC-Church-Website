@@ -16,7 +16,7 @@ const heroData = [
     desc: "Here we preach the love of God for Us alone"
   },
   {
-    image: '/images/DSC_7881.jpeg',
+    image: '/images/DSC_7881.jpg',
      title: "Worship in Spirit and Truth",
     desc: "Come as you are and experience the transforming power of worship"
   },

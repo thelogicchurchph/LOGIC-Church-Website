@@ -18,7 +18,6 @@ export default function Navbar() {
     { name: 'About', href: '/about' },
     { name: 'Event', href: '/events' },
     { name: 'Sermons', href: '/messages' },
-    { name: 'Talk 2 PPC', href: '/talk-2-ppc' },
     { name: 'Give', href: '/give' },
     { 
       name: 'Training', 
@@ -27,7 +26,8 @@ export default function Navbar() {
         { name: 'LOGIC Foundation class', href: '/trainings/lfc' },
         { name: 'LOGIC Discipleship class', href: '/trainings/ldc' },
       ]
-    }
+    },
+    { name: 'Talk 2 PPC', href: '/talk-2-ppc' },
   ];
 
   const toggleMobileMenu = () => {
