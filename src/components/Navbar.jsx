@@ -20,7 +20,7 @@ export default function Navbar() {
     { name: 'Sermons', href: '/messages' },
     { name: 'Give', href: '/give' },
     { 
-      name: 'Training', 
+      name: 'Discipleship', 
       href: '/trainings',
       dropdown: [
         { name: 'LOGIC Foundation class', href: '/trainings/lfc' },
@@ -47,7 +47,7 @@ export default function Navbar() {
   useEffect(() => {
     const path = location.pathname;
     if (path.startsWith('/trainings')) {
-      setActiveLink('Training');
+      setActiveLink('Discipleship');
     } else {
       const currentLink = navLinks.find(link => link.href === path);
       if (currentLink) {
@@ -88,7 +88,7 @@ export default function Navbar() {
               className="relative"
               onMouseEnter={() => link.dropdown && setIsTrainingDropdownOpen(true)}
               onMouseLeave={() => link.dropdown && setIsTrainingDropdownOpen(false)}
-              data-active={activeLink === link.name || (link.name === 'Training' && window.location.pathname.startsWith('/trainings'))}
+              data-active={activeLink === link.name || (link.name === 'Discipleship' && window.location.pathname.startsWith('/trainings'))}
             >
               {link.dropdown ? (
                 <div className="relative">
@@ -101,7 +101,7 @@ export default function Navbar() {
                     {link.name}
                     <ExpandMore className="text-sm" />
                     <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-red transition-all duration-300 ${
-                      activeLink === link.name || (link.name === 'Training' && window.location.pathname.startsWith('/trainings')) ? 'w-full' : 'w-0'
+                      activeLink === link.name || (link.name === 'Discipleship' && window.location.pathname.startsWith('/trainings')) ? 'w-full' : 'w-0'
                     }`}></span>
                   </button>
                   {isTrainingDropdownOpen && (
@@ -176,7 +176,7 @@ export default function Navbar() {
                       <button
                         onClick={toggleTrainingDropdown}
                         className={`flex items-center justify-between w-full px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 ${
-                          activeLink === link.name || (link.name === 'Training' && location.pathname.startsWith('/trainings'))
+                          activeLink === link.name || (link.name === 'Discipleship' && location.pathname.startsWith('/trainings'))
                             ? 'border border-red-500 backdrop-blur-sm bg-white/10' 
                             : 'hover:backdrop-blur-sm hover:bg-white/10'
                         }`}

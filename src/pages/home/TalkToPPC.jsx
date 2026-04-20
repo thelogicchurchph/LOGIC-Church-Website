@@ -38,7 +38,7 @@ export default function TalkToPPC() {
           <img
             src="/images/DSC_1869.jpg"
             alt="Pastor Paul Chisom"
-            className="h-full w-full object-cover object-top"
+            className="h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/50" />
         </div>
