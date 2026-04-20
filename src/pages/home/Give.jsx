@@ -13,7 +13,7 @@ const accounts = [
   {
     id: 'projects',
     label: 'Projects',
-    number: '1307061189',
+    number: '1307317554',
     name: 'THE LOGIC CHURCH PORT HARCOURT',
     bank: 'Providus Bank',
   },
