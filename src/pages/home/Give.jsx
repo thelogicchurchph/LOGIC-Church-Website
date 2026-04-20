@@ -38,19 +38,19 @@ export default function Give() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Payment gateway integration placeholder
     alert('Payment gateway coming soon! Please use bank transfer for now.')
   }
 
   return (
     <main className="min-h-screen bg-white text-gray-900">
-      {/* Hero */}
+
+      {/* ── Hero ─────────────────────────────────────────── */}
       <section className="relative overflow-hidden min-h-[70vh] md:min-h-screen">
         <div className="absolute inset-0">
           <img
             src="/assets/DSC_7829.jpeg"
             alt="Worship at LOGIC Church Port Harcourt"
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-cover object-top"
           />
           <div className="absolute inset-0 bg-black/55" />
         </div>
@@ -77,29 +77,7 @@ export default function Give() {
         </div>
       </section>
 
-      {/* Hilarious Generosity Write-up */}
-      <section className="bg-neutral-100 py-20">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">The Joy of Generous Giving</h2>
-          <div className="mt-2 mx-auto h-1 w-16 rounded bg-red-600"></div>
-          <div className="mt-8 space-y-5 text-gray-700 leading-relaxed text-base sm:text-lg">
-            <p>
-              At The LOGIC Church Port Harcourt, we believe that <strong>giving is not a duty — it is a delight</strong>. The scripture says, <em>"God loves a cheerful giver"</em> (2 Corinthians 9:7). The word "cheerful" in the original Greek is <strong>hilaros</strong> — which literally means hilarious. God loves a hilarious giver!
-            </p>
-            <p>
-              Giving is one of the most powerful expressions of love. When you give, you are not just supporting a programme — you are partnering with the gospel. You are funding a seat in the room where someone&apos;s life changes forever. You are planting a seed into the ministry that has planted into your own life.
-            </p>
-            <p>
-              Our culture at LOGIC is <strong>Love. Life. Impact.</strong> — and your generosity makes all three possible. Thank you for being a part of what God is doing here in Port Harcourt and beyond.
-            </p>
-            <p className="text-red-600 font-semibold text-xl italic">
-              &ldquo;The Gospel thrives on our generosity.&rdquo;
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Ways to Give */}
+      {/* ── Ways to Give ─────────────────────────────────── */}
       <section id="ways-to-give" className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -121,7 +99,7 @@ export default function Give() {
                 {accounts.map((account) => (
                   <div
                     key={account.id}
-                    className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5 flex items-center justify-between group hover:border-red-200 hover:shadow-md transition-all duration-200"
+                    className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5 flex items-center justify-between hover:border-red-200 hover:shadow-md transition-all duration-200"
                   >
                     <div>
                       <span className="inline-block text-xs font-bold uppercase tracking-wider text-red-600 mb-1 bg-red-50 px-2 py-0.5 rounded">
@@ -152,7 +130,7 @@ export default function Give() {
               </p>
             </div>
 
-            {/* RIGHT: Online Giving Form (Placeholder) */}
+            {/* RIGHT: Online Giving Form Placeholder */}
             <div>
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <span className="h-6 w-1 rounded bg-red-600 inline-block"></span>
@@ -197,8 +175,6 @@ export default function Give() {
                       className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent transition"
                     />
                   </div>
-
-                  {/* Giving Category */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">Reason for Giving</label>
                     <div className="flex flex-wrap gap-2">
@@ -218,14 +194,12 @@ export default function Give() {
                       ))}
                     </div>
                   </div>
-
                   <button
                     type="submit"
                     className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors duration-200 text-base shadow-sm"
                   >
                     Give Now →
                   </button>
-
                   <div className="flex items-center justify-center gap-3 pt-1">
                     <span className="text-xs text-gray-400">Coming soon:</span>
                     <span className="text-xs font-semibold text-gray-500">Paystack</span>
@@ -239,8 +213,30 @@ export default function Give() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-neutral-100 py-16">
+      {/* ── The Joy of Generous Giving ───────────────────── */}
+      <section className="bg-neutral-100 py-20">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">The Joy of Generous Giving</h2>
+          <div className="mt-2 mx-auto h-1 w-16 rounded bg-red-600"></div>
+          <div className="mt-8 space-y-5 text-gray-700 leading-relaxed text-base sm:text-lg">
+            <p>
+              At The LOGIC Church Port Harcourt, we believe that <strong>giving is not a duty — it is a delight</strong>. The scripture says, <em>&ldquo;God loves a cheerful giver&rdquo;</em> (2 Corinthians 9:7). The word &ldquo;cheerful&rdquo; in the original Greek is <strong>hilaros</strong> — which literally means hilarious. God loves a hilarious giver!
+            </p>
+            <p>
+              Giving is one of the most powerful expressions of love. When you give, you are not just supporting a programme — you are partnering with the gospel. You are funding a seat in the room where someone&apos;s life changes forever. You are planting a seed into the ministry that has planted into your own life.
+            </p>
+            <p>
+              Our culture at LOGIC is <strong>Love. Life. Impact.</strong> — and your generosity makes all three possible. Thank you for being a part of what God is doing here in Port Harcourt and beyond.
+            </p>
+            <p className="text-red-600 font-semibold text-xl italic">
+              &ldquo;The Gospel thrives on our generosity.&rdquo;
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── CTA ──────────────────────────────────────────── */}
+      <section className="bg-white py-16">
         <div className="mx-auto max-w-3xl px-4 text-center">
           <h3 className="text-xl font-bold text-gray-900">Have questions about giving?</h3>
           <p className="mt-3 text-gray-600">Feel free to reach out to us and we&apos;d be happy to help.</p>
@@ -252,6 +248,7 @@ export default function Give() {
           </a>
         </div>
       </section>
+
     </main>
   )
 }
