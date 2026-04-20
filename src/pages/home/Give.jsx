@@ -48,7 +48,7 @@ export default function Give() {
       <section className="relative overflow-hidden min-h-[70vh]">
         <div className="absolute inset-0">
           <img
-            src="/assets/DSC_1975.jpg"
+            src="/assets/DSC_7881.jpeg"
             alt="Worship at LOGIC Church Port Harcourt"
             className="h-full w-full object-cover object-top"
           />
@@ -78,7 +78,7 @@ export default function Give() {
       </section>
 
       {/* Hilarious Generosity Write-up */}
-      <section className="bg-gray-50 py-20">
+      <section className="bg-neutral-100 py-20">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">The Joy of Generous Giving</h2>
           <div className="mt-2 mx-auto h-1 w-16 rounded bg-red-600"></div>
@@ -240,7 +240,7 @@ export default function Give() {
       </section>
 
       {/* CTA */}
-      <section className="bg-gray-50 py-16">
+      <section className="bg-neutral-100 py-16">
         <div className="mx-auto max-w-3xl px-4 text-center">
           <h3 className="text-xl font-bold text-gray-900">Have questions about giving?</h3>
           <p className="mt-3 text-gray-600">Feel free to reach out to us and we&apos;d be happy to help.</p>
