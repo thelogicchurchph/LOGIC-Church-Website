@@ -7,6 +7,7 @@ const NotFound = lazy(() => import('./pages/NotFound'))
 const HomeIndex = lazy(() => import('./pages/home/Index'))
 const EventsHome = lazy(() => import('./pages/home/Event'))
 const About = lazy(() => import('./pages/home/About'))
+const Give = lazy(() => import('./pages/home/Give'))
 const Messages = lazy(() => import('./pages/home/Messages'))
 const TrainingsIndex = lazy(() => import('./pages/trainings/Index'))
 const LFC = lazy(() => import('./pages/trainings/LFC'))
@@ -40,6 +41,13 @@ export const routes = [
     path: '/about',
     element: <About />,
     name: 'About',
+    showInNav: true,
+    showInFooter: true,
+  },
+  {
+    path: '/give',
+    element: <Give />,
+    name: 'Give',
     showInNav: true,
     showInFooter: true,
   },

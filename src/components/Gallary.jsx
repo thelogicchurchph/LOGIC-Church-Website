@@ -75,10 +75,10 @@ const galleryImages = [
   { src: img6, alt: "Church gathering moment 3" },
   { src: img7, alt: "Prayer session" },
   { src: img8, alt: "Youth ministry" },
-    { src: img9, alt: "Church gathering moment 3" },
+  { src: img9, alt: "Church gathering moment 3" },
   { src: img10, alt: "Prayer session" },
   { src: img11, alt: "Youth ministry" },
-    { src: img12, alt: "Church gathering moment 3" },
+  { src: img12, alt: "Church gathering moment 3" },
   { src: img13, alt: "Prayer session" },
   { src: img14, alt: "Youth ministry" },
 
@@ -109,88 +109,88 @@ export default function Gallary() {
     <>
       {/* Inject custom styles */}
       <style>{customStyles}</style>
-      
+
       <section className="py-20 px-6 bg-gray-100">
         <div className="max-w-7xl mx-auto">
-        {/* Centered Title */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight animate__animated animate__fadeInUp text-gray-800">
-            <span className="bg-gradient-red bg-clip-text text-transparent">
-              GALLERY
-            </span>
-          </h2>
-        </div>
-
-        {/* Main Content - Text Left, Images Right */}
-        <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
-          {/* Description Text - Left Side */}
-          <div className="lg:w-1/2 flex items-center justify-center lg:justify-start">
-            <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 leading-relaxed animate__animated animate__fadeInUp animate__delay-1s text-center lg:text-left">
-              Feed your eyes with our amazing moments, with a smile face
-            </p>
+          {/* Centered Title */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight animate__animated animate__fadeInUp text-gray-800">
+              <span className="bg-gradient-red bg-clip-text text-transparent">
+                GALLERY
+              </span>
+            </h2>
           </div>
 
-          {/* Gallery Container - Right Side */}
-          <div className="lg:w-1/2 relative max-w-full">
-            {/* Overflow container to show stacked cards */}
-            <div className="relative w-full" style={{ paddingRight: '43px' }}>
-            {/* Custom Navigation Arrows */}
-            <div className="hidden md:block">
-              <button
-                onClick={() => swiper?.slidePrev()}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110"
-              >
-                <ChevronLeft className="text-gray-800 text-2xl" />
-              </button>
-              <button
-                onClick={() => swiper?.slideNext()}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110"
-              >
-                <ChevronRight className="text-gray-800 text-2xl" />
-              </button>
+          {/* Main Content - Text Left, Images Right */}
+          <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
+            {/* Description Text - Left Side */}
+            <div className="lg:w-1/2 flex items-center justify-center lg:justify-start">
+              <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 leading-relaxed animate__animated animate__fadeInUp animate__delay-1s text-center lg:text-left">
+                Feed your eyes with our amazing moments, with a smile face
+              </p>
             </div>
 
-            {/* Swiper Container with Stacked Cards Effect */}
-             <div className="w-full max-w-md h-90 md:h-80 lg:h-96" style={{ overflow: 'visible' }}>
-             <Swiper
-             effect="cards"
-             grabCursor={true}
-             modules={[EffectCards, Navigation, Pagination]}
-             className="w-full h-full swiper-cards-gallery"
-             onSwiper={setSwiper}
-             cardsEffect={{
-             perSlideOffset: 6,
-             perSlideRotate: 2,
-             rotate: true,
-             slideShadows: true,
-             }}
-             style={{
-             '--swiper-navigation-color': '#fff',
-             '--swiper-pagination-color': '#fff',
-             overflow: 'visible'
-            }}
-            >
-                {(images.length > 0 ? images : galleryImages).map((image, index) => (
-               <SwiperSlide key={index} className="rounded-2xl overflow-hidden shadow-2xl">
-               <div className="w-full h-full relative">
-               <img
-               src={image.image_url ? getAssetUrl(image.image_url) : image.src}
-             alt={image.alt || "Church gallery image"}
-             className="w-full h-full object-cover object-center"
-            />
-            </div>
-            </SwiperSlide>
-            ))}
-            </Swiper>
-            </div>
+            {/* Gallery Container - Right Side */}
+            <div className="lg:w-1/2 relative max-w-full">
+              {/* Overflow container to show stacked cards */}
+              <div className="relative w-full" style={{ paddingRight: '43px' }}>
+                {/* Custom Navigation Arrows */}
+                <div className="hidden md:block">
+                  <button
+                    onClick={() => swiper?.slidePrev()}
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110"
+                  >
+                    <ChevronLeft className="text-gray-800 text-2xl" />
+                  </button>
+                  <button
+                    onClick={() => swiper?.slideNext()}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 z-20 bg-white/90 backdrop-blur-sm p-3 rounded-full shadow-lg hover:bg-white transition-all duration-300 hover:scale-110"
+                  >
+                    <ChevronRight className="text-gray-800 text-2xl" />
+                  </button>
+                </div>
 
-              {/* Mobile Swipe Indicator */}
-              <div className="md:hidden text-center mt-4">
-                <p className="text-sm text-gray-500">Swipe to navigate</p>
+                {/* Swiper Container with Stacked Cards Effect */}
+                <div className="w-full max-w-md h-90 md:h-80 lg:h-96" style={{ overflow: 'visible' }}>
+                  <Swiper
+                    effect="cards"
+                    grabCursor={true}
+                    modules={[EffectCards, Navigation, Pagination]}
+                    className="w-full h-full swiper-cards-gallery"
+                    onSwiper={setSwiper}
+                    cardsEffect={{
+                      perSlideOffset: 6,
+                      perSlideRotate: 2,
+                      rotate: true,
+                      slideShadows: true,
+                    }}
+                    style={{
+                      '--swiper-navigation-color': '#fff',
+                      '--swiper-pagination-color': '#fff',
+                      overflow: 'visible'
+                    }}
+                  >
+                    {(images.length > 0 ? images : galleryImages).map((image, index) => (
+                      <SwiperSlide key={index} className="rounded-2xl overflow-hidden shadow-2xl">
+                        <div className="w-full h-full relative">
+                          <img
+                            src={image.image_url ? getAssetUrl(image.image_url) : image.src}
+                            alt={image.alt || "Church gallery image"}
+                            className="w-full h-full object-cover object-center"
+                          />
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+
+                {/* Mobile Swipe Indicator */}
+                <div className="md:hidden text-center mt-4">
+                  <p className="text-sm text-gray-500">Swipe to navigate</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </section>
     </>
