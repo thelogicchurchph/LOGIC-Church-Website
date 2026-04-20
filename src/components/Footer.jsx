@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { 
   LocationOn, 
@@ -50,11 +51,13 @@ export default function Footer() {
           <div className="space-y-4">
             {/* Logo */}
             <div className="mb-6">
-              <img 
-                src={logoImage} 
-                alt="LOGIC Church Logo" 
-                className="h-16 w-auto"
-              />
+              <Link to="/">
+                <img 
+                  src={logoImage} 
+                  alt="LOGIC Church Logo" 
+                  className="h-16 w-auto cursor-pointer"
+                />
+              </Link>
             </div>
             
             {/* Description */}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { Menu, Close, ExpandMore } from '@mui/icons-material';
 import logoImage from '/assets/image.webp';
 
@@ -73,11 +73,13 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <img 
-            src={logoImage} 
-            alt="LOGIC Church Logo" 
-            className="h-12 w-auto"
-          />
+          <Link to="/">
+            <img 
+              src={logoImage} 
+              alt="LOGIC Church Logo" 
+              className="h-12 w-auto cursor-pointer"
+            />
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
