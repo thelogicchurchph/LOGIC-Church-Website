@@ -45,12 +45,12 @@ export default function Give() {
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* Hero */}
-      <section className="relative overflow-hidden min-h-[70vh]">
+      <section className="relative overflow-hidden min-h-[70vh] md:min-h-screen">
         <div className="absolute inset-0">
           <img
-            src="/assets/DSC_7881.jpeg"
+            src="/assets/DSC_7829.jpeg"
             alt="Worship at LOGIC Church Port Harcourt"
-            className="h-full w-full object-cover object-top"
+            className="h-full w-full object-cover object-center"
           />
           <div className="absolute inset-0 bg-black/55" />
         </div>
