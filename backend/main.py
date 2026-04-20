@@ -150,7 +150,7 @@ def fmt_comment(c):
     return {
         "id": c.id,
         "body": c.body,
-        "createdAt": c.createdAt.isoformat() if c.createdAt else None,
+        "createdAt": c.created_at.isoformat() if c.created_at else None,
         "author": fmt_user(c.author),
         "parent_id": c.parent_id,
         "replies": [fmt_comment(r) for r in (c.replies or [])]

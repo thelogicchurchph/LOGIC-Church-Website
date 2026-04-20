@@ -37,7 +37,7 @@ class Comment(Base):
     __tablename__ = "comments"
     id = Column(Integer, primary_key=True, index=True)
     body = Column(Text, nullable=False)
-    createdAt = Column(DateTime, default=datetime.datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
     question_id = Column(Integer, ForeignKey("questions.id"))
     author_id = Column(Integer, ForeignKey("users.id"))
     parent_id = Column(Integer, ForeignKey("comments.id"), nullable=True)
