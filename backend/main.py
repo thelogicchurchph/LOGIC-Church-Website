@@ -7,6 +7,25 @@ from fastapi.security import OAuth2PasswordBearer
 import models, schemas, auth, database
 import os, shutil
 from datetime import timedelta
+import cloudinary
+import cloudinary.uploader
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Cloudinary Configuration
+cloudinary_url = os.getenv("CLOUDINARY_URL")
+if cloudinary_url:
+    # If using the single URL, the SDK handles it automatically via environment variable
+    # but we can also set it explicitly here for clarity
+    pass 
+else:
+    cloudinary.config(
+        cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+        api_key=os.getenv("CLOUDINARY_API_KEY"),
+        api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+        secure=True
+    )
 
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -243,6 +262,19 @@ def get_events(db: Session = Depends(database.get_db)):
 def create_event(event: schemas.EventCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     db_event = models.Event(**event.model_dump())
     db.add(db_event)
+    db.refresh(db_event)
+    return db_event
+
+@app.put("/events/{event_id}", response_model=schemas.EventResponse)
+def update_event(event_id: int, payload: schemas.EventUpdate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    db_event = db.query(models.Event).filter(models.Event.id == event_id).first()
+    if not db_event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    
+    update_data = payload.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_event, key, value)
+    
     db.commit()
     db.refresh(db_event)
     return db_event
@@ -260,7 +292,14 @@ def delete_event(event_id: int, db: Session = Depends(database.get_db), current_
 
 @app.get("/gallery", response_model=list[schemas.GalleryImageResponse])
 def get_gallery(db: Session = Depends(database.get_db)):
-    return db.query(models.GalleryImage).order_by(models.GalleryImage.created_at.desc()).all()
+    return db.query(models.GalleryImage).order_by(models.GalleryImage.order.asc(), models.GalleryImage.created_at.desc()).all()
+
+@app.post("/gallery/reorder")
+def reorder_gallery(payload: schemas.GalleryReorder, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    for index, image_id in enumerate(payload.image_ids):
+        db.query(models.GalleryImage).filter(models.GalleryImage.id == image_id).update({"order": index})
+    db.commit()
+    return {"message": "Gallery reordered successfully"}
 
 @app.post("/gallery/upload")
 def upload_gallery_image(payload: schemas.GalleryImageCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
@@ -283,17 +322,14 @@ def delete_gallery_image(image_id: int, db: Session = Depends(database.get_db), 
 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...), current_user: models.User = Depends(get_current_user)):
-    file_path = os.path.join(UPLOAD_DIR, file.filename)
-    
-    # Check if file exists and rename if necessary to avoid overwriting
-    base, extension = os.path.splitext(file.filename)
-    counter = 1
-    while os.path.exists(file_path):
-        file_path = os.path.join(UPLOAD_DIR, f"{base}_{counter}{extension}")
-        counter += 1
-        
-    with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-        
-    # Return the full path relative to the backend root
-    return {"url": f"/uploads/{os.path.basename(file_path)}"}
+    try:
+        # Upload to Cloudinary
+        result = cloudinary.uploader.upload(
+            file.file,
+            folder="logic_church",
+            use_filename=True,
+            unique_filename=True
+        )
+        return {"url": result.get("secure_url")}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

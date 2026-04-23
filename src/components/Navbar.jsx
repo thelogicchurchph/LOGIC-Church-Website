@@ -19,8 +19,8 @@ export default function Navbar() {
     { name: 'Event', href: '/events' },
     { name: 'Sermons', href: '/messages' },
     { name: 'Give', href: '/give' },
-    { 
-      name: 'Discipleship', 
+    {
+      name: 'Discipleship',
       href: '/trainings',
       dropdown: [
         { name: 'LOGIC Foundation class', href: '/trainings/lfc' },
@@ -67,16 +67,15 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className={`z-50 w-full px-4 fixed py-4 transition-all duration-300 ${
-      isScrolled ? 'bg-black shadow-lg' : ''
-    }`}>
+    <nav className={`z-50 w-full px-4 fixed py-4 transition-all duration-300 ${isScrolled ? 'bg-black shadow-lg' : ''
+      }`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
         <div className="flex-shrink-0">
           <Link to="/">
-            <img 
-              src={logoImage} 
-              alt="LOGIC Church Logo" 
+            <img
+              src={logoImage}
+              alt="LOGIC Church Logo"
               className="h-12 w-auto cursor-pointer"
             />
           </Link>
@@ -96,15 +95,13 @@ export default function Navbar() {
                 <div className="relative">
                   <button
                     onClick={() => { handleLinkClick(link.name); navigate(link.href); }}
-                    className={`relative flex items-center gap-1 px-4 py-2 font-medium transition-all duration-300 hover:scale-105 ${
-                      isScrolled ? 'text-white' : 'text-white'
-                    }`}
+                    className={`relative flex items-center gap-1 px-4 py-2 font-medium transition-all duration-300 hover:scale-105 ${isScrolled ? 'text-white' : 'text-white'
+                      }`}
                   >
                     {link.name}
                     <ExpandMore className="text-sm" />
-                    <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-red transition-all duration-300 ${
-                      activeLink === link.name || (link.name === 'Discipleship' && window.location.pathname.startsWith('/trainings')) ? 'w-full' : 'w-0'
-                    }`}></span>
+                    <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-red transition-all duration-300 ${activeLink === link.name || (link.name === 'Discipleship' && window.location.pathname.startsWith('/trainings')) ? 'w-full' : 'w-0'
+                      }`}></span>
                   </button>
                   {isTrainingDropdownOpen && (
                     <div className="absolute top-full left-0 pt-2 w-64">
@@ -114,8 +111,7 @@ export default function Navbar() {
                             key={item.name}
                             to={item.href}
                             className={({ isActive }) =>
-                              `block px-4 py-3 text-sm transition-colors duration-200 ${
-                                isActive ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-700 hover:bg-gray-50'
+                              `block px-4 py-3 text-sm transition-colors duration-200 ${isActive ? 'bg-gray-100 text-gray-900 font-semibold' : 'text-gray-700 hover:bg-gray-50'
                               }`
                             }
                             onClick={() => handleLinkClick(item.name)}
@@ -131,22 +127,20 @@ export default function Navbar() {
                 <NavLink
                   to={link.href}
                   onClick={() => handleLinkClick(link.name)}
-                  className={`relative px-4 py-2 font-medium transition-all duration-300 hover:scale-105 ${
-                    isScrolled ? 'text-white' : 'text-white'
-                  }`}
+                  className={`relative px-4 py-2 font-medium transition-all duration-300 hover:scale-105 ${isScrolled ? 'text-white' : 'text-white'
+                    }`}
                 >
                   {link.name}
-                  <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-red transition-all duration-300 ${
-                    activeLink === link.name ? 'w-full' : 'w-0'
-                  }`}></span>
+                  <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-red transition-all duration-300 ${activeLink === link.name ? 'w-full' : 'w-0'
+                    }`}></span>
                 </NavLink>
               )}
             </div>
           ))}
-          
+
           {/* Join Our Forum Button */}
-          <NavLink 
-            to="/forum" 
+          <NavLink
+            to="/forum"
             className="bg-gradient-red text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             Join Conversation
@@ -157,9 +151,8 @@ export default function Navbar() {
         <div className="lg:hidden">
           <button
             onClick={toggleMobileMenu}
-            className={`p-2 rounded-lg hover:backdrop-blur-sm hover:bg-white/10 transition-colors duration-200 ${
-              isScrolled ? 'text-white' : 'text-white'
-            }`}
+            className={`p-2 rounded-lg hover:backdrop-blur-sm hover:bg-white/10 transition-colors duration-200 ${isScrolled ? 'text-white' : 'text-white'
+              }`}
           >
             {isMobileMenuOpen ? <Close className="text-2xl" /> : <Menu className="text-2xl" />}
           </button>
@@ -177,16 +170,15 @@ export default function Navbar() {
                     <div>
                       <button
                         onClick={toggleTrainingDropdown}
-                        className={`flex items-center justify-between w-full px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 ${
-                          activeLink === link.name || (link.name === 'Discipleship' && location.pathname.startsWith('/trainings'))
-                            ? 'border border-red-500 backdrop-blur-sm bg-white/10' 
+                        className={`flex items-center justify-between w-full px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 ${activeLink === link.name || (link.name === 'Discipleship' && location.pathname.startsWith('/trainings'))
+                            ? 'border border-red-500 backdrop-blur-sm bg-white/10'
                             : 'hover:backdrop-blur-sm hover:bg-white/10'
-                        }`}
+                          }`}
                       >
                         {link.name}
                         <ExpandMore className={`text-sm transition-transform duration-200 ${isTrainingDropdownOpen ? 'rotate-180' : ''}`} />
                       </button>
-                      
+
                       {isTrainingDropdownOpen && (
                         <div className="mt-2 ml-4 space-y-2">
                           {link.dropdown.map((item) => (
@@ -194,8 +186,7 @@ export default function Navbar() {
                               key={item.name}
                               to={item.href}
                               className={({ isActive }) =>
-                                `block px-4 py-2 rounded-lg transition-colors duration-200 ${
-                                  isActive ? 'bg-white/20 text-white font-semibold' : 'text-white hover:bg-white/10'
+                                `block px-4 py-2 rounded-lg transition-colors duration-200 ${isActive ? 'bg-white/20 text-white font-semibold' : 'text-white hover:bg-white/10'
                                 }`
                               }
                               onClick={() => handleLinkClick(item.name)}
@@ -210,25 +201,24 @@ export default function Navbar() {
                     <NavLink
                       to={link.href}
                       onClick={() => handleLinkClick(link.name)}
-                      className={`block px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 ${
-                        activeLink === link.name 
-                          ? 'border border-red-500 backdrop-blur-sm bg-white/10' 
+                      className={`block px-4 py-3 rounded-lg text-white font-medium transition-all duration-300 ${activeLink === link.name
+                          ? 'border border-red-500 backdrop-blur-sm bg-white/10'
                           : 'hover:backdrop-blur-sm hover:bg-white/10'
-                      }`}
+                        }`}
                     >
                       {link.name}
                     </NavLink>
                   )}
                 </div>
               ))}
-              
 
-              <NavLink 
-                to="/forum" 
+
+              <NavLink
+                to="/forum"
                 className="block w-full text-center bg-gradient-red text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg mt-4"
                 onClick={() => handleLinkClick('Forum')}
               >
-                       Join Conversation
+                Join Conversation
               </NavLink>
             </div>
           </div>

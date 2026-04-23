@@ -45,6 +45,14 @@ class EventBase(BaseModel):
 class EventCreate(EventBase):
     pass
 
+class EventUpdate(BaseModel):
+    title: Optional[str] = None
+    date: Optional[str] = None
+    time: Optional[str] = None
+    venue: Optional[str] = None
+    recurring: Optional[str] = None
+    image_url: Optional[str] = None
+
 class EventResponse(EventBase):
     id: int
     
@@ -59,6 +67,10 @@ class GalleryImageCreate(GalleryImageBase):
 
 class GalleryImageResponse(GalleryImageBase):
     id: int
-
+    order: int
+    
     class Config:
         from_attributes = True
+
+class GalleryReorder(BaseModel):
+    image_ids: list[int]

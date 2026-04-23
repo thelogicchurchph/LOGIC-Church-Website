@@ -1,7 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import api, { getAssetUrl } from '../../api/axios';
-import { toast } from 'sonner';
-import { Delete } from '@mui/icons-material';
+import { Delete, ArrowBack, ArrowForward } from '@mui/icons-material';
 
 const Gallery = () => {
   const [images, setImages] = useState([]);
@@ -17,7 +14,8 @@ const Gallery = () => {
     try {
       setLoading(true);
       const data = await api.get('/gallery');
-      setImages(data);
+      // Sort by order initially just in case backend didn't
+      setImages(data.sort((a, b) => a.order - b.order));
     } catch (error) {
       console.error('Error fetching gallery:', error);
       toast.error('Failed to load gallery images');
@@ -25,6 +23,33 @@ const Gallery = () => {
       setLoading(false);
     }
   };
+
+  const handleMove = async (index, direction) => {
+    const newImages = [...images];
+    const newIndex = direction === 'left' ? index - 1 : index + 1;
+    
+    if (newIndex < 0 || newIndex >= images.length) return;
+    
+    // Swap
+    [newImages[index], newImages[newIndex]] = [newImages[newIndex], newImages[index]];
+    
+    setImages(newImages);
+    
+    try {
+      await api.post('/gallery/reorder', {
+        image_ids: newImages.map(img => img.id)
+      });
+      toast.success('Order updated');
+    } catch (error) {
+      console.error('Error reordering gallery:', error);
+      toast.error('Failed to save new order');
+    }
+  };
+
+  // Handle file selection
+  // ... rest of the code updated below in the full component logic ...
+  
+  // (I'll do a full replace of the component for clarity)
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -149,17 +174,35 @@ const Gallery = () => {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {images.map((img) => (
+            {images.map((img, index) => (
               <div
                 key={img.id}
                 className="bg-gray-800 aspect-square rounded-lg overflow-hidden group relative animate__animated animate__fadeIn"
               >
                 <img 
-                  src={getAssetUrl(img.image_url)} 
+                  src={img.image_url.startsWith('http') ? img.image_url : getAssetUrl(img.image_url)} 
                   alt="Gallery" 
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 backdrop-blur-[2px]">
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2 backdrop-blur-[2px]">
+                   <div className="flex gap-2 mb-2">
+                     <button 
+                       onClick={() => handleMove(index, 'left')}
+                       disabled={index === 0}
+                       className="p-1.5 bg-white/10 hover:bg-white/20 rounded-lg disabled:opacity-30 transition-colors"
+                       title="Move Left"
+                     >
+                       <ArrowBack fontSize="small" />
+                     </button>
+                     <button 
+                       onClick={() => handleMove(index, 'right')}
+                       disabled={index === images.length - 1}
+                       className="p-1.5 bg-white/10 hover:bg-white/20 rounded-lg disabled:opacity-30 transition-colors"
+                       title="Move Right"
+                     >
+                       <ArrowForward fontSize="small" />
+                     </button>
+                   </div>
                    <button 
                      onClick={() => handleDelete(img.id)}
                      className="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all transform hover:scale-110 flex items-center gap-1 shadow-lg"

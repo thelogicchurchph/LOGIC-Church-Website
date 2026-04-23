@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EventCard from '../../components/EventCard';
 import CreateEventModal from './CreateEventModal';
+import EditEventModal from './EditEventModal';
 import api, { getAssetUrl } from '../../api/axios';
 import { toast } from 'sonner';
 
@@ -46,7 +47,6 @@ const EventSetting = () => {
     try {
       let imageUrl = "/assets/default-event.jpg";
       
-      // If there's an image, upload it to the backend first
       if (newEvent.image) {
         const formData = new FormData();
         formData.append('file', newEvent.image);
@@ -73,6 +73,42 @@ const EventSetting = () => {
     }
   };
 
+  const [editingEvent, setEditingEvent] = useState(null);
+
+  const handleUpdateEvent = async (eventId, updatedData) => {
+    try {
+      let imageUrl = updatedData.image_url;
+      
+      if (updatedData.image) {
+        const formData = new FormData();
+        formData.append('file', updatedData.image);
+        
+        const uploadResponse = await api.post('/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        imageUrl = uploadResponse.url;
+      }
+      
+      const payload = {
+        title: updatedData.title,
+        date: updatedData.date,
+        time: updatedData.time,
+        venue: updatedData.venue,
+        recurring: updatedData.recurring,
+        image_url: imageUrl
+      };
+      
+      const response = await api.put(`/events/${eventId}`, payload);
+      setEvents(events.map(e => e.id === eventId ? response : e));
+      toast.success('Event updated successfully');
+    } catch (error) {
+      console.error('Error updating event:', error);
+      toast.error('Failed to update event');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white p-8">
       <h1 className="text-3xl font-bold text-white mb-4">Event Settings</h1>
@@ -93,6 +129,7 @@ const EventSetting = () => {
               time={event.time}
               venue={event.venue}
               onDelete={() => handleDeleteEvent(event.id)}
+              onEdit={() => setEditingEvent(event)}
             />
           ))}
           {events.length === 0 && (
@@ -113,6 +150,15 @@ const EventSetting = () => {
         onClose={closeModal}
         onCreate={handleCreateEvent}
       />
+
+      {editingEvent && (
+        <EditEventModal
+          event={editingEvent}
+          isOpen={!!editingEvent}
+          onClose={() => setEditingEvent(null)}
+          onUpdate={handleUpdateEvent}
+        />
+      )}
     </div>
   );
 };

@@ -1,13 +1,14 @@
-import React from 'react';
-import { CalendarToday, AccessTime, LocationOn, Delete } from '@mui/icons-material';
+import { CalendarToday, AccessTime, LocationOn, Delete, Edit } from '@mui/icons-material';
 
-const EventCard = ({ image, title, date, time, venue, onDelete }) => {
+const EventCard = ({ image, title, date, time, venue, onDelete, onEdit }) => {
+  const imageUrl = image?.startsWith('http') ? image : `http://localhost:8000${image}`;
+
   return (
-    <div className="group bg-gray-800/50 backdrop-blur-sm rounded-3xl overflow-hidden border border-gray-700/50 hover:border-gray-600 transition-all duration-500 hover:shadow-2xl hover:shadow-white/10 animate__animated animate__fadeInUp">
+    <div className="group bg-gray-800/50 backdrop-blur-sm rounded-3xl overflow-hidden border border-gray-700/50 hover:border-gray-600 transition-all duration-500 hover:shadow-2xl hover:shadow-white/10 animate__animated animate__fadeInUp relative">
       {/* Image Container */}
       <div className="relative overflow-hidden h-64">
         <img
-          src={image.startsWith('http') || image.startsWith('data:') ? image : `http://localhost:8000${image}`}
+          src={imageUrl}
           alt={title}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
         />
@@ -21,19 +22,33 @@ const EventCard = ({ image, title, date, time, venue, onDelete }) => {
           {title}
         </h3>
 
-        {/* Delete Button (Admin Only) */}
-        {onDelete && (
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-            className="absolute top-6 right-6 p-2 bg-red-600/20 hover:bg-red-600/80 text-red-500 hover:text-white rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-md border border-red-600/30"
-            title="Delete Event"
-          >
-            <Delete className="text-xl" />
-          </button>
-        )}
+        {/* Action Buttons (Admin Only) */}
+        <div className="absolute top-6 right-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {onEdit && (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit();
+              }}
+              className="p-2 bg-blue-600/20 hover:bg-blue-600/80 text-blue-400 hover:text-white rounded-full transition-all duration-300 backdrop-blur-md border border-blue-600/30"
+              title="Edit Event"
+            >
+              <Edit className="text-xl" />
+            </button>
+          )}
+          {onDelete && (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete();
+              }}
+              className="p-2 bg-red-600/20 hover:bg-red-600/80 text-red-500 hover:text-white rounded-full transition-all duration-300 backdrop-blur-md border border-red-600/30"
+              title="Delete Event"
+            >
+              <Delete className="text-xl" />
+            </button>
+          )}
+        </div>
 
         {/* Event Details */}
         <div className="space-y-4">
