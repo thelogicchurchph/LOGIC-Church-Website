@@ -29,6 +29,14 @@ else:
 
 models.Base.metadata.create_all(bind=database.engine)
 
+# Database schema patch: ensure 'order' column exists in gallery_images
+try:
+    with database.engine.begin() as conn:
+        conn.execute(text('ALTER TABLE gallery_images ADD COLUMN "order" INTEGER DEFAULT 0'))
+except Exception:
+    # Column already exists or table doesn't exist
+    pass
+
 app = FastAPI(title="Logic Church API")
 
 app.add_middleware(
