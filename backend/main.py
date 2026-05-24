@@ -37,6 +37,15 @@ except Exception:
     # Column already exists or table doesn't exist
     pass
 
+# Database schema patch: ensure 'createdAt' is renamed to 'created_at' for comments
+try:
+    with database.engine.begin() as conn:
+        # This resolves an issue where the postgres database had a legacy column name
+        conn.execute(text('ALTER TABLE comments RENAME COLUMN "createdAt" TO created_at'))
+except Exception:
+    # Column already renamed or doesn't exist
+    pass
+
 app = FastAPI(title="Logic Church API")
 
 app.add_middleware(
