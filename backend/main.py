@@ -225,6 +225,26 @@ def create_question(payload: schemas.QuestionCreate, db: Session = Depends(datab
     db.refresh(q)
     return {"question": fmt_question(q, current_user=current_user)}
 
+@app.put("/questions/{question_id}")
+def update_question(question_id: int, payload: schemas.QuestionUpdate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    q = db.query(models.Question).filter(models.Question.id == question_id).first()
+    if not q:
+        raise HTTPException(status_code=404, detail="Question not found")
+        
+    if q.author_id != current_user.id and current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to edit this question")
+        
+    if payload.title is not None:
+        q.title = payload.title
+    if payload.body is not None:
+        q.body = payload.body
+    if payload.category is not None:
+        q.category = payload.category
+        
+    db.commit()
+    db.refresh(q)
+    return {"question": fmt_question(q, current_user=current_user, full=True)}
+
 @app.get("/questions/{question_id}")
 def get_question(question_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     q = db.query(models.Question).filter(models.Question.id == question_id).first()
@@ -275,9 +295,52 @@ def delete_question(question_id: int, db: Session = Depends(database.get_db), cu
     if q.author_id != current_user.id and current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Not authorized to delete this question")
         
+    # Manually delete all comments for this question to avoid constraint errors
+    for c in db.query(models.Comment).filter(models.Comment.question_id == question_id).all():
+        db.delete(c)
+        
     db.delete(q)
     db.commit()
     return {"message": "Question deleted successfully"}
+
+@app.put("/comments/{comment_id}")
+def update_comment(comment_id: int, payload: schemas.CommentUpdate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    c = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
+    if not c:
+        raise HTTPException(status_code=404, detail="Comment not found")
+        
+    if c.author_id != current_user.id and current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to edit this comment")
+        
+    c.body = payload.body
+    db.commit()
+    db.refresh(c)
+    
+    # Return the updated question
+    q = db.query(models.Question).filter(models.Question.id == c.question_id).first()
+    return {"question": fmt_question(q, current_user=current_user, full=True)}
+
+def recursive_delete_comment(db, comment):
+    for reply in comment.replies:
+        recursive_delete_comment(db, reply)
+    db.delete(comment)
+
+@app.delete("/comments/{comment_id}")
+def delete_comment(comment_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    c = db.query(models.Comment).filter(models.Comment.id == comment_id).first()
+    if not c:
+        raise HTTPException(status_code=404, detail="Comment not found")
+        
+    if c.author_id != current_user.id and current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to delete this comment")
+        
+    question_id = c.question_id
+    recursive_delete_comment(db, c)
+    db.commit()
+    
+    # Return the updated question
+    q = db.query(models.Question).filter(models.Question.id == question_id).first()
+    return {"question": fmt_question(q, current_user=current_user, full=True)}
 
 # ── Events ──────────────────────────────────────────────────────────────────
 

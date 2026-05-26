@@ -10,6 +10,7 @@ import ForumSidebar from './components/ForumSidebar';
 import ThreadFeed from './components/ThreadFeed';
 import ThreadDetail from './components/ThreadDetail';
 import CreateThreadModal from './components/CreateThreadModal';
+import DeleteConfirmModal from './components/DeleteConfirmModal';
 import { SIDEBAR_CATEGORIES } from './constants';
 
 export default function Forum() {
@@ -28,7 +29,13 @@ export default function Forum() {
   const [replyTo, setReplyTo] = useState(null);
   
   const [showNewQuestionForm, setShowNewQuestionForm] = useState(false);
-  const [loading, setLoading] = useState({ page: false, submitQuestion: false, submitAnswer: false, amen: false });
+  const [isEditingThread, setIsEditingThread] = useState(false);
+  const [editThreadId, setEditThreadId] = useState(null);
+  
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  
+  const [loading, setLoading] = useState({ page: false, submitQuestion: false, submitAnswer: false, amen: false, delete: false });
   const [loadingAmenId, setLoadingAmenId] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -88,23 +95,44 @@ export default function Forum() {
     setLoading(prev => ({ ...prev, submitQuestion: true }));
     setError(null);
     try {
-      const response = await api.post('/questions', {
-        title: newQuestionTitle,
-        body: newQuestionBody,
-        category: newQuestionCategory
-      });
-      const newQuestion = response.question || response;
-      setQuestions(prev => [{ ...newQuestion, id: newQuestion.id || newQuestion._id }, ...prev]);
-      setShowNewQuestionForm(false);
-      setNewQuestionTitle('');
-      setNewQuestionBody('');
-      setNewQuestionCategory('General');
-      toast.success('Conversation started!');
+      if (isEditingThread) {
+        const response = await api.put(`/questions/${editThreadId}`, {
+          title: newQuestionTitle,
+          body: newQuestionBody,
+          category: newQuestionCategory
+        });
+        const updatedQuestion = response.question;
+        setQuestions(prev => prev.map(q => q.id === editThreadId ? updatedQuestion : q));
+        if (selectedQuestion?.id === editThreadId) {
+          setSelectedQuestion(updatedQuestion);
+        }
+        toast.success('Post updated!');
+      } else {
+        const response = await api.post('/questions', {
+          title: newQuestionTitle,
+          body: newQuestionBody,
+          category: newQuestionCategory
+        });
+        const newQuestion = response.question || response;
+        setQuestions(prev => [{ ...newQuestion, id: newQuestion.id || newQuestion._id }, ...prev]);
+        toast.success('Conversation started!');
+      }
+      closeThreadModal();
     } catch (err) {
       setError(err.response?.data?.error || err.message);
     } finally {
       setLoading(prev => ({ ...prev, submitQuestion: false }));
     }
+  };
+
+  const closeThreadModal = () => {
+    setShowNewQuestionForm(false);
+    setIsEditingThread(false);
+    setEditThreadId(null);
+    setNewQuestionTitle('');
+    setNewQuestionBody('');
+    setNewQuestionCategory('General');
+    setError(null);
   };
 
   const handleSubmitAnswer = async (e) => {
@@ -177,6 +205,68 @@ export default function Forum() {
     }
   };
 
+  const handleEditPostClick = (post) => {
+    setNewQuestionTitle(post.title);
+    setNewQuestionBody(post.body || '');
+    setNewQuestionCategory(post.category || 'General');
+    setEditThreadId(post.id);
+    setIsEditingThread(true);
+    setShowNewQuestionForm(true);
+  };
+
+  const handleDeletePostClick = (post) => {
+    setDeleteTarget({ type: 'post', item: post });
+    setDeleteModalOpen(true);
+  };
+
+  const handleEditComment = async (comment, newBody) => {
+    try {
+      const response = await api.put(`/comments/${comment.id}`, { body: newBody });
+      const updatedQuestion = response.question;
+      setQuestions(prev => prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
+      if (selectedQuestion?.id === updatedQuestion.id) {
+        setSelectedQuestion(updatedQuestion);
+      }
+      toast.success('Comment updated');
+    } catch (err) {
+      toast.error('Failed to update comment');
+      throw err;
+    }
+  };
+
+  const handleDeleteCommentClick = (comment) => {
+    setDeleteTarget({ type: 'comment', item: comment });
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    setLoading(prev => ({ ...prev, delete: true }));
+    try {
+      if (deleteTarget.type === 'post') {
+        await api.delete(`/questions/${deleteTarget.item.id}`);
+        setQuestions(prev => prev.filter(q => q.id !== deleteTarget.item.id));
+        if (selectedQuestion?.id === deleteTarget.item.id) {
+          setSelectedQuestion(null);
+        }
+        toast.success('Post deleted');
+      } else if (deleteTarget.type === 'comment') {
+        const response = await api.delete(`/comments/${deleteTarget.item.id}`);
+        const updatedQuestion = response.question;
+        setQuestions(prev => prev.map(q => q.id === updatedQuestion.id ? updatedQuestion : q));
+        if (selectedQuestion?.id === updatedQuestion.id) {
+          setSelectedQuestion(updatedQuestion);
+        }
+        toast.success('Comment deleted');
+      }
+      setDeleteModalOpen(false);
+      setDeleteTarget(null);
+    } catch (err) {
+      toast.error(err.response?.data?.detail || 'Failed to delete');
+    } finally {
+      setLoading(prev => ({ ...prev, delete: false }));
+    }
+  };
+
   const formatTimestamp = (timestamp) => {
     if (!timestamp) return '';
     const date = new Date(timestamp);
@@ -244,6 +334,10 @@ export default function Forum() {
             loadingAnswer={loading.submitAnswer}
             onToggleAmen={handleToggleAmen}
             loadingAmen={loading.amen}
+            onEditPost={handleEditPostClick}
+            onDeletePost={handleDeletePostClick}
+            onEditComment={handleEditComment}
+            onDeleteComment={handleDeleteCommentClick}
           />
         ) : (
           <div className="animate__animated animate__fadeIn">
@@ -302,6 +396,9 @@ export default function Forum() {
                   formatTimestamp={formatTimestamp} 
                   onToggleAmen={handleToggleAmen}
                   loadingAmenId={loadingAmenId}
+                  user={user}
+                  onEdit={handleEditPostClick}
+                  onDelete={handleDeletePostClick}
                 />
               </div>
             </div>
@@ -310,7 +407,7 @@ export default function Forum() {
 
         {showNewQuestionForm && (
           <CreateThreadModal
-            onClose={() => setShowNewQuestionForm(false)}
+            onClose={closeThreadModal}
             onSubmit={handleSubmitQuestion}
             title={newQuestionTitle}
             setTitle={setNewQuestionTitle}
@@ -320,8 +417,18 @@ export default function Forum() {
             setCategory={setNewQuestionCategory}
             loading={loading.submitQuestion}
             error={error}
+            isEditing={isEditingThread}
           />
         )}
+        
+        <DeleteConfirmModal
+          isOpen={deleteModalOpen}
+          onClose={() => { setDeleteModalOpen(false); setDeleteTarget(null); }}
+          onConfirm={confirmDelete}
+          loading={loading.delete}
+          title={deleteTarget?.type === 'post' ? 'Delete Post' : 'Delete Comment'}
+          message={`Are you sure you want to delete this ${deleteTarget?.type}? This action cannot be undone.`}
+        />
       </main>
     </div>
   );

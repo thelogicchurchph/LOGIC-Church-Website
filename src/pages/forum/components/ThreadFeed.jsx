@@ -3,7 +3,9 @@ import { AccountCircle, Schedule, ArrowBack, Favorite } from '@mui/icons-materia
 import { CATEGORY_COLORS } from '../constants';
 
 
-export default function ThreadFeed({ questions, onSelectQuestion, formatTimestamp, onToggleAmen, loadingAmenId }) {
+import { Edit, DeleteOutline } from '@mui/icons-material';
+
+export default function ThreadFeed({ questions, onSelectQuestion, formatTimestamp, onToggleAmen, loadingAmenId, user, onEdit, onDelete }) {
   if (questions.length === 0) {
     return (
       <div className="py-20 text-center bg-white/5 rounded-[2rem] border border-dashed border-white/10">
@@ -30,11 +32,11 @@ export default function ThreadFeed({ questions, onSelectQuestion, formatTimestam
           <div 
             key={question.id}
             onClick={() => onSelectQuestion(question)}
-            className="group bg-[#0f0f0f] border border-white/5 rounded-2xl p-4 sm:p-5 hover:bg-white/5 transition-all duration-300 cursor-pointer relative ring-1 ring-white/5 hover:ring-white/10"
+            className="group bg-transparent border-b border-white/5 last:border-0 p-5 sm:p-6 hover:bg-white/[0.02] transition-all duration-300 cursor-pointer relative"
           >
-            <div className="flex items-start gap-3 sm:gap-4">
-              <div className="hidden sm:flex flex-col items-center justify-center gap-1 w-12 flex-shrink-0">
-                 <div className="h-10 w-10 rounded-xl bg-[#1a1a1a] border border-white/5 flex flex-col items-center justify-center group-hover:bg-[#222] transition-colors">
+            <div className="flex items-start gap-4 sm:gap-5">
+              <div className="hidden sm:flex flex-col items-center justify-center gap-1 w-12 flex-shrink-0 pt-1">
+                 <div className="h-10 w-10 rounded-full bg-white/5 flex flex-col items-center justify-center group-hover:bg-white/10 transition-colors">
                     <span className="text-xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-400 leading-none">
                      {question.comments?.length || 0}
                     </span>
@@ -57,32 +59,45 @@ export default function ThreadFeed({ questions, onSelectQuestion, formatTimestam
                   </button>
                 </div>
 
-                <h3 className="text-lg font-bold text-gray-100 group-hover:text-red-400 transition-colors mb-2">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-100 group-hover:text-red-400 transition-colors mb-2 leading-tight">
                   {question.title}
                 </h3>
                 
                 {question.body && (
-                  <p className="text-gray-400 text-sm line-clamp-2 mb-4 leading-relaxed">
+                  <p className="text-gray-400 text-sm sm:text-base line-clamp-2 mb-4 leading-relaxed font-normal">
                     {question.body}
                   </p>
                 )}
                 
-                <div className="flex items-center flex-wrap gap-4 text-xs text-gray-500">
-                   <span className="flex items-center gap-1.5 bg-black/30 px-2 py-1 rounded-lg ring-1 ring-white/5">
-                     <div className="h-5 w-5 bg-gradient-red rounded-md text-[9px] flex items-center justify-center text-white font-bold">
-                       {getInitials(question.author?.firstName, question.author?.lastName)}
-                     </div>
-                     <span className="font-semibold text-gray-300 text-sm">{question.author?.firstName} {question.author?.lastName}</span>
-                   </span>
-                   <span className="flex items-center gap-1 opacity-60">
-                     <Schedule className="text-[14px]" />
-                     {formatTimestamp(question.createdAt)}
-                   </span>
+                <div className="flex items-center justify-between mt-4">
+                  <div className="flex items-center flex-wrap gap-3 text-xs sm:text-sm text-gray-500">
+                     <span className="font-semibold text-gray-300">{question.author?.firstName} {question.author?.lastName}</span>
+                     <span className="opacity-40">•</span>
+                     <span className="opacity-60">
+                       {formatTimestamp(question.createdAt)}
+                     </span>
+                  </div>
+                  
+                  {user?.id === question.author?.id && (
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); onEdit(question); }}
+                        className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                        title="Edit Post"
+                      >
+                        <Edit className="text-[18px]" />
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); onDelete(question); }}
+                        className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                        title="Delete Post"
+                      >
+                        <DeleteOutline className="text-[18px]" />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-            <div className="absolute right-8 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all">
-              <ArrowBack className="rotate-180 text-red-500" />
             </div>
           </div>
         );

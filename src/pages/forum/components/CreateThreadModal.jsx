@@ -7,7 +7,8 @@ export default function CreateThreadModal({
   title, setTitle, 
   body, setBody, 
   category, setCategory, 
-  loading, error 
+  loading, error,
+  isEditing = false
 }) {
   return (
     <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 p-4 animate__animated animate__fadeIn">
@@ -15,7 +16,7 @@ export default function CreateThreadModal({
          <div className="absolute top-0 left-0 w-full h-2 bg-gradient-red"></div>
          
          <div className="flex justify-between items-center mb-8">
-            <h3 className="text-3xl font-black text-white">Create Post</h3>
+            <h3 className="text-3xl font-black text-white">{isEditing ? 'Edit Post' : 'Create Post'}</h3>
             <button 
               onClick={onClose}
               className="h-10 w-10 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all shadow-inner"
@@ -90,7 +91,7 @@ export default function CreateThreadModal({
               >
                 {loading ? (
                     <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-                ) : 'Post'}
+                ) : (isEditing ? 'Save Changes' : 'Post')}
               </button>
             </div>
          </form>

@@ -1,7 +1,11 @@
-import React from 'react';
-import { ArrowBack, AccountCircle, Schedule, QuestionAnswer, Reply, SubdirectoryArrowRight, Favorite, Send, ForumRounded } from '@mui/icons-material';
+import React, { useState } from 'react';
+import { ArrowBack, AccountCircle, Schedule, QuestionAnswer, Reply, SubdirectoryArrowRight, Favorite, Send, ForumRounded, Edit, DeleteOutline, Check, Close as CloseIcon } from '@mui/icons-material';
+import { useAuth } from '../../../context/AdminAuthContext';
 
-const CommentItem = ({ comment, depth = 0, setReplyTo }) => {
+const CommentItem = ({ comment, depth = 0, setReplyTo, user, onEditComment, onDeleteComment }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editBody, setEditBody] = useState(comment.body);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const getInitials = (firstName, lastName) => {
     return `${(firstName || '').charAt(0)}${(lastName || '').charAt(0)}`.toUpperCase();
   };
@@ -30,18 +34,71 @@ const CommentItem = ({ comment, depth = 0, setReplyTo }) => {
               </div>
               <span className="text-[10px] text-gray-500 block">{formatTimestamp(comment.createdAt)}</span>
             </div>
-            <p className="text-gray-300 leading-relaxed text-sm md:text-base bg-[#151515] p-3 rounded-xl">
-              {comment.body}
-            </p>
-            <div className="mt-4 flex justify-end">
+            {isEditing ? (
+              <div className="mt-2">
+                <textarea
+                  value={editBody}
+                  onChange={(e) => setEditBody(e.target.value)}
+                  className="w-full bg-[#222] border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-1 focus:ring-red-500 text-white text-sm md:text-base resize-none"
+                  rows={3}
+                />
+                <div className="flex justify-end gap-2 mt-2">
+                  <button 
+                    onClick={() => { setIsEditing(false); setEditBody(comment.body); }}
+                    disabled={isSubmitting}
+                    className="p-1.5 text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
+                  >
+                    <CloseIcon className="text-[16px]" />
+                  </button>
+                  <button 
+                    onClick={async () => {
+                      setIsSubmitting(true);
+                      await onEditComment(comment, editBody);
+                      setIsSubmitting(false);
+                      setIsEditing(false);
+                    }}
+                    disabled={isSubmitting || !editBody.trim() || editBody === comment.body}
+                    className="p-1.5 text-white bg-green-600 hover:bg-green-500 rounded-lg transition-colors disabled:opacity-50"
+                  >
+                    {isSubmitting ? <div className="animate-spin h-4 w-4 border-2 border-white rounded-full border-t-transparent"></div> : <Check className="text-[16px]" />}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-gray-300 leading-relaxed text-sm md:text-base bg-transparent p-1 rounded-xl">
+                {comment.body}
+              </p>
+            )}
+            
+            <div className="mt-4 flex items-center justify-between">
+               <div className="flex gap-2">
+                 {user?.id === comment.author?.id && !isEditing && (
+                   <>
+                     <button 
+                       onClick={() => setIsEditing(true)}
+                       className="p-1.5 text-gray-500 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                       title="Edit Comment"
+                     >
+                       <Edit className="text-[14px]" />
+                     </button>
+                     <button 
+                       onClick={() => onDeleteComment(comment)}
+                       className="p-1.5 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                       title="Delete Comment"
+                     >
+                       <DeleteOutline className="text-[14px]" />
+                     </button>
+                   </>
+                 )}
+               </div>
                <button 
                   onClick={() => {
                     setReplyTo(comment);
                     document.getElementById('reply-form')?.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="px-4 py-2 rounded-lg bg-white/5 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white hover:bg-red-600/20 transition-all active:scale-95 ring-1 ring-white/5"
+                  className="px-3 py-1.5 rounded-lg bg-white/5 flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/10 transition-all active:scale-95"
                >
-                  <Reply className="text-[16px]" /> Reply here
+                  <Reply className="text-[14px]" /> Reply
                </button>
             </div>
           </div>
@@ -50,7 +107,7 @@ const CommentItem = ({ comment, depth = 0, setReplyTo }) => {
       {(comment.replies && comment.replies.length > 0) && (
         <div className="space-y-4">
           {comment.replies.map(reply => (
-            <CommentItem key={reply.id} comment={reply} depth={depth + 1} setReplyTo={setReplyTo} />
+            <CommentItem key={reply.id} comment={reply} depth={depth + 1} setReplyTo={setReplyTo} user={user} onEditComment={onEditComment} onDeleteComment={onDeleteComment} />
           ))}
         </div>
       )}
@@ -66,8 +123,14 @@ export default function ThreadDetail({
   newAnswer, setNewAnswer, 
   onSubmitAnswer, loadingAnswer,
   onToggleAmen,
-  loadingAmen
+  loadingAmen,
+  onEditPost,
+  onDeletePost,
+  onEditComment,
+  onDeleteComment
 }) {
+  const { user } = useAuth();
+  
   const getInitials = (firstName, lastName) => {
     return `${(firstName || '').charAt(0)}${(lastName || '').charAt(0)}`.toUpperCase();
   };
@@ -99,14 +162,33 @@ export default function ThreadDetail({
                   <Schedule className="text-[14px]" />
                   {formatTimestamp(question.createdAt)}
                 </span>
-                <span className="px-3 py-1 rounded-lg bg-red-600/20 text-red-400 font-bold ring-1 ring-red-500/30">
-                  {question.category || 'General'}
-                </span>
-              </div>
-           </div>
-        </div>
+                 <span className="px-3 py-1 rounded-lg bg-red-600/20 text-red-400 font-bold ring-1 ring-red-500/30">
+                   {question.category || 'General'}
+                 </span>
+               </div>
+            </div>
+            
+            {user?.id === question.author?.id && (
+               <div className="flex items-center gap-2 self-start mt-2 sm:mt-0">
+                 <button 
+                   onClick={() => onEditPost(question)}
+                   className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                   title="Edit Post"
+                 >
+                   <Edit className="text-[18px]" />
+                 </button>
+                 <button 
+                   onClick={() => onDeletePost(question)}
+                   className="p-2 text-gray-500 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-colors"
+                   title="Delete Post"
+                 >
+                   <DeleteOutline className="text-[18px]" />
+                 </button>
+               </div>
+            )}
+         </div>
 
-        {question.body && (
+         {question.body && (
           <div className="bg-[#151515] rounded-xl p-5 mb-6 text-gray-300 leading-relaxed text-base border-l-2 border-red-600">
             {question.body}
           </div>
@@ -134,8 +216,8 @@ export default function ThreadDetail({
           
           {question.comments?.length > 0 ? (
             <div className="space-y-6">
-              {question.comments.filter(c => !c.parent_id).map((comment) => (
-                <CommentItem key={comment.id} comment={comment} setReplyTo={setReplyTo} />
+              {question.comments.map((comment) => (
+                <CommentItem key={comment.id} comment={comment} setReplyTo={setReplyTo} user={user} onEditComment={onEditComment} onDeleteComment={onDeleteComment} />
               ))}
             </div>
           ) : (

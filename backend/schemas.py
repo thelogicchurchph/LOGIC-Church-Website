@@ -30,9 +30,19 @@ class QuestionCreate(BaseModel):
     body: Optional[str] = ""
     category: Optional[str] = "General"
 
+class QuestionUpdate(BaseModel):
+    title: Optional[str] = None
+    body: Optional[str] = None
+    category: Optional[str] = None
+
+
 class CommentCreate(BaseModel):
     body: str
     parent_id: Optional[int] = None
+
+class CommentUpdate(BaseModel):
+    body: str
+
 
 class EventBase(BaseModel):
     title: str
