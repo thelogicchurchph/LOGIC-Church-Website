@@ -4,6 +4,7 @@ import { routes } from './routes';
 import 'animate.css';
 import { Toaster } from 'sonner';
 import Proloader from './components/Proloader';
+import ErrorBoundary from './components/ErrorBoundary';
 // import { initializePreloading } from './utils/preloader';
 
 // Lazy load Layout component
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
         <Layout />
       </Suspense>
     ),
+    errorElement: <ErrorBoundary />,
     children: createRouteConfig(routes)
   }
 ]);
