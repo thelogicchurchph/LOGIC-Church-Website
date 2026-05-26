@@ -128,7 +128,7 @@ def register(user: schemas.UserCreate, db: Session = Depends(database.get_db)):
         name=user.name,
         email=user.email,
         hashed_password=hashed_password,
-        role=user.role
+        role="user"
     )
     db.add(db_user)
     db.commit()
@@ -157,8 +157,46 @@ def get_user_profile(current_user: models.User = Depends(get_current_user)):
 
 @app.get("/users", response_model=list[schemas.UserResponse])
 def get_users(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
-    # Simple check for admin role if needed, or just return all users for now
+    if current_user.role != "admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough privileges")
     return db.query(models.User).all()
+
+@app.post("/admin/users", response_model=schemas.UserResponse)
+def create_admin_user(user: schemas.AdminUserCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough privileges")
+        
+    db_user = db.query(models.User).filter(models.User.email == user.email).first()
+    if db_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+        
+    hashed_password = auth.get_password_hash(user.password)
+    db_user = models.User(
+        name=user.name,
+        email=user.email,
+        hashed_password=hashed_password,
+        role=user.role
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@app.delete("/admin/users/{user_id}")
+def delete_admin_user(user_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not enough privileges")
+        
+    if current_user.id == user_id:
+        raise HTTPException(status_code=400, detail="Cannot delete your own account")
+        
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User not found")
+        
+    db.delete(db_user)
+    db.commit()
+    return {"message": "User deleted successfully"}
 
 @app.get("/admin/stats")
 def get_admin_stats(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):

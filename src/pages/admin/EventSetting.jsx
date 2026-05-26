@@ -110,9 +110,11 @@ const EventSetting = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white p-8">
-      <h1 className="text-3xl font-bold text-white mb-4">Event Settings</h1>
-      <p className="text-gray-300 mb-6">Configure events, schedules, and details here.</p>
+    <div className="min-h-screen bg-[#020202] text-white p-6 md:p-10">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold text-white mb-2">Event Settings</h1>
+        <p className="text-gray-400">Configure events, schedules, and details here.</p>
+      </header>
       
       {loading ? (
         <div className="flex justify-center py-12">
@@ -140,7 +142,7 @@ const EventSetting = () => {
       
       <button 
         onClick={openModal}
-        className="mt-8 bg-gradient-red text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+        className="mt-8 bg-red-600 hover:bg-red-500 text-white px-6 py-3 rounded-xl font-bold transition-all duration-300 transform active:scale-95"
       >
         Create New Event
       </button>

@@ -3,6 +3,8 @@ import AdminDetailsModal from './AdminDetailsModal';
 import CreateAdminModal from './CreateAdminModal';
 import api from '../../api/axios';
 import { toast } from 'sonner';
+import DeleteConfirmModal from '../forum/components/DeleteConfirmModal';
+
 
 const AdminManagement = () => {
   const [admins, setAdmins] = useState([]);
@@ -10,6 +12,9 @@ const AdminManagement = () => {
   const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   useEffect(() => {
     fetchAdmins();
@@ -49,8 +54,7 @@ const AdminManagement = () => {
 
   const handleCreateAdmin = async (newAdmin) => {
     try {
-      // CreateAdminModal likely provides { name, email, password, role }
-      const response = await api.post('/auth/register', newAdmin);
+      const response = await api.post('/admin/users', newAdmin);
       setAdmins([...admins, response]);
       toast.success('Admin account created successfully');
       closeCreateModal();
@@ -58,10 +62,28 @@ const AdminManagement = () => {
       console.error('Error creating admin:', error);
       toast.error('Failed to create admin account');
     }
+  const handleDeleteAdminClick = (admin) => {
+    setDeleteTarget(admin);
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDeleteAdmin = async () => {
+    setDeleteLoading(true);
+    try {
+      await api.delete(`/admin/users/${deleteTarget.id}`);
+      setAdmins(admins.filter(a => a.id !== deleteTarget.id));
+      toast.success('Admin deleted successfully');
+    } catch (error) {
+      toast.error(error.response?.data?.detail || 'Failed to delete admin');
+    } finally {
+      setDeleteLoading(false);
+      setDeleteModalOpen(false);
+      setDeleteTarget(null);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#0d0d0d] text-white p-6 md:p-8">
+    <div className="min-h-screen bg-[#020202] text-white p-6 md:p-10">
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-white">Admin Management</h1>
         <p className="text-gray-400 mt-2">
@@ -78,40 +100,49 @@ const AdminManagement = () => {
         </button>
       </div>
 
-      <div className="bg-gray-900 rounded-xl shadow-lg overflow-hidden">
+      <div className="bg-[#0a0a0a] rounded-3xl border border-white/5 overflow-hidden">
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-600"></div>
           </div>
         ) : (
-          <table className="min-w-full divide-y divide-gray-800">
-            <thead className="bg-gray-800">
-              <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Name</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Email</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Role</th>
-                <th className="px-6 py-3 text-left text-sm font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-800">
-              {admins.map((admin) => (
-                <tr key={admin.id} className="hover:bg-gray-800/50 transition-colors">
-                  <td className="px-6 py-4">{admin.name}</td>
-                  <td className="px-6 py-4">{admin.email}</td>
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 bg-[#a82031]/20 text-[#a82031] rounded-full text-xs capitalize">
-                      {admin.role}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => openDetailsModal(admin)}
-                      className="text-[#a82031] hover:underline font-medium"
-                    >
-                      View Details
-                    </button>
-                  </td>
+          <div className="overflow-x-auto hide-scrollbar">
+            <table className="min-w-full divide-y divide-white/5">
+              <thead className="bg-white/5">
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Name</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Email</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Role</th>
+                  <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-widest text-gray-400">Actions</th>
                 </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {admins.map((admin) => (
+                  <tr key={admin.id} className="hover:bg-white/[0.02] transition-colors">
+                    <td className="px-6 py-5 font-semibold">{admin.name}</td>
+                    <td className="px-6 py-5 text-gray-400">{admin.email}</td>
+                    <td className="px-6 py-5">
+                      <span className="px-3 py-1 bg-white/5 text-gray-300 border border-white/10 rounded-full text-xs font-bold uppercase tracking-wider">
+                        {admin.role}
+                      </span>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="flex items-center gap-4">
+                        <button
+                          onClick={() => openDetailsModal(admin)}
+                          className="text-gray-400 hover:text-white text-sm font-semibold transition-colors"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => handleDeleteAdminClick(admin)}
+                          className="text-red-500 hover:text-red-400 text-sm font-semibold transition-colors"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
               ))}
               {admins.length === 0 && (
                 <tr>
@@ -120,6 +151,7 @@ const AdminManagement = () => {
               )}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 
@@ -136,6 +168,15 @@ const AdminManagement = () => {
           onClose={closeCreateModal}
         />
       )}
+
+      <DeleteConfirmModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={confirmDeleteAdmin}
+        loading={deleteLoading}
+        title="Delete Admin"
+        message={`Are you sure you want to delete ${deleteTarget?.name}? They will lose all administrative access.`}
+      />
     </div>
   );
 };

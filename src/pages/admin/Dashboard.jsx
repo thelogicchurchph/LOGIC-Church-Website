@@ -43,11 +43,8 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-[#020202] text-white p-6 md:p-10 relative overflow-hidden">
-      {/* Premium Background Elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute -top-[10%] -right-[10%] w-[60%] h-[60%] bg-red-600/5 blur-[120px] rounded-full animate-pulse"></div>
-        <div className="absolute -bottom-[10%] -left-[10%] w-[60%] h-[60%] bg-blue-600/5 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-      </div>
+      {/* Removed excessive neon blurs for a cleaner, modern look */}
+
 
       <header className="mb-12 relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
         <div className="animate__animated animate__fadeInLeft">
@@ -59,9 +56,9 @@ const Dashboard = () => {
           </p>
         </div>
         
-        <div className="flex items-center gap-5 bg-white/5 border border-white/10 p-4 rounded-3xl backdrop-blur-2xl animate__animated animate__fadeInRight shadow-2xl">
-          <div className="h-12 w-12 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
-            <TrendingUp className="text-white" />
+        <div className="flex items-center gap-4 bg-[#0a0a0a] border border-white/5 p-4 rounded-2xl shadow-xl">
+          <div className="h-10 w-10 bg-emerald-500/10 rounded-xl flex items-center justify-center border border-emerald-500/20">
+            <TrendingUp className="text-emerald-500 text-lg" />
           </div>
           <div>
             <p className="text-[10px] uppercase font-black text-gray-500 tracking-[0.2em] mb-0.5">Core Status</p>
@@ -84,8 +81,8 @@ const Dashboard = () => {
             {/* Ambient Glow */}
             <div className={`absolute -right-10 -top-10 w-32 h-32 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 blur-3xl transition-opacity duration-500`}></div>
             
-            <div className="flex justify-between items-start mb-10">
-              <div className={`p-4 rounded-2xl bg-gradient-to-br ${stat.color} shadow-lg shadow-black/40 transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+            <div className="flex justify-between items-start mb-8">
+              <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} shadow-lg transition-transform duration-300`}>
                 {stat.icon}
               </div>
               <div className="h-8 w-8 rounded-full border border-white/10 flex items-center justify-center text-gray-500 group-hover:text-white transition-colors">
@@ -112,44 +109,27 @@ const Dashboard = () => {
 
       {/* Main Content Areas */}
       <section className="grid grid-cols-1 lg:grid-cols-3 gap-10 relative z-10">
-         <div className="lg:col-span-2 backdrop-blur-3xl bg-white/[0.03] border border-white/10 rounded-[3rem] p-10 animate__animated animate__fadeInLeft" style={{ animationDelay: '0.4s' }}>
-            <div className="flex items-center justify-between mb-10">
-              <h3 className="text-2xl font-black flex items-center gap-3">
-                 <span className="h-8 w-1.5 bg-red-600 rounded-full"></span>
-                 System Logistics
+         <div className="lg:col-span-2 bg-[#0a0a0a] border border-white/5 rounded-3xl p-8 animate__animated animate__fadeInLeft" style={{ animationDelay: '0.4s' }}>
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-xl font-bold flex items-center gap-3">
+                 <span className="h-6 w-1.5 bg-red-600 rounded-full"></span>
+                 System Overview
               </h3>
-              <button className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors">View All Activities</button>
             </div>
             
-            <div className="space-y-5">
-               {[
-                 { action: "New Member Registered", time: "2 hours ago", user: "Michael Chen" },
-                 { action: "Event Updates Published", time: "4 hours ago", user: "Admin System" },
-                 { action: "Gallery Sync Complete", time: "6 hours ago", user: "Admin System" }
-               ].map((item, i) => (
-                 <div key={i} className="group flex items-center justify-between p-5 bg-white/[0.02] hover:bg-white/[0.05] rounded-[2rem] border border-white/5 transition-all duration-300">
-                    <div className="flex items-center gap-5">
-                       <div className="h-14 w-14 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-red-500/30 transition-colors shadow-xl">
-                          <AccountCircle className="text-gray-500 group-hover:text-red-500 transition-colors" />
-                       </div>
-                       <div>
-                          <p className="font-bold text-white group-hover:text-red-400 transition-colors">{item.action}</p>
-                          <p className="text-xs text-gray-500 font-medium flex items-center gap-1.5">
-                            <span className="text-gray-700">•</span> {item.user} <span className="text-gray-700">•</span> {item.time}
-                          </p>
-                       </div>
-                    </div>
-                    <button className="h-10 px-5 rounded-full bg-white/5 text-xs font-black uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">Review</button>
-                 </div>
-               ))}
+            <div className="py-12 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4">
+                 <EventNote className="text-gray-500 text-3xl" />
+              </div>
+              <p className="text-gray-400 font-medium">Your church system is running smoothly.</p>
+              <p className="text-sm text-gray-500 mt-2">Use the quick actions to manage events or upload media.</p>
             </div>
          </div>
 
          <div className="flex flex-col gap-8 animate__animated animate__fadeInRight" style={{ animationDelay: '0.6s' }}>
-            <div className="flex-1 backdrop-blur-3xl bg-gradient-to-br from-red-600/10 to-transparent border border-white/10 rounded-[3rem] p-10 relative overflow-hidden group">
-               <div className="absolute -right-20 -top-20 w-64 h-64 bg-red-600/20 blur-[100px] rounded-full group-hover:scale-125 transition-transform duration-1000"></div>
+            <div className="flex-1 bg-[#0a0a0a] border border-white/5 rounded-3xl p-8 relative overflow-hidden group">
                
-               <h3 className="text-2xl font-black mb-6 relative z-10">Quick Actions</h3>
+               <h3 className="text-xl font-bold mb-6 relative z-10">Quick Actions</h3>
                <div className="space-y-4 relative z-10">
                   <button onClick={() => window.location.href='/admin/events'} className="group/btn w-full py-5 bg-white text-black font-black rounded-2xl hover:bg-gray-100 transition-all shadow-2xl flex items-center justify-center gap-3 active:scale-95">
                      Create New Event
@@ -160,10 +140,10 @@ const Dashboard = () => {
                   </button>
                </div>
 
-               <div className="mt-12 p-6 bg-black/40 rounded-3xl border border-white/5 relative z-10">
-                  <p className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Pro Tip</p>
-                  <p className="text-sm text-gray-300 leading-relaxed">
-                    You can now manage nested forum replies directly from the <strong>Messages</strong> tab.
+               <div className="mt-8 p-5 bg-white/5 rounded-2xl border border-white/5 relative z-10">
+                  <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Pro Tip</p>
+                  <p className="text-sm text-gray-400 leading-relaxed">
+                    You can manage nested forum replies directly from the <strong>Messages</strong> tab.
                   </p>
                </div>
             </div>

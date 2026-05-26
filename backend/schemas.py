@@ -5,7 +5,12 @@ class UserCreate(BaseModel):
     name: str
     email: EmailStr
     password: str
-    role: Optional[str] = "user"
+
+class AdminUserCreate(BaseModel):
+    name: str
+    email: EmailStr
+    password: str
+    role: str
 
 class UserLogin(BaseModel):
     email: str
