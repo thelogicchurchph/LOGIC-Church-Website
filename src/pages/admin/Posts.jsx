@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import api from '../../api/axios';
 import { toast } from 'sonner';
+import { CATEGORIES, CATEGORY_COLORS } from '../forum/constants';
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [currentCategory, setCurrentCategory] = useState('All');
+
+  const filteredPosts = useMemo(() => {
+    if (currentCategory === 'All') return posts;
+    return posts.filter(p => p.category === currentCategory);
+  }, [posts, currentCategory]);
 
   // Fetch all forum posts
   const fetchPosts = async () => {
@@ -72,15 +79,37 @@ const Posts = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          {posts.length === 0 ? (
+          <div className="flex overflow-x-auto gap-2 pb-4 mb-4 hide-scrollbar">
+            {['All', ...CATEGORIES].map(cat => (
+              <button
+                key={cat}
+                onClick={() => setCurrentCategory(cat)}
+                className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                  currentCategory === cat 
+                    ? 'bg-red-600 text-white' 
+                    : 'bg-gray-800 text-gray-400 hover:text-white border border-gray-700'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+          {filteredPosts.length === 0 ? (
             <div className="text-center py-12 bg-gray-900/50 rounded-xl">
               <p className="text-gray-400">No posts found.</p>
             </div>
           ) : (
-            posts.map((post) => (
+            filteredPosts.map((post) => {
+              const catColor = CATEGORY_COLORS[post.category] || CATEGORY_COLORS['General'];
+              return (
               <div key={post.id || post._id} className="bg-gray-900 rounded-xl p-6 hover:bg-gray-800/50 transition-colors">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className={`text-xs font-bold px-3 py-1 rounded-full border ${catColor}`}>
+                        {post.category || 'General'}
+                      </span>
+                    </div>
                     <h3 className="text-xl font-semibold text-white">{post.title}</h3>
                     <p className="mt-2 text-gray-300">{post.body}</p>
                     
@@ -126,7 +155,7 @@ const Posts = () => {
                   </div>
                 )}
               </div>
-            ))
+            )})
           )}
         </div>
       )}

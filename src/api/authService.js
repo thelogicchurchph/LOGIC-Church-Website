@@ -17,7 +17,7 @@ export const authService = {
 
   async getCurrentUser() {
     try {
-      const data = await api.get('/auth/me');
+      const data = await api.get('/user/profile');
       return data;
     } catch (error) {
       console.error('Get current user error:', error);
@@ -27,7 +27,8 @@ export const authService = {
 
   async logout() {
     try {
-      await api.post('/auth/logout');
+      // No backend logout required for JWT, client just deletes token.
+      return true;
     } catch (error) {
       console.error('Logout error:', error);
       throw error;

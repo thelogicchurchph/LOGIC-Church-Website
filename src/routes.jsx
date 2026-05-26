@@ -60,13 +60,6 @@ export const routes = [
     showInFooter: true,
   },
   {
-    path: '/talk-2-ppc',
-    element: <TalkToPPC />,
-    name: 'Talk 2 PPC',
-    showInNav: true,
-    showInFooter: true,
-  },
-  {
     path: '/messages',
     element: <Messages />,
     name: 'Sermons',
@@ -150,7 +143,7 @@ export const routes = [
   {
     path: '/admin',
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute redirectTo="/admin/login">
         <AdminLayout>
           <Outlet />
         </AdminLayout>

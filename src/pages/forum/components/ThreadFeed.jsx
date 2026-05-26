@@ -1,14 +1,7 @@
 import React from 'react';
 import { AccountCircle, Schedule, ArrowBack, Favorite } from '@mui/icons-material';
+import { CATEGORY_COLORS } from '../constants';
 
-const CATEGORY_COLORS = {
-  'General': 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  'Questions': 'bg-teal-500/10 text-teal-400 border-teal-500/20',
-  'Prayer Wall': 'bg-red-500/10 text-red-400 border-red-500/20',
-  'Testimonies': 'bg-green-500/10 text-green-400 border-green-500/20',
-  'Bible Study': 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  'Announcements': 'bg-purple-500/10 text-purple-400 border-purple-500/20',
-};
 
 export default function ThreadFeed({ questions, onSelectQuestion, formatTimestamp, onToggleAmen, loadingAmenId }) {
   if (questions.length === 0) {
@@ -59,7 +52,7 @@ export default function ThreadFeed({ questions, onSelectQuestion, formatTimestam
                     disabled={loadingAmenId === question.id}
                     className={`flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg transition-colors hover:scale-105 active:scale-95 disabled:opacity-50 ${question.category === 'Prayer Wall' ? 'bg-red-500/10 text-red-500 font-bold border border-red-500/20' : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'}`}
                   >
-                    <Favorite className={`text-[12px] ${loadingAmenId === question.id ? 'animate-ping' : (question.amens > 0 ? 'text-red-500' : '')}`} />
+                    <Favorite className={`text-[12px] ${loadingAmenId === question.id ? 'animate-ping' : (question.hasAmened ? 'text-red-500' : (question.amens > 0 ? 'text-red-500/50' : ''))}`} />
                     <span>{question.amens || 0} {question.category === 'Prayer Wall' ? 'Amens' : ''}</span>
                   </button>
                 </div>

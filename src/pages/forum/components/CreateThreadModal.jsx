@@ -1,6 +1,5 @@
 import React from 'react';
-
-const CATEGORIES = ['General', 'Questions', 'Prayer Wall', 'Testimonies', 'Bible Study', 'Youth', 'Announcements'];
+import { CATEGORIES } from '../constants';
 
 export default function CreateThreadModal({ 
   onClose, 

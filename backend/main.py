@@ -192,24 +192,30 @@ def fmt_comment(c):
         "replies": [fmt_comment(r) for r in (c.replies or [])]
     }
 
-def fmt_question(q, full=False):
+def fmt_question(q, current_user=None, full=False):
     amens_count = len(q.amened_by) if hasattr(q, "amened_by") and q.amened_by else 0
+    has_amened = current_user in q.amened_by if current_user and hasattr(q, "amened_by") else False
+    
+    # Only include top-level comments (those without a parent)
+    top_level_comments = [c for c in (q.comments or []) if c.parent_id is None]
+    
     data = {
         "id": q.id,
         "title": q.title,
         "body": q.body,
         "category": getattr(q, 'category', 'General') or 'General',
         "amens": amens_count,
+        "hasAmened": has_amened,
         "createdAt": q.created_at.isoformat() if q.created_at else None,
         "author": fmt_user(q.author),
-        "comments": [fmt_comment(c) for c in (q.comments or [])] if full else [{"id": c.id} for c in (q.comments or [])],
+        "comments": [fmt_comment(c) for c in top_level_comments] if full else [{"id": c.id} for c in (q.comments or [])],
     }
     return data
 
 @app.get("/questions")
 def get_questions(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     questions = db.query(models.Question).order_by(models.Question.created_at.desc()).all()
-    return [fmt_question(q) for q in questions]
+    return [fmt_question(q, current_user=current_user) for q in questions]
 
 @app.post("/questions")
 def create_question(payload: schemas.QuestionCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
@@ -217,14 +223,14 @@ def create_question(payload: schemas.QuestionCreate, db: Session = Depends(datab
     db.add(q)
     db.commit()
     db.refresh(q)
-    return {"question": fmt_question(q)}
+    return {"question": fmt_question(q, current_user=current_user)}
 
 @app.get("/questions/{question_id}")
 def get_question(question_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     q = db.query(models.Question).filter(models.Question.id == question_id).first()
     if not q:
         raise HTTPException(status_code=404, detail="Question not found")
-    return {"question": fmt_question(q, full=True)}
+    return {"question": fmt_question(q, current_user=current_user, full=True)}
 
 @app.post("/questions/{question_id}/amen")
 def toggle_amen(question_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
@@ -265,6 +271,10 @@ def delete_question(question_id: int, db: Session = Depends(database.get_db), cu
     q = db.query(models.Question).filter(models.Question.id == question_id).first()
     if not q:
         raise HTTPException(status_code=404, detail="Question not found")
+    
+    if q.author_id != current_user.id and current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized to delete this question")
+        
     db.delete(q)
     db.commit()
     return {"message": "Question deleted successfully"}
@@ -279,6 +289,7 @@ def get_events(db: Session = Depends(database.get_db)):
 def create_event(event: schemas.EventCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
     db_event = models.Event(**event.model_dump())
     db.add(db_event)
+    db.commit()
     db.refresh(db_event)
     return db_event
 

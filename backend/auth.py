@@ -9,10 +9,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
 
 import bcrypt
 
-SECRET_KEY = os.getenv("SECRET_KEY", "logic-church-dev-secret-replace-me")
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7 # 7 days
-
 def verify_password(plain_password: str, hashed_password: str):
     try:
         password_byte_enc = plain_password.encode('utf-8')

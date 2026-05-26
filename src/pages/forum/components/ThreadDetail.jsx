@@ -114,12 +114,14 @@ export default function ThreadDetail({
 
         <div className="flex items-center gap-4 border-b border-white/5 pb-6 mb-6">
            <button 
-             onClick={onToggleAmen}
+             onClick={() => onToggleAmen(question)}
              disabled={loadingAmen}
              className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition-all disabled:opacity-50 text-sm
-               ${isPrayer ? 'bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20' : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white'}`}
+               ${isPrayer 
+                 ? (question.hasAmened ? 'bg-red-500 text-white border border-red-500 shadow-lg shadow-red-500/30' : 'bg-red-500/10 text-red-500 hover:bg-red-500/20 border border-red-500/20') 
+                 : (question.hasAmened ? 'bg-white/20 text-white border border-white/20' : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white')}`}
            >
-             <Favorite className={loadingAmen ? "animate-ping" : ""} />
+             <Favorite className={`${loadingAmen ? "animate-ping" : ""} ${question.hasAmened && !isPrayer ? 'text-red-500' : ''}`} />
              <span>{question.amens || 0} {isPrayer ? 'Amens' : 'Likes'}</span>
            </button>
         </div>

@@ -10,6 +10,7 @@ import ForumSidebar from './components/ForumSidebar';
 import ThreadFeed from './components/ThreadFeed';
 import ThreadDetail from './components/ThreadDetail';
 import CreateThreadModal from './components/CreateThreadModal';
+import { SIDEBAR_CATEGORIES } from './constants';
 
 export default function Forum() {
   const { user, setUser } = useAuth();
@@ -152,7 +153,7 @@ export default function Forum() {
         q.id === targetQuestion.id ? { ...q, amens: response.amens } : q
       ));
       
-      if(response.message.includes('added')) {
+      if(response?.message?.includes('added')) {
         toast.success(targetQuestion.category === 'Prayer Wall' ? "Amen! added" : "Liked!");
       }
     } catch(err) {
@@ -268,19 +269,22 @@ export default function Forum() {
 
             {/* Mobile Categories Overflow */}
             <div className="lg:hidden flex overflow-x-auto gap-2 pb-4 mb-4 hide-scrollbar">
-              {['All', 'General', 'Questions', 'Prayer Wall', 'Testimonies', 'Bible Study', 'Youth', 'Announcements'].map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setCurrentCategory(cat)}
-                  className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                    currentCategory === cat 
-                      ? 'bg-red-600 text-white' 
-                      : 'bg-[#0f0f0f] text-gray-400 hover:text-white border border-white/5'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+              {SIDEBAR_CATEGORIES.map(catObj => {
+                const cat = catObj.id;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setCurrentCategory(cat)}
+                    className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                      currentCategory === cat 
+                        ? 'bg-red-600 text-white' 
+                        : 'bg-[#0f0f0f] text-gray-400 hover:text-white border border-white/5'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

@@ -1,16 +1,7 @@
 import React from 'react';
 import { ForumRounded, ChatBubbleOutline, FavoriteBorder, MenuBook, Campaign } from '@mui/icons-material';
 
-const CATEGORIES = [
-  { id: 'All', label: 'All Discussions', icon: ForumRounded, gradient: 'from-gray-500 to-gray-400' },
-  { id: 'General', label: 'General', icon: ChatBubbleOutline, gradient: 'from-blue-500 to-cyan-400' },
-  { id: 'Questions', label: 'Questions', icon: ChatBubbleOutline, gradient: 'from-teal-500 to-emerald-400' },
-  { id: 'Prayer Wall', label: 'Prayer Wall', icon: FavoriteBorder, gradient: 'from-red-500 to-pink-500' },
-  { id: 'Testimonies', label: 'Testimonies', icon: ForumRounded, gradient: 'from-green-500 to-emerald-400' },
-  { id: 'Bible Study', label: 'Bible Study', icon: MenuBook, gradient: 'from-amber-500 to-orange-400' },
-  { id: 'Announcements', label: 'Announcements', icon: Campaign, gradient: 'from-purple-500 to-indigo-400' },
-];
-
+import { SIDEBAR_CATEGORIES } from '../constants';
 export default function ForumSidebar({ currentCategory, setCurrentCategory, stats }) {
   return (
     <div className="space-y-6">
@@ -20,7 +11,7 @@ export default function ForumSidebar({ currentCategory, setCurrentCategory, stat
           Spaces
         </h3>
         <ul className="space-y-2">
-          {CATEGORIES.map(cat => {
+          {SIDEBAR_CATEGORIES.map(cat => {
             const Icon = cat.icon;
             const isActive = currentCategory === cat.id;
             return (

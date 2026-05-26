@@ -24,6 +24,7 @@ export const AuthProvider = ({ children }) => {
     try{
         const userProfile = await api.get('/user/profile');
         setUser(userProfile.user || userProfile); // Interceptor returns .data naturally 
+        setIsAuthenticated(true);
     }
     catch(err){
       console.error(err);
@@ -56,8 +57,11 @@ export const AuthProvider = ({ children }) => {
         sameSite: 'Strict',
         secure: typeof window !== 'undefined' && window.location.protocol === 'https:'
       });
-      setAdmin(adminData || { id: 'dev', name: 'Admin', role: 'admin' });
+      if (adminData && adminData.role === 'admin') {
+        setAdmin(adminData);
+      }
       setUser(adminData || { id: 'dev', name: 'Admin', role: 'admin' });
+      setIsAuthenticated(true);
       toast.success('Login successful!');
       setLoading(false);
       return true;
@@ -78,6 +82,8 @@ export const AuthProvider = ({ children }) => {
     } finally {
       removeCookie('token');
       setAdmin(null);
+      setUser(null);
+      setIsAuthenticated(false);
       setError(null);
       setLoading(false);
     }
@@ -92,6 +98,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     isAuthenticated,
+    setIsAuthenticated,
     setAdmin,
     user, setUser
   };
