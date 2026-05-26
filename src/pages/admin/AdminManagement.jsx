@@ -62,6 +62,8 @@ const AdminManagement = () => {
       console.error('Error creating admin:', error);
       toast.error('Failed to create admin account');
     }
+  };
+
   const handleDeleteAdminClick = (admin) => {
     setDeleteTarget(admin);
     setDeleteModalOpen(true);
