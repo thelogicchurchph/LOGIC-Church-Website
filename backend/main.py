@@ -460,13 +460,23 @@ def delete_gallery_image(image_id: int, db: Session = Depends(database.get_db), 
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...), current_user: models.User = Depends(get_current_user)):
     try:
-        # Upload to Cloudinary
+        # Read file bytes asynchronously — required in async context on production servers.
+        # Passing file.file (SpooledTemporaryFile) directly to the sync Cloudinary SDK
+        # can fail on Render due to event loop/file handle conflicts.
+        contents = await file.read()
+        
         result = cloudinary.uploader.upload(
-            file.file,
+            contents,
             folder="logic_church",
             use_filename=True,
-            unique_filename=True
+            unique_filename=True,
+            resource_type="auto"
         )
         return {"url": result.get("secure_url")}
     except Exception as e:
+        # Print full error to Render logs so we can diagnose it
+        import traceback
+        print("UPLOAD ERROR:", str(e))
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
+
