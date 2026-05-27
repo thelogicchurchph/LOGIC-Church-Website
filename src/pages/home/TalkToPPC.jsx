@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import 'animate.css'
 import { Send, Phone, Person, Message } from '@mui/icons-material'
+import api from '../../api/axios'
+import { toast } from 'sonner'
+import useSEO from '../../hooks/useSEO'
 
 const requestTypes = ['Prayer', 'Counselling', 'Questions', 'Others']
 const genders = ['Male', 'Female', 'Other']
 
 export default function TalkToPPC() {
+  useSEO("Talk to PPC", "Reach out to Pastor Paul Chisom for prayer, counselling, or questions.");
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({
     name: '',
@@ -19,15 +23,18 @@ export default function TalkToPPC() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    // Placeholder for backend submission
-    setTimeout(() => {
-      alert('Your message has been sent to Pastor Paul Chisom (PPC). You will hear from us soon!')
-      setLoading(false)
+    try {
+      await api.post('/talk-to-ppc', form)
+      toast.success('Your message has been sent to Pastor Paul Chisom (PPC). You will hear from us soon!')
       setForm({ name: '', phone: '', gender: 'Male', requestType: 'Prayer', message: '' })
-    }, 1500)
+    } catch (error) {
+      toast.error('Failed to send message. Please try again later.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (

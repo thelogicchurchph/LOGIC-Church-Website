@@ -472,3 +472,61 @@ async def upload_file(file: UploadFile = File(...), current_user: models.User = 
         traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
+# ── Site Settings ────────────────────────────────────────────────────────────
+
+@app.get("/settings/featured-sermon")
+def get_featured_sermon(db: Session = Depends(database.get_db)):
+    setting = db.query(models.SiteSetting).filter(models.SiteSetting.key == "featured_sermon").first()
+    if not setting:
+        return {"value": "https://www.youtube.com/embed/VnE_prPrko8"} # default
+    return {"value": setting.value}
+
+@app.get("/admin/settings", response_model=list[schemas.SiteSettingResponse])
+def get_admin_settings(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    return db.query(models.SiteSetting).all()
+
+@app.put("/admin/settings/{key}")
+def update_admin_setting(key: str, payload: schemas.SiteSettingUpdate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    
+    setting = db.query(models.SiteSetting).filter(models.SiteSetting.key == key).first()
+    if setting:
+        setting.value = payload.value
+    else:
+        setting = models.SiteSetting(key=key, value=payload.value)
+        db.add(setting)
+    
+    db.commit()
+    db.refresh(setting)
+    return setting
+
+# ── Contact Forms ────────────────────────────────────────────────────────────
+
+@app.post("/contact")
+def submit_contact(payload: schemas.ContactMessageCreate, db: Session = Depends(database.get_db)):
+    msg = models.ContactMessage(**payload.model_dump())
+    db.add(msg)
+    db.commit()
+    return {"message": "Message sent successfully"}
+
+@app.post("/talk-to-ppc")
+def submit_talk_to_ppc(payload: schemas.TalkToPPCMessageCreate, db: Session = Depends(database.get_db)):
+    msg = models.TalkToPPCMessage(**payload.model_dump())
+    db.add(msg)
+    db.commit()
+    return {"message": "Message sent successfully"}
+
+@app.get("/admin/messages/contact")
+def get_contact_messages(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    return db.query(models.ContactMessage).order_by(models.ContactMessage.created_at.desc()).all()
+
+@app.get("/admin/messages/talk-to-ppc")
+def get_talk_to_ppc_messages(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    return db.query(models.TalkToPPCMessage).order_by(models.TalkToPPCMessage.created_at.desc()).all()

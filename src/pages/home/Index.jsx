@@ -4,20 +4,21 @@ import 'animate.css'
 import WelcomeHome from './WelcomeHome'
 import EventsHome from './Event'
 import Gallary from '../../components/Gallary'
+import useSEO from '../../hooks/useSEO'
 
 
 // Tiny base64 placeholder for instant loading
 const placeholderImage = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyMCIgaGVpZ2h0PSIxMDgwIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiBmaWxsPSIjNDQ0Ii8+PC9zdmc+"
 
 const heroData = [
-    {
+  {
     image: '/images/logic1.jpg',
     title: "Welcome to the LOGIC Church Port Harcourt",
     desc: "Here we preach the love of God for Us alone"
   },
   {
     image: '/images/DSC_7881.jpg',
-     title: "Worship in Spirit and Truth",
+    title: "Worship in Spirit and Truth",
     desc: "Come as you are and experience the transforming power of worship"
   },
   {
@@ -25,34 +26,31 @@ const heroData = [
     title: "Experience God's Love Together",
     desc: "Join our community in worship and fellowship every Sunday"
   },
-
-   {
+  {
     image: '/images/DSC_1785.jpg',
-    title: "Experience God's Love Together",
-    desc: "Join our community in worship and fellowship every Sunday"
+    title: "A Family Built on Grace",
+    desc: "Discover your identity in Christ and grow with believers"
   },
-   {
+  {
     image: '/images/DSC_1869.jpg',
-    title: "Experience God's Love Together",
-    desc: "Join our community in worship and fellowship every Sunday"
+    title: "Faith That Works",
+    desc: "Equipping you with the Word to face every challenge"
   },
-   {
+  {
     image: '/images/DSC_3738.jpg',
-    title: "Experience God's Love Together",
-    desc: "Join our community in worship and fellowship every Sunday"
+    title: "Next Generation Leaders",
+    desc: "Empowering youth and children to walk in purpose"
   },
-     {
+  {
     image: '/images/DSC_7975.jpeg',
-    title: "Experience God's Love Together",
-    desc: "Join our community in worship and fellowship every Sunday"
+    title: "Make an Impact",
+    desc: "Serving our city and showing God's love in action"
   },
-
-    {
+  {
     image: '/images/DSC_9900.jpeg',
-    title: "Experience God's Love Together",
-    desc: "Join our community in worship and fellowship every Sunday"
+    title: "You Are Welcome Here",
+    desc: "No matter your background, there's a place for you at LOGIC"
   },
-  
 ]
 
 // Fast loading image component with progressive enhancement
@@ -102,6 +100,7 @@ const FastImage = ({ src, alt, className, loading, isActive }) => {
 }
 
 export default function HomeIndex() {
+  useSEO("Welcome", "LOGIC Church Port Harcourt - A place to experience God's love and truth.");
   const [currentSlide, setCurrentSlide] = useState(0)
   const [displayedText, setDisplayedText] = useState('')
   const [progress, setProgress] = useState(0)
@@ -218,13 +217,13 @@ export default function HomeIndex() {
 
           {/* Buttons */}
           <div  className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
-            <button className="bg-gradient-red text-white px-8 py-4 animate__animated animate__fadeInUp rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+            <a href="/events" className="bg-gradient-red text-white px-8 py-4 animate__animated animate__fadeInUp rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
               Join us this Sunday
-            </button>
-            <button className="flex items-center gap-2 animate__animated animate__fadeInUp backdrop-blur-sm bg-white/10 border border-white text-white hover:bg-white hover:text-black px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
+            </a>
+            <a href="/messages" className="flex items-center gap-2 animate__animated animate__fadeInUp backdrop-blur-sm bg-white/10 border border-white text-white hover:bg-white hover:text-black px-8 py-4 rounded-lg text-lg font-semibold transition-all duration-300 transform hover:scale-105">
               <PlayArrow className="text-2xl" />
               Watch Live
-            </button>
+            </a>
           </div>
         </div>
         </div>

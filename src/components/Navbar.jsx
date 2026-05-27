@@ -6,12 +6,12 @@ import logoImage from '/assets/image.webp';
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isTrainingDropdownOpen, setIsTrainingDropdownOpen] = useState(false);
+  const location = useLocation();
   const [activeLink, setActiveLink] = useState(
-    window.location.pathname.startsWith('/trainings') ? 'Training' : 'Home'
+    location.pathname.startsWith('/trainings') ? 'Training' : 'Home'
   );
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const navLinks = [
     { name: 'Home', href: '/' },
@@ -43,9 +43,9 @@ export default function Navbar() {
     setIsMobileMenuOpen(false);
   };
 
-  // Set active link based on current path
   useEffect(() => {
     const path = location.pathname;
+    setIsMobileMenuOpen(false); // Close mobile menu on route change
     if (path.startsWith('/trainings')) {
       setActiveLink('Discipleship');
     } else {
@@ -66,8 +66,12 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Pages with dark heroes that should have transparent navbars initially
+  const hasDarkHero = ['/', '/about', '/give', '/talk-2-ppc', '/trainings', '/messages'].includes(location.pathname) || location.pathname.startsWith('/trainings/');
+  const shouldBeSolid = isScrolled || !hasDarkHero;
+
   return (
-    <nav className={`z-50 w-full px-4 fixed py-4 transition-all duration-300 ${isScrolled ? 'bg-black shadow-lg' : ''
+    <nav className={`z-50 w-full px-4 fixed py-4 transition-all duration-300 ${shouldBeSolid ? 'bg-black shadow-lg' : ''
       }`}>
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
@@ -89,7 +93,7 @@ export default function Navbar() {
               className="relative"
               onMouseEnter={() => link.dropdown && setIsTrainingDropdownOpen(true)}
               onMouseLeave={() => link.dropdown && setIsTrainingDropdownOpen(false)}
-              data-active={activeLink === link.name || (link.name === 'Discipleship' && window.location.pathname.startsWith('/trainings'))}
+              data-active={activeLink === link.name || (link.name === 'Discipleship' && location.pathname.startsWith('/trainings'))}
             >
               {link.dropdown ? (
                 <div className="relative">
@@ -100,7 +104,7 @@ export default function Navbar() {
                   >
                     {link.name}
                     <ExpandMore className="text-sm" />
-                    <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-red transition-all duration-300 ${activeLink === link.name || (link.name === 'Discipleship' && window.location.pathname.startsWith('/trainings')) ? 'w-full' : 'w-0'
+                    <span className={`absolute bottom-0 left-0 h-0.5 bg-gradient-red transition-all duration-300 ${activeLink === link.name || (link.name === 'Discipleship' && location.pathname.startsWith('/trainings')) ? 'w-full' : 'w-0'
                       }`}></span>
                   </button>
                   {isTrainingDropdownOpen && (

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import 'animate.css'
+import React, { useState, useEffect } from 'react'
 import { ContentCopy, Check } from '@mui/icons-material'
+import { toast } from 'sonner'
+import useSEO from '../../hooks/useSEO'
 
 const accounts = [
   {
@@ -22,6 +23,7 @@ const accounts = [
 const categories = ['Offering', 'Projects', 'Partnership']
 
 export default function Give() {
+  useSEO("Give", "Support the vision and ministry of LOGIC Church Port Harcourt.");
   const [copied, setCopied] = useState(null)
   const [selectedCategory, setSelectedCategory] = useState('Offering')
   const [form, setForm] = useState({ name: '', email: '', amount: '' })
@@ -36,9 +38,57 @@ export default function Give() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
+  useEffect(() => {
+    // Load Paystack script
+    const script = document.createElement('script')
+    script.src = 'https://js.paystack.co/v1/inline.js'
+    script.async = true
+    document.body.appendChild(script)
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    alert('Payment gateway coming soon! Please use bank transfer for now.')
+    if (!form.name || !form.email || !form.amount || Number(form.amount) < 100) {
+      toast.error('Please provide valid details and a minimum amount of ₦100')
+      return
+    }
+
+    if (!window.PaystackPop) {
+      toast.error('Payment gateway is loading, please try again in a moment.')
+      return
+    }
+
+    const handler = window.PaystackPop.setup({
+      key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_placeholder', // Requires real key in production
+      email: form.email,
+      amount: Number(form.amount) * 100, // Paystack works in kobo
+      currency: 'NGN',
+      metadata: {
+        custom_fields: [
+          {
+            display_name: "Full Name",
+            variable_name: "full_name",
+            value: form.name
+          },
+          {
+            display_name: "Category",
+            variable_name: "category",
+            value: selectedCategory
+          }
+        ]
+      },
+      callback: function(response){
+        toast.success(`Payment successful! Ref: ${response.reference}`)
+        setForm({ name: '', email: '', amount: '' })
+      },
+      onClose: function(){
+        toast.error('Payment window closed.')
+      }
+    })
+    handler.openIframe()
   }
 
   return (
@@ -201,10 +251,8 @@ export default function Give() {
                     Give Now →
                   </button>
                   <div className="flex items-center justify-center gap-3 pt-1">
-                    <span className="text-xs text-gray-400">Coming soon:</span>
+                    <span className="text-xs text-gray-400">Secured by</span>
                     <span className="text-xs font-semibold text-gray-500">Paystack</span>
-                    <span className="text-gray-300 text-xs">·</span>
-                    <span className="text-xs font-semibold text-gray-500">Flutterwave</span>
                   </div>
                 </form>
               </div>

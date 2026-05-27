@@ -89,3 +89,26 @@ class GalleryImageResponse(GalleryImageBase):
 
 class GalleryReorder(BaseModel):
     image_ids: list[int]
+
+class ContactMessageCreate(BaseModel):
+    name: str
+    email: str
+    subject: str
+    message: str
+
+class TalkToPPCMessageCreate(BaseModel):
+    name: str
+    phone: str
+    gender: str
+    request_type: str
+    message: str
+
+class SiteSettingUpdate(BaseModel):
+    value: str
+
+class SiteSettingResponse(BaseModel):
+    key: str
+    value: str
+
+    class Config:
+        from_attributes = True

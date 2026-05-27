@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import api from '../../api/axios';
+import useSEO from '../../hooks/useSEO';
 
 const Messages = () => {
+  useSEO("Messages", "Watch live services and past sermons from LOGIC Church Port Harcourt.");
+  const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/embed/VnE_prPrko8");
+
+  useEffect(() => {
+    api.get('/settings/featured-sermon')
+      .then(res => setVideoUrl(res.value || "https://www.youtube.com/embed/VnE_prPrko8"))
+      .catch(err => console.error(err));
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white pt-20 animate__animated animate__fadeIn">
       {/* Hero Section */}
@@ -30,7 +41,7 @@ const Messages = () => {
             <iframe 
                width="100%" 
                height="100%" 
-               src="https://www.youtube.com/embed/VnE_prPrko8" 
+               src={videoUrl} 
                title="YouTube video player" 
                frameBorder="0" 
                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
@@ -45,9 +56,9 @@ const Messages = () => {
               <p className="text-gray-400">Join our growing community and never miss a live stream.</p>
             </div>
             <a 
-              href="https://youtube.com/@thelogicchurchportharcourt?si=jgA2Bj8UoiDgVUxJ" 
+              href="https://youtube.com/@thelogicchurchportharcourt" 
               target="_blank" 
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="mt-6 sm:mt-0 px-8 py-4 bg-[#FF0000] hover:bg-[#CC0000] text-white font-bold rounded-full transition-transform transform hover:-translate-y-1 shadow-[0_0_20px_rgba(255,0,0,0.3)] flex items-center"
             >
               Subscribe on YouTube
@@ -83,9 +94,9 @@ const Messages = () => {
             <h3 className="text-xl font-bold mb-2">Listen on the Go</h3>
             <p className="text-gray-400 text-sm mb-6">Stream our audio messages anytime, anywhere.</p>
             <a 
-              href="https://open.spotify.com/show/1c4BT5dABHj8HlPg3hexZ3?si=c7b092d37ef9413c" 
+              href="https://open.spotify.com/show/1c4BT5dABHj8HlPg3hexZ3" 
               target="_blank" 
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="w-full block px-6 py-3 bg-[#1DB954] hover:bg-[#1ed760] text-black font-bold rounded-full transition-transform transform hover:-translate-y-1 shadow-[0_0_15px_rgba(29,185,84,0.3)]"
             >
               Follow on Spotify

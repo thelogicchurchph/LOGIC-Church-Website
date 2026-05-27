@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import 'animate.css'
 import Modal from '../../components/Modal'
+import useSEO from '../../hooks/useSEO'
 
 export default function About() {
+  useSEO("About Us", "Learn about our mission, vision, and the leadership of LOGIC Church Port Harcourt.")
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalTitle, setModalTitle] = useState('')
   const [modalBody, setModalBody] = useState(null)
@@ -190,8 +192,8 @@ export default function About() {
               </div>
               <div className="h-px w-12 md:h-12 md:w-px bg-white/10 hidden sm:block"></div>
               <div className="flex flex-col items-center">
-                <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-red-500 to-rose-400 bg-clip-text text-transparent">1+</div>
-                <div className="mt-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400">Years Serving</div>
+                <div className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-red-500 to-rose-400 bg-clip-text text-transparent">Est. 2023</div>
+                <div className="mt-2 text-xs sm:text-sm font-bold uppercase tracking-widest text-gray-400">Serving Port Harcourt</div>
               </div>
               <div className="h-px w-12 md:h-12 md:w-px bg-white/10 hidden sm:block"></div>
               <div className="flex flex-col items-center">
@@ -299,7 +301,7 @@ export default function About() {
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-7 order-2 md:order-1">
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Pastor Paul Chisom Udo</h3>
-                <p className="mt-1 text-red-600 font-semibold">Lead Pastor of The L.O.G.I.C Church Port Harcout</p>
+                <p className="mt-1 text-red-600 font-semibold">Lead Pastor of The L.O.G.I.C Church Port Harcourt</p>
                 <div className="mt-4 space-y-4 text-gray-700 leading-relaxed">
                   <p>
                     Pastor Paul Chisom Udo is a seasoned minister of the gospel and a dynamic leader with a passion for building lives through the word of God. As the Lead Pastor of The L.O.G.I.C Church Port Harcourt, he leads a vibrant community of believers with wisdom, grace, and an unwavering commitment to the message of God's love in Christ.
@@ -323,7 +325,7 @@ export default function About() {
                           </div>
                           <div>
                             <h3 className="text-lg font-semibold text-gray-900">Pastor Paul Chisom Udo</h3>
-                            <p className="text-red-600">Lead Pastor of The L.O.G.I.C Church Port Harcout</p>
+                            <p className="text-red-600">Lead Pastor of The L.O.G.I.C Church Port Harcourt</p>
                           </div>
                         </div>
 

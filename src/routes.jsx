@@ -5,7 +5,7 @@ import ProtectedRoute from './middleware/Protectedroute';
 // Public components
 const NotFound = lazy(() => import('./pages/NotFound'))
 const HomeIndex = lazy(() => import('./pages/home/Index'))
-const EventsHome = lazy(() => import('./pages/home/Event'))
+const EventsPage = lazy(() => import('./pages/public/EventsPage'))
 const About = lazy(() => import('./pages/home/About'))
 const Give = lazy(() => import('./pages/home/Give'))
 const Messages = lazy(() => import('./pages/home/Messages'))
@@ -89,7 +89,7 @@ export const routes = [
   },
   {
     path: '/events',
-    element: <EventsHome />,
+    element: <EventsPage />,
     name: 'Events',
     showInNav: true,
     showInFooter: true,
@@ -98,28 +98,28 @@ export const routes = [
     path: '/forum/signup',
     element: <Signup />,
     name: 'Forum Signup',
-    showInNav: false,
+    showInNav: true,
     showInFooter: false,
   },
   {
     path: '/contact',
     element: <Contact />,
     name: 'Contact',
-    showInNav: false,
+    showInNav: true,
     showInFooter: true,
   },
   {
     path: '/forgot-password',
     element: <ForgotPassword />,
     name: 'Forgot Password',
-    showInNav: false,
+    showInNav: true,
     showInFooter: false,
   },
   {
     path: '/forum',
     element: <ProtectedRoute> <Forum /> </ProtectedRoute>,
     name: 'Forum',
-    showInNav: false,
+    showInNav: true,
     showInFooter: false,
   },
 

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
-import { 
-  LocationOn, 
-  Phone, 
-  Email, 
-  Instagram, 
-  Facebook, 
+import {
+  LocationOn,
+  Phone,
+  Email,
+  Instagram,
+  Facebook,
   YouTube,
   Twitter
 } from '@mui/icons-material'
@@ -19,8 +19,8 @@ export default function Footer() {
 
   const handleSubscribe = (e) => {
     e.preventDefault()
-    // Handle newsletter subscription
-    toast.success('Successfully subscribed to the newsletter!')
+    // Placeholder for actual newsletter subscription
+    toast.success('Thank you for subscribing! Newsletter feature coming soon.')
     setEmail('')
   }
 
@@ -33,12 +33,10 @@ export default function Footer() {
   ]
 
   const socialMediaLinks = [
-    { name: 'Instagram', icon: <Instagram />, href: '#' },
-    { name: 'TikTok', icon: '🎵', href: '#' },
-    { name: 'Facebook', icon: <Facebook />, href: '#' },
-    { name: 'YouTube', icon: <YouTube />, href: '#' },
-    { name: 'X', icon: <Twitter />, href: '#' },
-    { name: 'Spotify', icon: '🎧', href: '#' }
+    { name: 'Instagram', icon: <Instagram />, href: 'https://www.instagram.com/thelogicchurch_portharcourt' },
+    { name: 'Facebook', icon: <Facebook />, href: 'https://www.facebook.com/share/1GdU751w9R/' },
+    { name: 'YouTube', icon: <YouTube />, href: 'https://youtube.com/@thelogicchurchportharcourt' },
+    { name: 'Spotify', icon: '🎧', href: 'https://open.spotify.com/show/1c4BT5dABHj8HlPg3hexZ3' }
   ]
 
   return (
@@ -46,20 +44,20 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          
+
           {/* Section 1: Logo & Contact Info */}
           <div className="space-y-4">
             {/* Logo */}
             <div className="mb-6">
               <Link to="/">
-                <img 
-                  src={logoImage} 
-                  alt="LOGIC Church Logo" 
+                <img
+                  src={logoImage}
+                  alt="LOGIC Church Logo"
                   className="h-16 w-auto cursor-pointer"
                 />
               </Link>
             </div>
-            
+
             {/* Description */}
             <p className="text-gray-300 leading-relaxed mb-6">
               The Love Of God In Christ Church Port Harcourt
@@ -78,7 +76,7 @@ export default function Footer() {
               {/* Phone */}
               <div className="flex items-center gap-3 text-gray-300">
                 <Phone className="text-blue-400 flex-shrink-0" />
-                <span className="text-sm">+2348096682229</span>
+                <span className="text-sm">+234 809 668 2229</span>
               </div>
 
               {/* Email */}
@@ -95,12 +93,12 @@ export default function Footer() {
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
-                  <a 
-                    href={link.href}
+                  <Link
+                    to={link.href}
                     className="text-gray-300 hover:text-red-400 transition-colors duration-200 text-sm"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -128,7 +126,7 @@ export default function Footer() {
           {/* Section 4: Stay Connected */}
           <div>
             <h3 className="text-lg font-bold text-white mb-6">Stay Connected</h3>
-            
+
             {/* Description */}
             <p className="text-gray-300 text-sm mb-4 leading-relaxed">
               Subscribe to our newsletter for updates and inspiration.

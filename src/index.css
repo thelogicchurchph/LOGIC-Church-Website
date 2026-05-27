@@ -7,22 +7,18 @@ html, body{
 
 :root{
   --primary-color: linear-gradient(135deg, #CE1F2F, #541616);
+  --color-primary-red: #a82031;
+  --color-text-dark: #333333;
+  --color-text-medium: #555555;
+  --color-background-light: #ffffff;
+  --color-border-light: #e0e0e0;
+  --background-color: #f9fafb;
+  --color-grey-200: #e5e7eb;
+  --color-grey-400: #9ca3af;
 }
 
 .bg-gradient-red {
     background-image: linear-gradient(135deg, #CE1F2F, #541616);
-}
-
-:root {
-  --color-primary-red: #a82031; /* Used for "Home" button, "The LOGIC Church" text, and icons */
-  --color-text-dark: #333333;   /* For main headings like "Welcome to" */
-  --color-text-medium: #555555; /* For paragraph text */
-  --color-background-light: #ffffff; /* Main background color */
-  --color-border-light: #e0e0e0; /* For subtle borders/shadows, if any */
-}
-
-:root {
-  --background-color: #f9fafb ;
 }
 
 .scrollY {
@@ -33,13 +29,12 @@ html, body{
   min-height: 0;
   overflow: hidden auto;
 }
+
 body {
   color: var(--color-grey-200);
   cursor: default;
-  background: black;
-}
-body {
   transition: opacity ease-in 0.2s;
+  background-color: var(--background-color);
 }
 
 body {
@@ -53,14 +48,6 @@ html, body {
   height: 100%;
   margin: 0;
   font-size: 16px;
-}
-.scrollY {
-  -webkit-overflow-scrolling: touch;
-  -webkit-overflow-scroll: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-grey-400) transparent;
-  min-height: 0;
-  overflow: hidden auto;
 }
 .overflow-hidden {
   overflow: hidden;

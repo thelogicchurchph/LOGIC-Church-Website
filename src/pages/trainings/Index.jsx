@@ -1,13 +1,16 @@
 import React from 'react'
 import 'animate.css'
+import { Link } from 'react-router-dom'
+import useSEO from '../../hooks/useSEO'
 
 export default function TrainingsIndex() {
+  useSEO("LOGIC Academy", "Explore our discipleship journey: LOGIC Foundation Class and Discipleship Class.");
   return (
     <main className="min-h-screen bg-white text-gray-900">
       {/* Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
-          <img src="/assets/DSC_7881.jpeg" alt="Training Hero" className="h-full w-full object-cover" />
+          <img src="/images/DSC_7881.jpg" alt="Training Hero" className="h-full w-full object-cover" />
           <div className="absolute inset-0 bg-black/50" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
@@ -31,7 +34,7 @@ export default function TrainingsIndex() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold">LOGIC Foundation Class</h3>
                 <p className="mt-2 text-gray-700">The LOGIC Foundation Class (LFC) is the cornerstone of spiritual development at The LOGIC Church.</p>
-                <a href="/trainings/lfc" className="mt-4 inline-flex items-center text-blue-600 font-medium hover:underline">Learn More</a>
+                <Link to="/trainings/lfc" className="mt-4 inline-flex items-center text-blue-600 font-medium hover:underline">Learn More</Link>
               </div>
             </article>
 
@@ -41,7 +44,7 @@ export default function TrainingsIndex() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold">LOGIC Discipleship Class</h3>
                 <p className="mt-2 text-gray-700">Building upon the foundation laid in LFC, The LOGIC Discipleship Class is carefully crafted to prepare participants for effective ministry.</p>
-                <a href="/trainings/ldc" className="mt-4 inline-flex items-center text-blue-600 font-medium hover:underline">Learn More</a>
+                <Link to="/trainings/ldc" className="mt-4 inline-flex items-center text-blue-600 font-medium hover:underline">Learn More</Link>
               </div>
             </article>
           </div>

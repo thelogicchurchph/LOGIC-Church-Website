@@ -7,25 +7,25 @@ const welcomeData = [
     title: "Love",
     desc: "What we preach — the message of grace, truth, and Jesus.",
     icon: <Favorite className="text-6xl" />,
-    gradient: "from-red-500 to-pink-500",
-    bgGradient: "from-red-500/10 to-pink-500/10",
-    borderGradient: "from-red-500/30 to-pink-500/30"
+    gradient: "from-red-600 to-red-400",
+    bgGradient: "from-red-600/10 to-red-400/10",
+    borderGradient: "from-red-600/30 to-red-400/30"
   },
   {
     title: "Life", 
     desc: "What we give — a family where you grow, belong, and flourish.",
     icon: <ConnectWithoutContact className="text-6xl" />,
-    gradient: "from-blue-500 to-cyan-500",
-    bgGradient: "from-blue-500/10 to-cyan-500/10",
-    borderGradient: "from-blue-500/30 to-cyan-500/30"
+    gradient: "from-red-600 to-red-400",
+    bgGradient: "from-red-600/10 to-red-400/10",
+    borderGradient: "from-red-600/30 to-red-400/30"
   },
   {
     title: "Impact",
     desc: "What we do — transforming lives and communities by the Spirit.",
     icon: <Public className="text-6xl" />,
-    gradient: "from-purple-500 to-indigo-500",
-    bgGradient: "from-purple-500/10 to-indigo-500/10",
-    borderGradient: "from-purple-500/30 to-indigo-500/30"
+    gradient: "from-red-600 to-red-400",
+    bgGradient: "from-red-600/10 to-red-400/10",
+    borderGradient: "from-red-600/30 to-red-400/30"
   }
 ]
 

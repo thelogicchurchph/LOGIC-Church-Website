@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import 'animate.css';
 import { Send, Phone, Email, LocationOn } from '@mui/icons-material';
+import api from '../../api/axios';
+import { toast } from 'sonner';
+import useSEO from '../../hooks/useSEO';
 
 const Contact = () => {
+  useSEO("Contact Us", "Get in touch with LOGIC Church Port Harcourt. We'd love to hear from you.");
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: '',
@@ -15,14 +19,18 @@ const Contact = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      alert('Thank you for contacting L.O.G.I.C. Church Port Harcourt. We will get back to you shortly.');
-      setLoading(false);
+    try {
+      await api.post('/contact', form);
+      toast.success('Thank you for contacting L.O.G.I.C. Church Port Harcourt. We will get back to you shortly.');
       setForm({ name: '', email: '', subject: '', message: '' });
-    }, 1500);
+    } catch (error) {
+      toast.error('Failed to send message. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
