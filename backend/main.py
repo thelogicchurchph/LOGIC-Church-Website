@@ -14,19 +14,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Cloudinary Configuration
-# Support both CLOUDINARY_URL (single string) and individual key env vars.
+# The SDK can parse CLOUDINARY_URL natively via the cloudinary_url parameter.
+# Using urllib to parse it manually breaks when the API secret contains special characters.
 cloudinary_url = os.getenv("CLOUDINARY_URL")
 if cloudinary_url:
-    # Explicitly configure from the URL string, e.g.:
-    # cloudinary://api_key:api_secret@cloud_name
-    import urllib.parse
-    parsed = urllib.parse.urlparse(cloudinary_url)
-    cloudinary.config(
-        cloud_name=parsed.hostname,
-        api_key=parsed.username,
-        api_secret=parsed.password,
-        secure=True
-    )
+    cloudinary.config(cloudinary_url=cloudinary_url)
 else:
     cloudinary.config(
         cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
