@@ -126,7 +126,7 @@ export default function Gallary() {
             {/* Description Text - Left Side */}
             <div className="lg:w-1/2 flex items-center justify-center lg:justify-start">
               <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 leading-relaxed animate__animated animate__fadeInUp animate__delay-1s text-center lg:text-left">
-                Feed your eyes with our amazing moments, with a smile face
+                Experience the joy, worship, and vibrant community life that defines our church family.
               </p>
             </div>
 
