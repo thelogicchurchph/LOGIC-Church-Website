@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
+import api from '../api/axios'
 import {
   LocationOn,
   Phone,
   Email,
   Instagram,
   Facebook,
-  YouTube,
-  Twitter
+  YouTube
 } from '@mui/icons-material'
 
 // Import logo
@@ -17,11 +17,25 @@ import logoImage from '/assets/image.webp'
 export default function Footer() {
   const [email, setEmail] = useState('')
 
-  const handleSubscribe = (e) => {
+  const [subscribing, setSubscribing] = useState(false)
+
+  const handleSubscribe = async (e) => {
     e.preventDefault()
-    // Placeholder for actual newsletter subscription
-    toast.success('Thank you for subscribing! Newsletter feature coming soon.')
-    setEmail('')
+    if (!email) return
+    setSubscribing(true)
+    try {
+      const res = await api.post('/newsletter/subscribe', { email })
+      if (res.message === 'Already subscribed') {
+        toast.info('This email is already subscribed!')
+      } else {
+        toast.success('Subscribed! Thank you for joining our community.')
+      }
+      setEmail('')
+    } catch (error) {
+      toast.error('Could not subscribe. Please try again.')
+    } finally {
+      setSubscribing(false)
+    }
   }
 
   const quickLinks = [
@@ -144,9 +158,10 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="w-full bg-gradient-red text-white py-3 px-6 rounded-lg font-semibold text-sm transition-all duration-300 hover:shadow-lg transform hover:scale-105"
+                disabled={subscribing}
+                className="w-full bg-red-600 text-white py-3 px-6 rounded-lg font-semibold text-sm transition-all duration-300 hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Subscribe
+                {subscribing ? 'Subscribing...' : 'Subscribe'}
               </button>
             </form>
 

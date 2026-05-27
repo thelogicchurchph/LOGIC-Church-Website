@@ -112,3 +112,6 @@ class SiteSettingResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class NewsletterSubscribeCreate(BaseModel):
+    email: str

@@ -27,7 +27,13 @@ export default function TalkToPPC() {
     e.preventDefault()
     setLoading(true)
     try {
-      await api.post('/talk-to-ppc', form)
+      await api.post('/talk-to-ppc', {
+        name: form.name,
+        phone: form.phone,
+        gender: form.gender,
+        request_type: form.requestType,
+        message: form.message
+      })
       toast.success('Your message has been sent to Pastor Paul Chisom (PPC). You will hear from us soon!')
       setForm({ name: '', phone: '', gender: 'Male', requestType: 'Prayer', message: '' })
     } catch (error) {
@@ -50,21 +56,17 @@ export default function TalkToPPC() {
           <div className="absolute inset-0 bg-black/50" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-32 flex flex-col items-center justify-center text-center h-full">
-          <div className="animate__animated animate__fadeInUp inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md bg-white/15 text-white text-sm font-medium shadow-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-red-500"></span>
-            Direct Access
-          </div>
-          <h1 className="mt-6 text-4xl sm:text-6xl font-extrabold leading-tight animate__animated animate__fadeInUp animate__delay-1s text-white">
+          <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight animate__animated animate__fadeInUp text-white">
             Talk 2 <span className="text-red-500">PPC</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg sm:text-xl text-gray-200 animate__animated animate__fadeInUp animate__delay-2s">
+          <p className="mt-6 max-w-2xl text-lg sm:text-xl text-gray-200 animate__animated animate__fadeInUp animate__delay-1s">
             Direct communication with our Lead Pastor, Paul Chisom. Whatever is on your heart, PPC is here to listen, pray, and guide.
           </p>
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           
           {/* ── Pastor Profile ─────────────────────────────── */}
           <div className="animate__animated animate__fadeInLeft">

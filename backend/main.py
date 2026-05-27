@@ -530,3 +530,32 @@ def get_talk_to_ppc_messages(db: Session = Depends(database.get_db), current_use
     if current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Not authorized")
     return db.query(models.TalkToPPCMessage).order_by(models.TalkToPPCMessage.created_at.desc()).all()
+
+# ── Newsletter ────────────────────────────────────────────────────────────────
+
+@app.post("/newsletter/subscribe")
+def subscribe_newsletter(payload: schemas.NewsletterSubscribeCreate, db: Session = Depends(database.get_db)):
+    existing = db.query(models.NewsletterSubscriber).filter(models.NewsletterSubscriber.email == payload.email).first()
+    if existing:
+        return {"message": "Already subscribed"}
+    subscriber = models.NewsletterSubscriber(email=payload.email)
+    db.add(subscriber)
+    db.commit()
+    return {"message": "Subscribed successfully"}
+
+@app.get("/admin/newsletter/subscribers")
+def get_newsletter_subscribers(db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    return db.query(models.NewsletterSubscriber).order_by(models.NewsletterSubscriber.subscribed_at.desc()).all()
+
+@app.delete("/admin/newsletter/subscribers/{subscriber_id}")
+def delete_newsletter_subscriber(subscriber_id: int, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    subscriber = db.query(models.NewsletterSubscriber).filter(models.NewsletterSubscriber.id == subscriber_id).first()
+    if not subscriber:
+        raise HTTPException(status_code=404, detail="Subscriber not found")
+    db.delete(subscriber)
+    db.commit()
+    return {"message": "Deleted"}

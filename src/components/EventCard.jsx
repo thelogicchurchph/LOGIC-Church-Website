@@ -4,21 +4,21 @@ const EventCard = ({ image, title, date, time, venue, onDelete, onEdit }) => {
   const imageUrl = image?.startsWith('http') ? image : `http://localhost:8000${image}`;
 
   return (
-    <div className="group bg-[#0a0a0a] rounded-3xl overflow-hidden border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all duration-300 relative">
+    <div className="group bg-[#111111] rounded-3xl overflow-hidden border border-white/10 hover:border-red-500/30 hover:shadow-lg hover:shadow-red-500/10 transition-all duration-300 relative">
       {/* Image Container */}
       <div className="relative overflow-hidden h-64">
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-2"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="bg-[#111111] p-6">
         {/* Title */}
-        <h3 className="text-xl font-bold text-white mb-6 pr-8">
+        <h3 className="text-xl font-bold text-white mb-4 pr-8">
           {title}
         </h3>
 
@@ -30,7 +30,7 @@ const EventCard = ({ image, title, date, time, venue, onDelete, onEdit }) => {
                 e.stopPropagation();
                 onEdit();
               }}
-              className="p-2 bg-white/5 hover:bg-white/10 text-white rounded-full transition-all duration-300 border border-white/10"
+              className="p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all duration-300 border border-white/20"
               title="Edit Event"
             >
               <Edit className="text-xl" />
@@ -42,7 +42,7 @@ const EventCard = ({ image, title, date, time, venue, onDelete, onEdit }) => {
                 e.stopPropagation();
                 onDelete();
               }}
-              className="p-2 bg-red-600/10 hover:bg-red-600/20 text-red-500 rounded-full transition-all duration-300 border border-red-500/20"
+              className="p-2 bg-red-600/20 hover:bg-red-600/40 text-red-400 rounded-full transition-all duration-300 border border-red-500/30"
               title="Delete Event"
             >
               <Delete className="text-xl" />
@@ -51,21 +51,18 @@ const EventCard = ({ image, title, date, time, venue, onDelete, onEdit }) => {
         </div>
 
         {/* Event Details */}
-        <div className="space-y-4">
-          {/* Date */}
-          <div className="flex items-center gap-3 text-white/70">
-            <CalendarToday className="text-red-500/80 text-[18px]" />
-            <span className="text-sm font-medium">{date}</span>
+        <div className="space-y-3">
+          <div className="flex items-center gap-3">
+            <CalendarToday style={{ color: '#ef4444', fontSize: '18px' }} />
+            <span className="text-sm font-medium" style={{ color: '#e5e7eb' }}>{date}</span>
           </div>
-
-          <div className="flex items-center gap-3 text-white/70">
-            <AccessTime className="text-red-500/80 text-[18px]" />
-            <span className="text-sm font-medium">{time}</span>
+          <div className="flex items-center gap-3">
+            <AccessTime style={{ color: '#ef4444', fontSize: '18px' }} />
+            <span className="text-sm font-medium" style={{ color: '#e5e7eb' }}>{time}</span>
           </div>
-
-          <div className="flex items-center gap-3 text-white/70">
-            <LocationOn className="text-red-500/80 text-[18px]" />
-            <span className="text-sm font-medium">{venue}</span>
+          <div className="flex items-center gap-3">
+            <LocationOn style={{ color: '#ef4444', fontSize: '18px' }} />
+            <span className="text-sm font-medium" style={{ color: '#e5e7eb' }}>{venue}</span>
           </div>
         </div>
       </div>

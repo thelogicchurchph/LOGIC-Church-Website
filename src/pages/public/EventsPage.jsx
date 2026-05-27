@@ -35,14 +35,10 @@ export default function EventsPage() {
           <div className="absolute inset-0 bg-gradient-to-br from-red-900/40 via-black to-gray-900" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-32 flex flex-col items-center justify-center text-center h-full">
-          <div className="animate__animated animate__fadeInUp inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md bg-white/10 text-white text-sm font-medium border border-white/20">
-            <span className="inline-block h-2 w-2 rounded-full bg-red-500"></span>
-            Calendar
-          </div>
-          <h1 className="mt-6 text-4xl sm:text-6xl font-extrabold leading-tight animate__animated animate__fadeInUp animate__delay-1s text-white">
+          <h1 className="mt-6 text-4xl sm:text-6xl font-extrabold leading-tight animate__animated animate__fadeInUp text-white">
             Upcoming <span className="text-red-500">Events</span>
           </h1>
-          <p className="mt-6 max-w-2xl text-lg sm:text-xl text-gray-300 animate__animated animate__fadeInUp animate__delay-2s">
+          <p className="mt-6 max-w-2xl text-lg sm:text-xl text-gray-300 animate__animated animate__fadeInUp animate__delay-1s">
             Join us for powerful gatherings, community fellowships, and life-transforming sessions.
           </p>
         </div>

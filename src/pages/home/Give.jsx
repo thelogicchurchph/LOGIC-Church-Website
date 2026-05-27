@@ -105,11 +105,7 @@ export default function Give() {
           <div className="absolute inset-0 bg-black/55" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-32 sm:py-40 flex flex-col items-center justify-center text-center h-full">
-          <div className="animate__animated animate__fadeInUp inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md bg-white/15 text-white text-sm font-medium shadow-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-white/80"></span>
-            Hilarious Generosity
-          </div>
-          <h1 className="mt-6 text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight animate__animated animate__fadeInUp animate__delay-1s">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold leading-tight animate__animated animate__fadeInUp">
             <span className="text-white">Worship Through</span>
             <span className="block bg-gradient-to-r from-red-600 to-rose-400 bg-clip-text text-transparent">Giving</span>
           </h1>

@@ -26,10 +26,9 @@ const Dashboard = lazy(() => import('./pages/admin/Dashboard'))
 const AdminManagement = lazy(() => import('./pages/admin/AdminManagement'))
 const EventSetting = lazy(() => import('./pages/admin/EventSetting'))
 const Gallery = lazy(() => import('./pages/admin/Gallery'))
-const Posts = lazy(() => import('./pages/admin/Posts'))
-const AdminProfile = lazy(() => import('./pages/admin/AdminProfile'))
 const Inbox = lazy(() => import('./pages/admin/Inbox'))
 const Settings = lazy(() => import('./pages/admin/Settings'))
+const Newsletter = lazy(() => import('./pages/admin/Newsletter'))
 
 // Main routes configuration
 export const routes = [
@@ -208,6 +207,14 @@ export const routes = [
         path: 'settings',
         element: <Settings />,
         name: 'Settings',
+        showInNav: true,
+        showInFooter: false,
+        isAdmin: true,
+      },
+      {
+        path: 'newsletter',
+        element: <Newsletter />,
+        name: 'Newsletter',
         showInNav: true,
         showInFooter: false,
         isAdmin: true,

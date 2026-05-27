@@ -28,11 +28,6 @@ export default function About() {
           <div className="absolute inset-0 bg-black/50" />
         </div>
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32 flex flex-col items-center justify-center text-center h-full">
-          {/* Pill */}
-          <div className="animate__animated animate__fadeInUp inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-md bg-white/15 text-white text-sm font-medium shadow-sm">
-            <span className="inline-block h-2 w-2 rounded-full bg-white/80"></span>
-            Our Story
-          </div>
           {/* Heading */}
           <h1 className="mt-6 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight animate__animated animate__fadeInUp animate__delay-1s">
             <span className="text-white">About The LOGIC Church</span>

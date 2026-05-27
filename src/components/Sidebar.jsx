@@ -7,9 +7,9 @@ import {
   Users, 
   Calendar, 
   Image as ImageIcon,
-  MessageSquare,
   Mail,
   Settings,
+  List,
   LogOut 
 } from 'lucide-react';
 
@@ -50,7 +50,13 @@ const Sidebar = () => {
       adminOnly: true
     },
     { 
-      name: 'Settings', 
+      name: 'Newsletter', 
+      path: '/admin/newsletter',
+      icon: <List size={18} />,
+      adminOnly: true
+    },
+    { 
+      name: 'Settings',  
       path: '/admin/settings',
       icon: <Settings size={18} />,
       adminOnly: true

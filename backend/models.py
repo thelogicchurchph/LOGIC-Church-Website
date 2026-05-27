@@ -95,3 +95,9 @@ class SiteSetting(Base):
     value = Column(Text)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
+class NewsletterSubscriber(Base):
+    __tablename__ = "newsletter_subscribers"
+
+    id = Column(Integer, primary_key=True, index=True)
+    email = Column(String, unique=True, index=True)
+    subscribed_at = Column(DateTime(timezone=True), server_default=func.now())
