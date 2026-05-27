@@ -28,6 +28,8 @@ const EventSetting = lazy(() => import('./pages/admin/EventSetting'))
 const Gallery = lazy(() => import('./pages/admin/Gallery'))
 const Posts = lazy(() => import('./pages/admin/Posts'))
 const AdminProfile = lazy(() => import('./pages/admin/AdminProfile'))
+const Inbox = lazy(() => import('./pages/admin/Inbox'))
+const Settings = lazy(() => import('./pages/admin/Settings'))
 
 // Main routes configuration
 export const routes = [
@@ -190,6 +192,22 @@ export const routes = [
         path: 'posts',
         element: <Posts />,
         name: 'Posts',
+        showInNav: true,
+        showInFooter: false,
+        isAdmin: true,
+      },
+      {
+        path: 'inbox',
+        element: <Inbox />,
+        name: 'Inbox',
+        showInNav: true,
+        showInFooter: false,
+        isAdmin: true,
+      },
+      {
+        path: 'settings',
+        element: <Settings />,
+        name: 'Settings',
         showInNav: true,
         showInFooter: false,
         isAdmin: true,

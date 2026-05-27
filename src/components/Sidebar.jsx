@@ -8,6 +8,8 @@ import {
   Calendar, 
   Image as ImageIcon,
   MessageSquare,
+  Mail,
+  Settings,
   LogOut 
 } from 'lucide-react';
 
@@ -36,9 +38,21 @@ const Sidebar = () => {
       adminOnly: false
     },
     { 
-      name: 'Messages', 
-      path: '/admin/posts', // Assuming posts is where messages are managed, or maybe it needs a new path.
+      name: 'Forum Posts', 
+      path: '/admin/posts',
       icon: <MessageSquare size={18} />,
+      adminOnly: true
+    },
+    { 
+      name: 'Inbox', 
+      path: '/admin/inbox',
+      icon: <Mail size={18} />,
+      adminOnly: true
+    },
+    { 
+      name: 'Settings', 
+      path: '/admin/settings',
+      icon: <Settings size={18} />,
       adminOnly: true
     },
     { 

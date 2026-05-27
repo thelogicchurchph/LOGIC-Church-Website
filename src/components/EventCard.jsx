@@ -53,18 +53,18 @@ const EventCard = ({ image, title, date, time, venue, onDelete, onEdit }) => {
         {/* Event Details */}
         <div className="space-y-4">
           {/* Date */}
-          <div className="flex items-center gap-3 text-gray-400">
-            <CalendarToday className="text-gray-500 text-[18px]" />
+          <div className="flex items-center gap-3 text-white/70">
+            <CalendarToday className="text-red-500/80 text-[18px]" />
             <span className="text-sm font-medium">{date}</span>
           </div>
 
-          <div className="flex items-center gap-3 text-gray-400">
-            <AccessTime className="text-gray-500 text-[18px]" />
+          <div className="flex items-center gap-3 text-white/70">
+            <AccessTime className="text-red-500/80 text-[18px]" />
             <span className="text-sm font-medium">{time}</span>
           </div>
 
-          <div className="flex items-center gap-3 text-gray-400">
-            <LocationOn className="text-gray-500 text-[18px]" />
+          <div className="flex items-center gap-3 text-white/70">
+            <LocationOn className="text-red-500/80 text-[18px]" />
             <span className="text-sm font-medium">{venue}</span>
           </div>
         </div>
