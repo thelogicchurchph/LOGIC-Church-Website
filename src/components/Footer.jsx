@@ -96,7 +96,7 @@ export default function Footer() {
               {/* Email */}
               <div className="flex items-center gap-3 text-gray-300">
                 <Email className="text-green-400 flex-shrink-0" />
-                <span className="text-sm">hello@thelogicchurch.org</span>
+                <span className="text-sm">info@thelogicchurchph.org</span>
               </div>
             </div>
           </div>

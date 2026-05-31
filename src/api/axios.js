@@ -23,10 +23,17 @@ export const getBaseUrl = () => {
   return url;
 };
 
-// For static image matching
 export const getAssetUrl = (path) => {
   if (!path) return "";
-  if (path.startsWith('http')) return path;
+  if (path.startsWith('http')) {
+    // Automatically optimize Cloudinary images
+    if (path.includes('res.cloudinary.com') && path.includes('/upload/')) {
+       if (!path.includes('/upload/q_auto,f_auto/')) {
+           return path.replace('/upload/', '/upload/q_auto,f_auto/');
+       }
+    }
+    return path;
+  }
   
   const base = getBaseUrl();
   // Backend now mounts at /uploads
