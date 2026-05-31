@@ -4,12 +4,12 @@ import useSEO from '../../hooks/useSEO';
 
 const Messages = () => {
   useSEO("Messages", "Watch live services and past sermons from LOGIC Church Port Harcourt.");
-  const [videoUrl, setVideoUrl] = useState("https://www.youtube.com/embed/VnE_prPrko8");
+  const [videoUrl, setVideoUrl] = useState(null);
 
   useEffect(() => {
     api.get('/settings/featured-sermon')
       .then(res => setVideoUrl(res.value || "https://www.youtube.com/embed/VnE_prPrko8"))
-      .catch(err => console.error(err));
+      .catch(() => setVideoUrl("https://www.youtube.com/embed/VnE_prPrko8"));
   }, []);
 
   return (
@@ -37,17 +37,26 @@ const Messages = () => {
             </h2>
           </div>
           
-          <div className="aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-800 relative group">
-            <iframe 
-               width="100%" 
-               height="100%" 
-               src={videoUrl} 
-               title="YouTube video player" 
-               frameBorder="0" 
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-               allowFullScreen
-               className="w-full h-full object-cover"
-            ></iframe>
+          <div className="aspect-video bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-800 relative">
+            {videoUrl ? (
+              <iframe 
+                 width="100%" 
+                 height="100%" 
+                 src={videoUrl} 
+                 title="YouTube video player" 
+                 frameBorder="0" 
+                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                 allowFullScreen
+                 className="w-full h-full object-cover"
+              ></iframe>
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-900">
+                <div className="flex flex-col items-center gap-3 text-gray-500">
+                  <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-red-500"></div>
+                  <span className="text-sm">Loading sermon...</span>
+                </div>
+              </div>
+            )}
           </div>
           
           <div className="bg-gradient-to-br from-gray-900 to-black p-8 rounded-2xl border border-gray-800 flex flex-col sm:flex-row items-center justify-between hover:border-red-900/50 transition-colors duration-500">
