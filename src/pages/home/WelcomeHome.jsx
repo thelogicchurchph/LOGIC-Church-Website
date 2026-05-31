@@ -12,7 +12,7 @@ const welcomeData = [
     borderGradient: "from-red-600/30 to-red-400/30"
   },
   {
-    title: "Life", 
+    title: "Life",
     desc: "What we give — a family where you grow, belong, and flourish.",
     icon: <ConnectWithoutContact className="text-6xl" />,
     gradient: "from-red-600 to-red-400",
@@ -41,10 +41,10 @@ export default function WelcomeHome() {
               The LOGIC Church
             </span>
           </h2>
-          
+
           {/* Description */}
           <p className="text-lg md:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed animate__animated animate__fadeInUp animate__delay-1s">
-            We are a Word-based, Spirit-filled family where the Love Of God In Christ is lived out daily. 
+            We are a Word-based, Spirit-filled family where the Love Of God In Christ is lived out daily.
             Here, you'll grow in grace, experience true worship, build real relationships, and encounter the power of God.
           </p>
         </div>
@@ -61,7 +61,7 @@ export default function WelcomeHome() {
             >
               {/* Glowing effect */}
               <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 bg-gradient-to-br ${item.gradient} rounded-3xl blur-xl`}></div>
-              
+
               {/* Icon */}
               <div className="relative flex justify-center mb-8">
                 <div className={`p-6 rounded-full bg-gradient-to-br ${item.gradient} shadow-lg transform group-hover:scale-110 transition-transform duration-300`}>
@@ -70,12 +70,12 @@ export default function WelcomeHome() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Title */}
               <h3 className={`text-3xl font-black text-center mb-6 bg-gradient-to-r ${item.gradient} bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300`}>
                 {item.title}
               </h3>
-              
+
               {/* Description */}
               <p className="text-gray-300 text-center leading-relaxed text-base group-hover:text-gray-200 transition-colors duration-300">
                 {item.desc}

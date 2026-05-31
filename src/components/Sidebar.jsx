@@ -7,6 +7,7 @@ import {
   Users, 
   Calendar, 
   Image as ImageIcon,
+  MessageSquare,
   Mail,
   Settings,
   List,
