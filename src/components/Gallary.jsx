@@ -106,9 +106,8 @@ export default function Gallary() {
             </div>
 
             {/* Gallery Container - Right Side */}
-            <div className="lg:w-1/2 relative max-w-full">
-              {/* Overflow container to show stacked cards */}
-              <div className="relative w-full" style={{ paddingRight: '43px' }}>
+            <div className="lg:w-1/2 relative max-w-full flex justify-center">
+              <div className="relative w-full">
                 {/* Custom Navigation Arrows */}
                 <div className="hidden md:block">
                   <button

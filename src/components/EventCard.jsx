@@ -1,16 +1,32 @@
 import { CalendarToday, AccessTime, LocationOn, Delete, Edit } from '@mui/icons-material';
+import { getAssetUrl } from '../api/axios';
 
 const EventCard = ({ image, title, date, time, venue, onDelete, onEdit }) => {
-  const imageUrl = image?.startsWith('http') ? image : `http://localhost:8000${image}`;
+  const imageUrl = image?.startsWith('http') ? image : getAssetUrl(image);
+
+  // Check if event is in the past
+  const isPast = (() => {
+    if (!date) return false;
+    const eventDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return eventDate < today;
+  })();
 
   return (
     <div className="group bg-[#111111] rounded-3xl overflow-hidden border border-white/10 hover:border-red-500/30 hover:shadow-lg hover:shadow-red-500/10 transition-all duration-300 relative">
       {/* Image Container */}
       <div className="relative overflow-hidden h-64">
+        {isPast && (
+          <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md text-gray-300 text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-widest z-10 border border-white/10 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-gray-500"></span>
+            Past Event
+          </div>
+        )}
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${isPast ? 'grayscale opacity-70' : ''}`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
       </div>

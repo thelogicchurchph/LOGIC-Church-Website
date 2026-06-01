@@ -384,7 +384,67 @@ def delete_comment(comment_id: int, db: Session = Depends(database.get_db), curr
 
 @app.get("/events", response_model=list[schemas.EventResponse])
 def get_events(db: Session = Depends(database.get_db)):
-    return db.query(models.Event).order_by(models.Event.created_at.desc()).all()
+    import calendar
+    import datetime
+    
+    events = db.query(models.Event).all()
+    today_date = datetime.date.today()
+    modified = False
+    
+    for event in events:
+        if not event.date: continue
+        
+        try:
+            event_date = datetime.datetime.strptime(event.date, "%Y-%m-%d").date()
+        except ValueError:
+            continue
+            
+        if event_date < today_date and getattr(event, 'recurring', 'none') != "none":
+            next_date = event_date
+            
+            if event.recurring == "daily":
+                next_date = today_date
+            elif event.recurring == "weekly":
+                days_diff = (today_date - event_date).days
+                weeks_to_add = (days_diff // 7) + 1
+                next_date = event_date + datetime.timedelta(days=weeks_to_add * 7)
+            elif event.recurring == "monthly":
+                m = event_date.month
+                y = event_date.year
+                d = event_date.day
+                while True:
+                    m += 1
+                    if m > 12:
+                        m = 1
+                        y += 1
+                    
+                    _, last_day = calendar.monthrange(y, m)
+                    next_d = min(d, last_day)
+                    
+                    next_date = datetime.date(y, m, next_d)
+                    if next_date >= today_date:
+                        break
+                        
+            event.date = next_date.strftime("%Y-%m-%d")
+            modified = True
+            
+    if modified:
+        db.commit()
+        
+    def sort_key(e):
+        if not e.date: return (2, datetime.date.min)
+        try:
+            d = datetime.datetime.strptime(e.date, "%Y-%m-%d").date()
+            if d >= today_date:
+                # Group 0: Upcoming events, sorted ascending (closest first)
+                return (0, d)
+            else:
+                # Group 1: Past events, sorted descending (most recent past first)
+                return (1, datetime.date.max - d)
+        except ValueError:
+            return (2, datetime.date.min)
+
+    return sorted(events, key=sort_key)
 
 @app.post("/events", response_model=schemas.EventResponse)
 def create_event(event: schemas.EventCreate, db: Session = Depends(database.get_db), current_user: models.User = Depends(get_current_user)):
