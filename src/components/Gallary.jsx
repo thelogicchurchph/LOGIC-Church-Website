@@ -1,50 +1,25 @@
 import React, { useState, useEffect } from 'react'
 import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { Navigation, Pagination, EffectCards } from 'swiper/modules'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
-import 'swiper/css/effect-cards'
 import 'animate.css'
 
-// Custom styles for left-stacked cards
+// Custom styles for clean slider
 const customStyles = `
-.swiper-cards-gallery {
-  max-width: 100% !important;
-  overflow: visible !important;
+.swiper-simple-gallery {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
 }
-
-.swiper-cards-gallery .swiper-cards-container {
-  left: 0 !important;
-  transform-origin: left center !important;
-  max-width: 100% !important;
-}
-
-.swiper-cards-gallery .swiper-slide {
-  transform-origin: left center !important;
-  left: 0 !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.swiper-cards-gallery .swiper-slide:not(.swiper-slide-active) {
-  transform-origin: left center !important;
-}
-
-.swiper-cards-gallery .swiper-slide-shadow-cards {
-  background: linear-gradient(to right, rgba(0,0,0,0.5), transparent) !important;
-}
-
-.swiper-cards-gallery .swiper-wrapper {
-  max-width: 100% !important;
-}
-
-.swiper-cards-gallery img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
+.swiper-simple-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1rem;
 }
 `
 
@@ -150,8 +125,8 @@ export default function Gallary() {
                   </button>
                 </div>
 
-                {/* Swiper Container with Stacked Cards Effect */}
-                <div className="w-full max-w-md h-90 md:h-80 lg:h-96" style={{ overflow: 'visible' }}>
+                {/* Swiper Container */}
+                <div className="w-full max-w-md md:max-w-lg lg:max-w-xl h-80 md:h-96 rounded-2xl shadow-xl overflow-hidden relative">
                   {loading ? (
                     <div className="w-full h-full flex flex-col items-center justify-center bg-gray-100 rounded-2xl">
                       <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-red-500 mb-3"></div>
@@ -167,25 +142,24 @@ export default function Gallary() {
                     </div>
                   ) : (
                   <Swiper
-                    effect="cards"
-                    grabCursor={true}
-                    modules={[EffectCards, Navigation, Pagination]}
-                    className="w-full h-full swiper-cards-gallery"
-                    onSwiper={setSwiper}
-                    cardsEffect={{
-                      perSlideOffset: 6,
-                      perSlideRotate: 2,
-                      rotate: true,
-                      slideShadows: true,
+                    spaceBetween={20}
+                    slidesPerView={1}
+                    loop={true}
+                    autoplay={{
+                      delay: 3500,
+                      disableOnInteraction: false,
                     }}
+                    grabCursor={true}
+                    modules={[Navigation, Pagination, Autoplay]}
+                    className="swiper-simple-gallery bg-gray-900"
+                    onSwiper={setSwiper}
                     style={{
                       '--swiper-navigation-color': '#fff',
                       '--swiper-pagination-color': '#fff',
-                      overflow: 'visible'
                     }}
                   >
                     {images.map((image, index) => (
-                      <SwiperSlide key={index} className="rounded-2xl overflow-hidden shadow-2xl">
+                      <SwiperSlide key={index} className="w-full h-full">
                         <div className="w-full h-full relative">
                           <img
                             src={image.image_url ? getAssetUrl(image.image_url) : image.src}
