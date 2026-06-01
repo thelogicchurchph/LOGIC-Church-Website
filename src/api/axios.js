@@ -45,7 +45,7 @@ export const getAssetUrl = (path) => {
 
 const api = axios.create({
   baseURL: getBaseUrl(),
-  timeout: 30000,
+  timeout: 60000, // Increased to 60s to handle Render free-tier cold starts
   headers: {
     'Content-Type': 'application/json',
   }
@@ -76,6 +76,18 @@ api.interceptors.response.use(
     return response.data;
   },
   (error) => {
+    const config = error.config;
+    
+    // If it's a network error, timeout, or 502/504 (Render cold start or gateway timeout)
+    // and we haven't retried yet, try one more time.
+    if (config && !config._retry) {
+      if (!error.response || error.response.status >= 500 || error.code === 'ECONNABORTED') {
+        config._retry = true;
+        console.log('API taking long to respond (likely Render cold start). Retrying request...');
+        return new Promise((resolve) => setTimeout(resolve, 2000)).then(() => api(config));
+      }
+    }
+
     if (error.response) {
       console.error('API Error:', error.response.data);
     } else if (error.request) {

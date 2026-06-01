@@ -6,9 +6,12 @@ export default function ErrorBoundary() {
   const error = useRouteError();
   
   // Handle Vite Dynamic Import Error (Chunk Load Error)
-  if (error && error.message && error.message.includes('Failed to fetch dynamically imported module')) {
-    window.location.reload();
-    return null;
+  if (error && error.message) {
+    const msg = error.message.toLowerCase();
+    if (msg.includes('dynamically imported module') || msg.includes('importing a module script failed')) {
+      window.location.reload();
+      return null;
+    }
   }
 
   return (
