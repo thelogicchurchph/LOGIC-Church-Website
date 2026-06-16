@@ -198,13 +198,33 @@ def forgot_password(payload: dict, db: Session = Depends(database.get_db)):
         
         url = "https://api.sendgrid.com/v3/mail/send"
         reset_url = f"https://www.thelogicchurchph.org/forum/reset-password?token={token}"
-        body = f"Click the link below to reset your password. This link expires in 15 minutes.\n\n{reset_url}"
+        
+        html_body = f"""
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
+            <h2 style="color: #d32f2f;">Password Reset Request</h2>
+            <p>Hello,</p>
+            <p>We received a request to reset the password for your account at LOGIC Church. If you made this request, please click the button below to set a new password:</p>
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{reset_url}" style="background-color: #d32f2f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Reset Password</a>
+            </div>
+            <p>This link will expire in 15 minutes.</p>
+            <p>If you did not request a password reset, you can safely ignore this email. Your password will remain unchanged.</p>
+            <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;" />
+            <p style="font-size: 12px; color: #777;">If the button doesn't work, copy and paste this link into your browser:<br><a href="{reset_url}" style="color: #d32f2f; word-break: break-all;">{reset_url}</a></p>
+        </div>
+        """
         
         data = {
             "personalizations": [{"to": [{"email": email}]}],
-            "from": {"email": sender_email},
+            "from": {"email": sender_email, "name": "LOGIC Church PH"},
             "subject": "Password Reset Request",
-            "content": [{"type": "text/plain", "value": body}]
+            "content": [{"type": "text/html", "value": html_body}],
+            "tracking_settings": {
+                "click_tracking": {
+                    "enable": False,
+                    "enable_text": False
+                }
+            }
         }
         
         req = urllib.request.Request(url, data=json.dumps(data).encode('utf-8'), headers={
