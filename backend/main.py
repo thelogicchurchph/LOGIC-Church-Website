@@ -188,29 +188,36 @@ def forgot_password(payload: dict, db: Session = Depends(database.get_db)):
     user.reset_token_expiry = datetime.datetime.utcnow() + timedelta(minutes=15)
     db.commit()
     
-    # Send email
+    # Send email using SendGrid v3 REST API to bypass Render SMTP port blocking
     sendgrid_api_key = os.getenv("SENDGRID_API_KEY")
     sender_email = os.getenv("SENDGRID_SENDER_EMAIL", "info@thelogicchurchph.org")
     
     if sendgrid_api_key:
+        import json
+        import urllib.request
+        
+        url = "https://api.sendgrid.com/v3/mail/send"
+        reset_url = f"https://www.thelogicchurchph.org/forum/reset-password?token={token}"
+        body = f"Click the link below to reset your password. This link expires in 15 minutes.\n\n{reset_url}"
+        
+        data = {
+            "personalizations": [{"to": [{"email": email}]}],
+            "from": {"email": sender_email},
+            "subject": "Password Reset Request",
+            "content": [{"type": "text/plain", "value": body}]
+        }
+        
+        req = urllib.request.Request(url, data=json.dumps(data).encode('utf-8'), headers={
+            "Authorization": f"Bearer {sendgrid_api_key}",
+            "Content-Type": "application/json"
+        })
+        
         try:
-            msg = MIMEMultipart()
-            msg['From'] = sender_email
-            msg['To'] = email
-            msg['Subject'] = "Password Reset Request"
-            
-            reset_url = f"https://www.thelogicchurchph.org/forum/reset-password?token={token}"
-            body = f"Click the link below to reset your password. This link expires in 15 minutes.\n\n{reset_url}"
-            msg.attach(MIMEText(body, 'plain'))
-            
-            server = smtplib.SMTP('smtp.sendgrid.net', 587)
-            server.starttls()
-            server.login('apikey', sendgrid_api_key)
-            server.send_message(msg)
-            server.quit()
+            with urllib.request.urlopen(req, timeout=10) as response:
+                print(f"SendGrid response: {response.status}")
         except Exception as e:
-            print(f"Failed to send email: {e}")
-            # Optionally raise an exception, but returning success is safer
+            print(f"Failed to send email via SendGrid API: {e}")
+            # Optionally raise an exception, but returning success is safer for anti-enumeration
     else:
         print(f"WARN: No SENDGRID_API_KEY. Reset link would be: https://www.thelogicchurchph.org/forum/reset-password?token={token}")
         

@@ -103,7 +103,7 @@ export const routes = [
     path: '/forum/signup',
     element: <Signup />,
     name: 'Forum Signup',
-    showInNav: true,
+    showInNav: false,
     showInFooter: false,
   },
   {
