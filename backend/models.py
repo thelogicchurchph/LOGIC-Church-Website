@@ -17,6 +17,8 @@ class User(Base):
     email = Column(String, unique=True, index=True)
     hashed_password = Column(String)
     role = Column(String, default="user")
+    reset_token = Column(String, nullable=True)
+    reset_token_expiry = Column(DateTime, nullable=True)
     questions = relationship("Question", back_populates="author")
     comments = relationship("Comment", back_populates="author")
 

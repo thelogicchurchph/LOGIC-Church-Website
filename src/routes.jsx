@@ -18,7 +18,9 @@ const Forum = lazy(() => import('./pages/forum/Forum'))
 const Signup = lazy(() => import('./pages/forum/Signup'))
 const ForumLogin = lazy(() => import('./pages/forum/Login'))
 const Contact = lazy(() => import('./pages/public/Contact'))
-const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'))
+const AuthForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'))
+const ForumForgotPassword = lazy(() => import('./pages/forum/ForgotPassword'))
+const ForumResetPassword = lazy(() => import('./pages/forum/ResetPassword'))
 
 // Admin components
 const AdminLayout = lazy(() => import('./layouts/AdminLayout'))
@@ -113,9 +115,23 @@ export const routes = [
   },
   {
     path: '/forgot-password',
-    element: <ForgotPassword />,
+    element: <AuthForgotPassword />,
     name: 'Forgot Password',
     showInNav: true,
+    showInFooter: false,
+  },
+  {
+    path: '/forum/forgot-password',
+    element: <ForumForgotPassword />,
+    name: 'Forum Forgot Password',
+    showInNav: false,
+    showInFooter: false,
+  },
+  {
+    path: '/forum/reset-password',
+    element: <ForumResetPassword />,
+    name: 'Forum Reset Password',
+    showInNav: false,
     showInFooter: false,
   },
   {

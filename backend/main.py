@@ -67,6 +67,18 @@ def startup_event():
             db.commit()
         except Exception:
             db.rollback()
+            
+        # DB Migration Hack: Add reset_token columns if missing
+        try:
+            db.execute(text("ALTER TABLE users ADD COLUMN reset_token VARCHAR"))
+            db.commit()
+        except Exception:
+            db.rollback()
+        try:
+            db.execute(text("ALTER TABLE users ADD COLUMN reset_token_expiry TIMESTAMP"))
+            db.commit()
+        except Exception:
+            db.rollback()
 
         admin_email = "admin@logic.church"
         admin_user = db.query(models.User).filter(models.User.email == admin_email).first()
@@ -151,6 +163,81 @@ def login(request: schemas.UserLogin, db: Session = Depends(database.get_db)):
         "admin": fmt_user(user)
     }
 
+# ── Forgot Password / Reset Password ──────────────────────────────────────────
+
+import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import secrets
+import datetime
+
+@app.post("/auth/forgot-password")
+def forgot_password(payload: dict, db: Session = Depends(database.get_db)):
+    email = payload.get("email")
+    if not email:
+        raise HTTPException(status_code=400, detail="Email is required")
+        
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if not user:
+        # Don't reveal if email exists or not for security, just return success
+        return {"message": "If an account with that email exists, a reset link has been sent."}
+        
+    token = secrets.token_urlsafe(32)
+    user.reset_token = token
+    user.reset_token_expiry = datetime.datetime.utcnow() + timedelta(minutes=15)
+    db.commit()
+    
+    # Send email
+    sendgrid_api_key = os.getenv("SENDGRID_API_KEY")
+    sender_email = os.getenv("SENDGRID_SENDER_EMAIL", "info@thelogicchurchph.org")
+    
+    if sendgrid_api_key:
+        try:
+            msg = MIMEMultipart()
+            msg['From'] = sender_email
+            msg['To'] = email
+            msg['Subject'] = "Password Reset Request"
+            
+            reset_url = f"https://www.thelogicchurchph.org/forum/reset-password?token={token}"
+            body = f"Click the link below to reset your password. This link expires in 15 minutes.\n\n{reset_url}"
+            msg.attach(MIMEText(body, 'plain'))
+            
+            server = smtplib.SMTP('smtp.sendgrid.net', 587)
+            server.starttls()
+            server.login('apikey', sendgrid_api_key)
+            server.send_message(msg)
+            server.quit()
+        except Exception as e:
+            print(f"Failed to send email: {e}")
+            # Optionally raise an exception, but returning success is safer
+    else:
+        print(f"WARN: No SENDGRID_API_KEY. Reset link would be: https://www.thelogicchurchph.org/forum/reset-password?token={token}")
+        
+    return {"message": "If an account with that email exists, a reset link has been sent."}
+
+@app.post("/auth/reset-password")
+def reset_password(payload: dict, db: Session = Depends(database.get_db)):
+    token = payload.get("token")
+    new_password = payload.get("new_password")
+    
+    if not token or not new_password:
+        raise HTTPException(status_code=400, detail="Token and new password required")
+        
+    user = db.query(models.User).filter(
+        models.User.reset_token == token,
+        models.User.reset_token_expiry >= datetime.datetime.utcnow()
+    ).first()
+    
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid or expired token")
+        
+    user.hashed_password = auth.get_password_hash(new_password)
+    user.reset_token = None
+    user.reset_token_expiry = None
+    db.commit()
+    
+    return {"message": "Password updated successfully"}
 @app.get("/user/profile")
 def get_user_profile(current_user: models.User = Depends(get_current_user)):
     return {"user": fmt_user(current_user)}

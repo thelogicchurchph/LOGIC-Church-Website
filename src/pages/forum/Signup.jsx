@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Close } from '@mui/icons-material';
+import { Close, Visibility, VisibilityOff } from '@mui/icons-material';
 import api from '../../api/axios';
-import { setCookie } from '../../api/cookies';
 import { useAuth } from '../../context/AdminAuthContext';
 
 export default function SignUp() {
@@ -13,6 +12,7 @@ export default function SignUp() {
     email: '',
     password: ''
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function SignUp() {
       ...prev,
       [name]: value
     }));
-    
+
     // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
@@ -35,27 +35,18 @@ export default function SignUp() {
 
   const validateForm = () => {
     const newErrors = {};
-    
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-    
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
-    }
-    
+    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Email is invalid';
     }
-    
     if (!formData.password) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
-    
     return newErrors;
   };
 
@@ -70,7 +61,7 @@ export default function SignUp() {
           email: formData.email,
           password: formData.password
         };
-        const response = await api.post('/auth/register', payload);
+        await api.post('/auth/register', payload);
         import('sonner').then(m => m.toast.success("Account created! Please log in."));
         navigate('/forum/login');
       } catch (err) {
@@ -85,117 +76,137 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center p-4">
-      <div className="relative bg-white/5 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-full max-w-md">
-        {/* Close Button */}
-        <button 
-          onClick={() => navigate('/')} 
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
-          aria-label="Close"
-        >
-          <Close />
-        </button>
+    <div className="min-h-screen bg-[#050505] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Subtle Background Glow */}
+      <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-900/20 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-900/10 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
-          <p className="text-gray-400">Join our community forum</p>
-        </div>
-        
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {errors.form && <div className="text-red-400 text-sm mb-4">{errors.form}</div>}
-          
-          <div className="space-y-6">
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-300 mb-1">
-                First Name
-              </label>
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                value={formData.firstName}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-white/5 border ${
-                  errors.firstName ? 'border-red-500/50' : 'border-white/10'
-                } rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
-                placeholder="Enter your first name"
-              />
-              {errors.firstName && <p className="mt-1 text-sm text-red-400">{errors.firstName}</p>}
+      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-white tracking-tight">
+          Create an account
+        </h2>
+        <p className="mt-2 text-center text-sm text-gray-400">
+          Already have an account?{' '}
+          <Link to="/forum/login" className="font-medium text-red-500 hover:text-red-400 transition-colors">
+            Log in here
+          </Link>
+        </p>
+      </div>
+
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md relative z-10">
+        <div className="bg-[#111111] py-8 px-4 shadow-2xl shadow-black/50 sm:rounded-2xl sm:px-10 border border-white/5 relative">
+          {/* Close Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
+            aria-label="Close"
+          >
+            <Close fontSize="small" />
+          </button>
+
+          {errors.form && (
+            <div className="mb-6 p-4 bg-red-900/30 border border-red-500/50 rounded-lg flex items-center gap-3">
+              <span className="text-red-400 text-sm font-medium">{errors.form}</span>
             </div>
-            
-            <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-300 mb-1">
-                Last Name
-              </label>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                value={formData.lastName}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-white/5 border ${
-                  errors.lastName ? 'border-red-500/50' : 'border-white/10'
-                } rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
-                placeholder="Enter your last name"
-              />
-              {errors.lastName && <p className="mt-1 text-sm text-red-400">{errors.lastName}</p>}
+          )}
+
+          <form className="space-y-5" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-300">
+                  First Name
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    required
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className={`appearance-none block w-full px-4 py-3 border ${errors.firstName ? 'border-red-500' : 'border-white/10'} rounded-xl shadow-sm bg-[#1A1A1A] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 sm:text-sm transition-all`}
+                    placeholder="First name"
+                  />
+                  {errors.firstName && <p className="mt-1 text-xs text-red-400">{errors.firstName}</p>}
+                </div>
+              </div>
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-300">
+                  Last Name
+                </label>
+                <div className="mt-1">
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    required
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className={`appearance-none block w-full px-4 py-3 border ${errors.lastName ? 'border-red-500' : 'border-white/10'} rounded-xl shadow-sm bg-[#1A1A1A] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 sm:text-sm transition-all`}
+                    placeholder="Last name"
+                  />
+                  {errors.lastName && <p className="mt-1 text-xs text-red-400">{errors.lastName}</p>}
+                </div>
+              </div>
             </div>
-            
+
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-300">
                 Email address
               </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-white/5 border ${
-                  errors.email ? 'border-red-500/50' : 'border-white/10'
-                } rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
-                placeholder="Enter your email"
-              />
-              {errors.email && <p className="mt-1 text-sm text-red-400">{errors.email}</p>}
-            </div>
-            
-            <div>
-              <div className="flex justify-between items-center mb-1">
-                <label htmlFor="password" className="block text-sm font-medium text-gray-300">
-                  Password
-                </label>
+              <div className="mt-1">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`appearance-none block w-full px-4 py-3 border ${errors.email ? 'border-red-500' : 'border-white/10'} rounded-xl shadow-sm bg-[#1A1A1A] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 sm:text-sm transition-all`}
+                  placeholder="Enter your email"
+                />
+                {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
               </div>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 bg-white/5 border ${
-                  errors.password ? 'border-red-500/50' : 'border-white/10'
-                } rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent`}
-                placeholder="Create a password"
-              />
-              {errors.password && <p className="mt-1 text-sm text-red-400">{errors.password}</p>}
             </div>
-          </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {loading ? 'Signing Up...' : 'Sign Up'}
-            </button>
-          </div>
-        </form>
-        
-        <div className="text-center text-sm text-gray-400 mt-4">
-          Already have an account?{' '}
-          <Link to="/forum/login" className="text-red-400 hover:text-red-300 font-medium">
-            Log in
-          </Link>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+                Password
+              </label>
+              <div className="mt-1 relative">
+                <input
+                  id="password"
+                  name="password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  required
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={`appearance-none block w-full px-4 py-3 border ${errors.password ? 'border-red-500' : 'border-white/10'} rounded-xl shadow-sm bg-[#1A1A1A] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-red-500 sm:text-sm transition-all pr-12`}
+                  placeholder="Create a password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300"
+                >
+                  {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
+                </button>
+                {errors.password && <p className="mt-1 text-xs text-red-400">{errors.password}</p>}
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#111111] focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              >
+                {loading ? "Creating account..." : "Sign up"}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
